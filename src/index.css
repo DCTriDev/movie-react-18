@@ -1,0 +1,64 @@
+body {
+    margin:                  0;
+    font-family:             Lora,
+                                serif;
+                             /*sans-serif;*/
+    -webkit-font-smoothing:  antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    word-spacing:           -0.2em;
+}
+
+@font-face{
+    font-family: 'Lora';
+    font-style: normal;
+    font-weight: 700;
+    src: url('Assets/Fonts/Lora/Lora-Bold.ttf');
+}
+
+@font-face{
+    font-family: 'Lora';
+    font-style: italic;
+    font-weight: 700;
+    src: url('Assets/Fonts/Lora/Lora-BoldItalic.ttf');
+}
+
+@font-face{
+    font-family: 'Lora';
+    font-style: italic;
+    font-weight: 400;
+    src: url('Assets/Fonts/Lora/Lora-Italic.ttf');
+}
+
+@font-face{
+    font-family: 'Lora';
+    font-style: italic;
+    font-weight: 500;
+    src: url('Assets/Fonts/Lora/Lora-Medium.ttf');
+}
+
+@font-face{
+    font-family: 'Lora';
+    font-style: italic;
+    font-weight: 500;
+    src: url('Assets/Fonts/Lora/Lora-MediumItalic.ttf');
+}
+
+@font-face{
+    font-family: 'Lora';
+    font-style: italic;
+    font-weight: 400;
+    src: url('Assets/Fonts/Lora/Lora-Regular.ttf');
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+                 monospace;
+}
+
+button:focus {
+    outline: none !important;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
