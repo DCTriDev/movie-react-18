@@ -78,7 +78,6 @@ class AxiosClient {
             method
                 .then((res) => {
                     loading && store.dispatch(stopLoading());
-
                     resolve({
                         data: res.data,
                         status: res.status,
@@ -90,7 +89,7 @@ class AxiosClient {
 
                     this.handleError(err);
                     reject({
-                        err
+                        err: err.response.data.content
                     });
                 });
         });

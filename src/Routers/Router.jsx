@@ -1,24 +1,36 @@
-// noinspection JSCheckFunctionSignatures
-
-import { nanoid } from '@reduxjs/toolkit';
-
 import React, { lazy } from 'react';
+import { nanoid } from '@reduxjs/toolkit';
 import MainTemplate from "../Template/Main/MainTemplate";
+import {Route} from "react-router-dom";
 
 const HomePage = lazy(() => import("../Pages/HomePage/HomePage"))
+const LogInPage = lazy(() => import("../Pages/LogInPage/LogInPage"))
+const SignUpPage = lazy(() => import("../Pages/SignUpPage/SignUpPage"))
 
 export const routerMainTemplate = [
     { path: process.env.REACT_APP_LINK_HOME, componentPage: HomePage }
+];
+
+export const routerNoneTemplate = [
+    { path: process.env.REACT_APP_LINK_LOG_IN, componentPage: LogInPage },
+    { path: process.env.REACT_APP_LINK_SIGN_UP, componentPage: SignUpPage }
 ];
 
 
 const renderMainTemplate = (() => {
     //Need Declare same id to react can't switch case properly in react-router
     const idUserTemplate = nanoid();
-    return routerMainTemplate.map(({ componentPage, path }) => (
+    return routerMainTemplate.map(({ componentPage, path }, index) => (
         <MainTemplate key={idUserTemplate} Component={componentPage} path={path} exact />
     ));
 })();
 
+const renderNoneTemplate = (() => {
+    const idNoneTemplate = nanoid();
+    return routerNoneTemplate.map(({ componentPage, path }, index) => (
+        <Route key={idNoneTemplate} component={componentPage} path={path} exact />
+    ));
+})();
 
-export const routerTemplates = [...renderMainTemplate];
+
+export const routerTemplates = [...renderMainTemplate, ...renderNoneTemplate];

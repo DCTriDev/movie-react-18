@@ -1,6 +1,7 @@
 import localService from "../../Services/local.service";
 import {createSlice} from "@reduxjs/toolkit";
-import httpService from "../../API/userAPI";
+import userAPI from "../../API/userAPI";
+import {message} from "antd";
 
 const initialState = {
     userInfo: localService.getUserInfo(),
@@ -17,16 +18,23 @@ const userSlice = createSlice({
         },
         removeUserInfo: (state) => {
             state.userInfo = null
+            localService.removeUserInfo()
         }
     }
 })
 
 export const userLoginActionThunk = (values) => {
     return (dispatch) => {
-        httpService.login(values).then((res) => {
-            dispatch(userSlice.actions.setUserInfo(res.data.content))
-            window.location.href = '/'
-        })
+        userAPI.login(values)
+            .then((res) => {
+                console.log(res)
+                message.success("Chúc mừng, bạn đã đăng nhập thành công!")
+                dispatch(userSlice.actions.setUserInfo(res.data.content))
+                window.location.href = '/'
+            })
+            .catch((err) => {
+                message.error(err.err)
+            })
     }
 }
 
