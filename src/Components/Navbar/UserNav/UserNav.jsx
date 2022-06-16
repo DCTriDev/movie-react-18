@@ -1,8 +1,8 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import localService from "../../Services/local.service";
+import localService from "../../../Services/local.service";
 import {useHistory} from "react-router-dom";
-import {removeUserInfo} from "../../Redux/Slice/userSlice";
+import {removeUserInfo} from "../../../Redux/Slice/userSlice";
 
 function UserNav() {
     const dispatch = useDispatch()
