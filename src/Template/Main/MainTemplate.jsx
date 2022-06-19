@@ -11,9 +11,6 @@ function MainTemplate({Component, ...restRoute}) {
             render={(propsRoute) => (
                 <>
                     <Navbar/>
-                    <div>
-                        hello
-                    </div>
                     <Component {...propsRoute} />
                 </>
             )}
