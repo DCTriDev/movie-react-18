@@ -62,3 +62,14 @@ button:focus {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.navbar-scrolled {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    background-color: #fff;
+    box-shadow: 0 0 25px 2px rgba(19,19,19,0.7);
+    transition: all 0.2s ease-in-out;
+}
