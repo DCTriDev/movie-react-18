@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Form, Input, message, Select} from 'antd';
 import {useHistory} from "react-router-dom";
 import userAPI from "../../../API/userAPI";
@@ -7,6 +7,7 @@ import FormCustom from "../../../Components/FormCustom/FormCustom";
 import {Title} from "../../../Components/Titles/Titles";
 
 import validator from "validator";
+import localService from "../../../Services/local.service";
 
 const {ButtonSubmit} = ButtonCustom
 const {Option} = Select;
@@ -14,6 +15,7 @@ const {FormTitle} = Title
 
 function FormSignUp() {
     const history = useHistory()
+    const accessToken = localService.getAccessToken()
 
     const onFinish = (values) => {
         handleSignUp(values)
@@ -35,6 +37,17 @@ function FormSignUp() {
                 message.error(err.err.response.data.content)
             })
     }
+
+    const handleCheckIsLogin = useCallback(() => {
+        if(accessToken) {
+            history.push('/')
+        }
+    },[accessToken])
+
+    useEffect(() => {
+        handleCheckIsLogin()
+    }, []);
+
 
     return (
         <div className='flex flex-col justify-center'>
@@ -61,20 +74,21 @@ function FormSignUp() {
                         required: true, message: 'Không được để trống!',
                     },]}
                 >
-                    <Input/>
+                    <Input placeholder='Họ và tên'/>
                 </Form.Item>
 
                 <Form.Item
-                    label="Tài Khoản"
+                    label="Tài khoản"
                     name="taiKhoan"
                     rules={[{
                         required: true, message: 'Không được để trống!',
-                    }, {whitespace: true}, {min: 3, message: "Tên tài khoản ít nhất 3 ký tự"},]}>
-                    <Input/>
+                    }, {whitespace: true}, {min: 3, message: "Tên tài khoản ít nhất 3 ký tự"},]}
+                >
+                    <Input placeholder='Tài khoản'/>
                 </Form.Item>
 
                 <Form.Item
-                    label="Mật Khẩu"
+                    label="Mật khẩu"
                     name="matKhau"
                     rules={[{
                         required: true, message: 'Không được để trống!',
@@ -88,7 +102,7 @@ function FormSignUp() {
                         },
                         message: 'Mật khẩu phải có ít nhất 1 ký tự hoa, 1 ký tự thường, 1 ký tự số và 1 ký tự đặc biệt'
                     }]}>
-                    <Input.Password/>
+                    <Input.Password placeholder='Mật khẩu'/>
                 </Form.Item>
 
                 <Form.Item
@@ -100,11 +114,11 @@ function FormSignUp() {
                         }, message: 'Email không hợp lệ'
                     },]}
                 >
-                    <Input/>
+                    <Input placehodler='Email'/>
                 </Form.Item>
 
                 <Form.Item
-                    label="Số Điện Thoại"
+                    label="Số điện thoại"
                     name="soDt"
                     rules={[{
                         validator: (_, value) => {
@@ -112,11 +126,11 @@ function FormSignUp() {
                         }, message: 'Số điện thoại không hợp lệ'
                     }]}
                 >
-                    <Input/>
+                    <Input placeholder='Số điện thoại'/>
                 </Form.Item>
 
                 <Form.Item
-                    label="Mã Nhóm"
+                    label="Mã nhóm"
                     name="maNhom"
                     initialValue="GP01"
                 >
