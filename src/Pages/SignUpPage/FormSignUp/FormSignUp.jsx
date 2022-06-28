@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Form, Input, message, Select} from 'antd';
 import {useHistory} from "react-router-dom";
 import userAPI from "../../../API/userAPI";
@@ -38,14 +38,14 @@ function FormSignUp() {
             })
     }
 
-    const handleCheckIsLogin = useCallback(() => {
-        if(accessToken) {
+    const loginChecking = () => {
+        if (accessToken) {
             history.push('/')
         }
-    },[accessToken])
+    }
 
     useEffect(() => {
-        handleCheckIsLogin()
+        loginChecking()
     }, []);
 
 

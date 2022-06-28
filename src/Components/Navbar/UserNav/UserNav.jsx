@@ -60,16 +60,6 @@ function UserNav() {
         userInfo
             ?
             (
-                // <div className='flex justify-between space-x-3 items-center'>
-                //     <span>{userInfo.hoTen}</span>
-                //     <ButtonDanger
-                //         className='btn'
-                //         onClick={handleLogOut}
-                //     >
-                //         Đăng Xuất
-                //     </ButtonDanger>
-                // </div>
-
                 <Dropdown
                     className='mr-6'
                     overlay={menu} placement="bottom"
@@ -92,4 +82,4 @@ function UserNav() {
     );
 }
 
-export default UserNav;
+export default React.memo(UserNav);

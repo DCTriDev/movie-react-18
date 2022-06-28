@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useLayoutEffect} from 'react';
 import UserNav from "./UserNav/UserNav";
 import {NavLink} from "react-router-dom";
 import logo from '../../Assets/Images/logo.png';
@@ -13,7 +13,7 @@ function Navbar() {
         }
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);

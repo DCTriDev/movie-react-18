@@ -22,7 +22,7 @@ function Banner() {
             return listMovieBanner.map((item, index) => {
                 return (
                     <div key={index}>
-                        <img src={item.hinhAnh} alt="" className='w-full h-114'
+                        <img src={item.hinhAnh} alt="" className='w-full h-114 cursor-pointer'
                              onClick={() => {
                                  history.push(`${process.env.REACT_APP_LINK_DETAIL_MOVIE}/${item.maPhim}`)
                              }}
@@ -43,4 +43,4 @@ function Banner() {
     );
 }
 
-export default Banner;
+export default React.memo(Banner);
