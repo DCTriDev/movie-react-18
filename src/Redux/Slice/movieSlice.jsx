@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import httpService from "../../API/userAPI";
+import movieService from "../../API/movieAPI";
 
 const initialState = {
     listMovie: null,
@@ -7,8 +7,7 @@ const initialState = {
 }
 
 export const fetchListMovie = createAsyncThunk('movie/fetchListMovie', async () => {
-    const response = await httpService.getListMovies()
-    console.log(response)
+    const response = await movieService.getListMovies()
     return response.data.content;
 });
 
@@ -33,7 +32,7 @@ const movieSlice = createSlice({
 })
 
 export const setListMovieAction = () => {
-    return (dispatch) => httpService.getListMovies()
+    return (dispatch) => movieService.getListMovies()
         .then(res => {
             dispatch(movieSlice.actions.setListMovie(res.data.content))
         })
@@ -41,7 +40,7 @@ export const setListMovieAction = () => {
 }
 
 export const setListCinemaAction = () => {
-    return (dispatch) => httpService.getListCinema()
+    return (dispatch) => movieService.getListCinema()
         .then(res => {
             dispatch(movieSlice.actions.setListCinema(res.data.content))
         })

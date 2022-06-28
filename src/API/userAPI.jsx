@@ -16,22 +16,6 @@ class UserAPI {
         const uri = "/QuanLyNguoiDung/DangKy";
         return Axios.postMethod(uri, data, setLoading);
     };
-
-    getListMovies = (setLoading = true) => {
-        const params = {
-            maNhom: this.GROUP_ID
-        }
-        const uri = '/QuanLyPhim/LayDanhSachPhim';
-        return Axios.getMethod(uri, params, setLoading)
-    }
-
-    getListCinema = (setLoading = true) => {
-        const params = {
-            maNhom: this.GROUP_ID
-        }
-        const uri = '/QuanLyRap/LayThongTinLichChieuHeThongRap';
-        return Axios.getMethod(uri, params, setLoading)
-    }
 }
 
 const userService = new UserAPI();

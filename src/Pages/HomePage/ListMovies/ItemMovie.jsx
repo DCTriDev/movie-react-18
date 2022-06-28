@@ -17,7 +17,7 @@ function ItemMovie({data}) {
                     <p className='text-right italic mr-3'>Đánh giá: {data.danhGia}/10</p>
                 </div>
                 <div className='w-full flex justify-center my-3'>
-                    <NavLink to={`/movie/${data.maPhim}`}>
+                    <NavLink to={`${process.env.REACT_APP_LINK_DETAIL_MOVIE}/${data.maPhim}`}>
                         <button className='mx-auto bg-green-600 hover:bg-green-700 px-3 py-2 rounded-lg text-gray-50 hover:text-white hover:-translate-y-0.5 duration-300'>
                             Xem Chi Tiết
                         </button>

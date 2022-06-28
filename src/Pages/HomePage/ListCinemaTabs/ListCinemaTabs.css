@@ -1,13 +1,3 @@
 .scroll-custom::-webkit-scrollbar {
-    width: 12px !important; /* width of the entire scrollbar */
-}
-
-.scroll-custom::-webkit-scrollbar-track {
-    background: orange !important; /* color of the tracking area */
-}
-
-.scroll-custom::-webkit-scrollbar-thumb {
-    background-color: blue !important; /* color of the scroll thumb */
-    border-radius: 20px !important; /* roundness of the scroll thumb */
-    border: 3px solid orange !important; /* creates padding around scroll thumb */
+    width: 0 !important; /* width of the entire scrollbar */
 }

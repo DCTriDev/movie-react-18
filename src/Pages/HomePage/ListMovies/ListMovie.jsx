@@ -4,11 +4,9 @@ import ItemMovie from "./ItemMovie";
 import {fetchListMovie} from "../../../Redux/Slice/movieSlice";
 
 function ListMovie() {
+    const RENDER_AMOUNT = 12;
     const dispatch = useDispatch()
-
-    let listMovie = useSelector(state => state.movieSlice.listMovie)
-
-    console.log(listMovie)
+    const listMovie = useSelector(state => state.movieSlice.listMovie)
     useEffect(() => {
         dispatch(fetchListMovie())
     }, [])
@@ -16,7 +14,9 @@ function ListMovie() {
     return (
         <div className='px-8 py-4 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-8'>
             {listMovie?.map((item, key) => {
-                return <ItemMovie data={item} key={key}/>
+                if (key < RENDER_AMOUNT) {
+                    return <ItemMovie data={item} key={key}/>
+                }
             })}
         </div>
     );

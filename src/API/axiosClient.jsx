@@ -12,15 +12,17 @@ class AxiosClient {
     constructor() {
         this.axios = Axios.create({
             baseURL: this.getBaseUrl(),
+            timeout: 3000,
+            mode: "cors"
         });
-        this.getAxiosConfig();
+        this.getAxiosConfig()
     }
 
     getBaseUrl() {
         return process.env.REACT_APP_API_BASE_URL;
     }
 
-    getAxiosConfig = (_token) => {
+    getAxiosConfig(_token) {
         const token = _token ? _token : localServices.getAccessToken();
         this.axiosConfig = {
             headers: {
@@ -31,7 +33,6 @@ class AxiosClient {
                 'Access-Control-Allow-Headers': 'Content-Type',
                 Authorization: `Bearer ${token}`,
             },
-            paramsSerializer: (params) => {queryString.stringify(params)},
         };
     };
 
@@ -43,8 +44,20 @@ class AxiosClient {
         };
     };
 
-    getMethod(uri, loading = true) {
-        return this.handleFlow(this.axios.get(uri, this.axiosConfig), loading);
+    getMethod(uri, params, loading = true) {
+        return this.handleFlow(
+            this.axios.get(
+                uri,
+                {
+                    params:params,
+                    paramsSerializer: (params) => {
+                       return queryString.stringify(params)
+                    },
+                    ...this.axiosConfig,
+                }
+            ),
+            loading
+        );
     }
 
     postMethod(uri, data, loading = true) {
@@ -78,19 +91,12 @@ class AxiosClient {
             method
                 .then((res) => {
                     loading && store.dispatch(stopLoading());
-                    resolve({
-                        data: res.data,
-                        status: res.status,
-                        isSuccess: true,
-                    });
+                    resolve(res);
                 })
                 .catch((err) => {
                     loading && store.dispatch(stopLoading());
-
                     this.handleError(err);
-                    reject({
-                        err: err.response.data.content
-                    });
+                    reject(err);
                 });
         });
     }
@@ -115,5 +121,5 @@ class AxiosClient {
     };
 }
 
-const AxiosServices = new AxiosClient();
-export default AxiosServices;
+const AxiosService = new AxiosClient();
+export default AxiosService;

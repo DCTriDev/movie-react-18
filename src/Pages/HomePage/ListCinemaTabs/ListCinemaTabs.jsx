@@ -14,7 +14,6 @@ function callback(key) {
 function ListCinemaTabs() {
     const dispatch = useDispatch()
     let listCinema = useSelector(state => state.movieSlice.listCinema)
-    console.log(listCinema)
 
     useEffect(() => {
         dispatch(setListCinemaAction())
