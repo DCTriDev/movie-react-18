@@ -22,7 +22,7 @@ function FormLogIn() {
 
     return (
         <div className='flex flex-col justify-center'>
-            <FormTitle>Đăng nhập</FormTitle>
+            <FormTitle>LogIn</FormTitle>
             <FormCustom
                 name="basic"
                 labelCol={{
@@ -38,8 +38,8 @@ function FormLogIn() {
                 autoComplete="on"
             >
                 <Form.Item
-                    label="Tài Khoản"
-                    name="taiKhoan"
+                    label="Username"
+                    name="username"
                     rules={[
                         {
                             required: true,
@@ -51,14 +51,14 @@ function FormLogIn() {
                 </Form.Item>
 
                 <Form.Item
-                    label="Mật Khẩu"
-                    name="matKhau"
+                    label="Password"
+                    name="password"
                     rules={[
                         {
                             required: true, message: 'Không được để trống!',
                         },
                         {whitespace: true},
-                        {min: 8, message: "Mật khẩu tối thiểu 8 ký tự"},
+                        {min: 5, message: "Mật khẩu tối thiểu 5 ký tự"},
                     ]}
                 >
                     <Input.Password/>

@@ -22,4 +22,4 @@ function ListMovie() {
     );
 }
 
-export default ListMovie;
+export default React.memo(ListMovie);

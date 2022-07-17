@@ -51,4 +51,4 @@ function ListCinemaTabs() {
     );
 }
 
-export default ListCinemaTabs;
+export default React.memo(ListCinemaTabs);

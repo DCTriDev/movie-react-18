@@ -1,7 +1,6 @@
 import Axios from "axios";
 import store from "../index";
 import {startLoading, stopLoading} from "../Redux/Slice/loadingAnimSlice";
-import queryString from "query-string";
 import localServices from "../Services/local.service";
 
 class AxiosClient {
@@ -26,12 +25,11 @@ class AxiosClient {
         const token = _token ? _token : localServices.getAccessToken();
         this.axiosConfig = {
             headers: {
-                TokenCybersoft: process.env.REACT_APP_API_TOKEN_CYBERSOFT,
-                'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                Authorization: `Bearer ${token}`,
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token, X-Requested-With, Authorization',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         };
     };
@@ -44,45 +42,39 @@ class AxiosClient {
         };
     };
 
-    getMethod(uri, params, loading = true) {
+    getMethod(data, loading = true) {
         return this.handleFlow(
-            this.axios.get(
-                uri,
-                {
-                    params:params,
-                    paramsSerializer: (params) => {
-                       return queryString.stringify(params)
-                    },
-                    ...this.axiosConfig,
-                }
-            ),
+            this.axios.get('', data, this.axiosConfig),
             loading
         );
     }
 
-    postMethod(uri, data, loading = true) {
+    postMethod(data, loading = true) {
         return this.handleFlow(
-            this.axios.post(uri, data, this.axiosConfig),
+            this.axios.post('', data, this.axiosConfig),
             loading
         );
     }
 
-    putMethod(uri, data, loading = true) {
+    putMethod(data, loading = true) {
         return this.handleFlow(
-            this.axios.put(uri, data, this.axiosConfig),
+            this.axios.put('', data, this.axiosConfig),
             loading
         );
     }
 
-    patchMethod(uri, data, loading = true) {
+    patchMethod(data, loading = true) {
         return this.handleFlow(
-            this.axios.patch(uri, data, this.axiosConfig),
+            this.axios.patch('', data, this.axiosConfig),
             loading
         );
     }
 
-    deleteMethod(uri, loading = true) {
-        return this.handleFlow(this.axios.delete(uri, this.axiosConfig), loading);
+    deleteMethod(data, loading = true) {
+        return this.handleFlow(
+            this.axios.delete('', data, this.axiosConfig),
+            loading
+        );
     }
 
     handleFlow(method, loading = true) {

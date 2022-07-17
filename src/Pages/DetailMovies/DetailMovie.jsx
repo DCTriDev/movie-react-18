@@ -7,11 +7,9 @@ import movieService from "../../API/movieAPI";
 function DetailMovie() {
     const {maPhim} = useParams()
     const [detailMovies, setDetailMovies] = useState(null)
-    console.log(detailMovies, "detailMovies")
     useEffect(() => {
         movieService.getMovieDetail(maPhim)
             .then((res) => {
-                console.log(res, "response")
                 setDetailMovies(res.data.content)
             })
             .catch((err) => {

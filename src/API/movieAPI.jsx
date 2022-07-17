@@ -4,8 +4,6 @@ import localService from "../Services/local.service";
 class MovieAPI {
     GROUP_ID = localService.getGroupID() ? localService.getGroupID() : 'GP01';
 
-    constructor() {}
-
     getListBanner = (setLoading = true) => {
         const uri ='/QuanLyPhim/LayDanhSachBanner'
         return AxiosService.getMethod(uri, null, setLoading)

@@ -1,15 +1,25 @@
 import Axios from "./axiosClient";
-import localService from "../Services/local.service";
 
 class UserAPI {
-    GROUP_ID = localService.getGroupID() ? localService.getGroupID() : 'GP01';
-
-    constructor() {
-    }
-
     login = (data, setLoading = true) => {
-        const uri = "/QuanLyNguoiDung/DangNhap";
-        return Axios.postMethod(uri, data, setLoading);
+        const payload = {
+            query: `
+                mutation{
+                    login(input:{
+                        username: ${data.username},
+                        password: ${data.password},
+                    }){
+                        username
+                        fullName
+                        email
+                        phoneNumber
+                        roleName
+                        accessToken
+                    }
+                }
+            `
+        }
+        return Axios.postMethod(payload, setLoading);
     };
 
     signup = (data, setLoading = true) => {
