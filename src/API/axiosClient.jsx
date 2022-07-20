@@ -11,7 +11,7 @@ class AxiosClient {
     constructor() {
         this.axios = Axios.create({
             baseURL: this.getBaseUrl(),
-            timeout: 3000,
+            timeout: 15000,
             mode: "cors"
         });
         this.getAxiosConfig()

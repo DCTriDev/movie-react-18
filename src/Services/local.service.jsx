@@ -1,4 +1,4 @@
-const USER_INFO = process.env.REACT_APP_LOCALSTORAGE_USER_INFO;
+const USER_INFO = process.env.REACT_APP_LOCAL_STORAGE_USER_INFO;
 
 const localServices = {
     setUserInfo: (values) => {
@@ -20,12 +20,6 @@ const localServices = {
         }
         else return null
     },
-    getGroupID() {
-        if (this.getUserInfo()){
-            return this.getUserInfo().maNhom
-        }
-        else return null
-    }
 }
 
 export default localServices
