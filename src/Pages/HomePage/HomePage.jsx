@@ -6,9 +6,9 @@ import Banner from "./Banner/Banner";
 function HomePage() {
     return (
         <div>
-            <Banner/>
-            <ListMovie/>
-            <ListCinemaTabs/>
+            {/*<Banner/>*/}
+            {/*<ListMovie/>*/}
+            {/*<ListCinemaTabs/>*/}
         </div>
     );
 }
