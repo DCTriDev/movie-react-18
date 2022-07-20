@@ -28,8 +28,8 @@ class AxiosClient {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
                 'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token, X-Requested-With, Authorization',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json;charset=utf-8',
+                'Authorization': token,
             },
         };
     };

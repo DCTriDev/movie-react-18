@@ -1,30 +1,30 @@
 import Axios from "./axiosClient";
+import { print } from 'graphql';
+import gql from 'graphql-tag';
+
+const LOG_IN = gql`
+    mutation login($username:String!, $password: String) {
+        login(input:{username: $username, password: $password}) {
+            username
+            fullName
+            email
+            phoneNumber
+            roleName
+            accessToken
+        }
+    }
+`
 
 class UserAPI {
     login = (data, setLoading = true) => {
         const payload = {
-            query: `
-                mutation{
-                    login(input:{
-                        username: ${data.username},
-                        password: ${data.password},
-                    }){
-                        username
-                        fullName
-                        email
-                        phoneNumber
-                        roleName
-                        accessToken
-                    }
-                }
-            `
+            query: print(LOG_IN),
+            variables:{
+                username: data.username,
+                password: data.password
+            }
         }
         return Axios.postMethod(payload, setLoading);
-    };
-
-    signup = (data, setLoading = true) => {
-        const uri = "/QuanLyNguoiDung/DangKy";
-        return Axios.postMethod(uri, data, setLoading);
     };
 }
 

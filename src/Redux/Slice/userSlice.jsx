@@ -27,15 +27,13 @@ export const userLoginActionThunk = (values) => {
     return (dispatch) => {
         userAPI.login(values)
             .then((res) => {
-                console.log(values)
-                console.log(res)
+                console.log("res",res)
                 message.success("Chúc mừng, bạn đã đăng nhập thành công!")
                 dispatch(userSlice.actions.setUserInfo(res.data.content))
-                window.location.href = '/'
+                // window.location.href = '/'
             })
             .catch((err) => {
-                console.log(values)
-                console.log(err)
+                console.log("err",err)
                 // message.error(err.err)
             })
     }

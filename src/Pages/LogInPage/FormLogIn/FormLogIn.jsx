@@ -13,10 +13,10 @@ const {FormTitle} = Title
 function FormLogIn() {
     const dispatch = useDispatch()
     const onFinish = (values) => {
-        handleSignIn(values)
+        handleLogin(values)
     };
 
-    const handleSignIn = (values) => {
+    const handleLogin = (values) => {
         dispatch(userLoginActionThunk(values))
     }
 
