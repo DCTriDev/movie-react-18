@@ -7,15 +7,15 @@ import movieService from "../../API/movieAPI";
 function DetailMovie() {
     const {maPhim} = useParams()
     const [detailMovies, setDetailMovies] = useState(null)
-    useEffect(() => {
-        movieService.getMovieDetail(maPhim)
-            .then((res) => {
-                setDetailMovies(res.data.content)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }, []);
+    // useEffect(() => {
+    //     movieService.getMovieDetail(maPhim)
+    //         .then((res) => {
+    //             setDetailMovies(res.data.content)
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
+    //         })
+    // }, []);
 
     return (
         detailMovies ? <div className='w-full bg-gradient-to-b from-sky-900 to-indigo-800 py-20 px-12'>
