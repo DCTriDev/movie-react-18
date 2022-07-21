@@ -6,13 +6,19 @@ const localServices = {
         localStorage.setItem(USER_INFO, userInfo)
     },
     getUserInfo: () => {
-        const userInfoJSON = localStorage.getItem(USER_INFO)
-        if (JSON.parse(userInfoJSON) !== "") {
-            return JSON.parse(userInfoJSON)
+        try {
+            const userInfoJSON = localStorage.getItem(USER_INFO)
+            if (userInfoJSON) {
+                return JSON.parse(userInfoJSON)
+            }
+            else {
+                localServices.removeUserInfo()
+                return null
+            }
         }
-        else {
+        catch (err) {
+            //if USER_INFO value has broken, clear it
             localServices.removeUserInfo()
-            return null
         }
     },
     removeUserInfo: () => {
