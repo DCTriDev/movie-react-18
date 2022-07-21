@@ -22,7 +22,7 @@ class AxiosClient {
     }
 
     getAxiosConfig() {
-        const token = localServices.getAccessToken()? localServices.getAccessToken() : null;
+        const token = localServices.getAccessToken();
         this.axiosConfig = {
             headers: {
                 'Access-Control-Allow-Origin': '*',
