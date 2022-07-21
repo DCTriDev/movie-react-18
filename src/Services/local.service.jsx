@@ -6,17 +6,19 @@ const localServices = {
         localStorage.setItem(USER_INFO, userInfo)
     },
     getUserInfo: () => {
-        if (localStorage.getItem(USER_INFO)){
-            return JSON.parse(localStorage.getItem(USER_INFO))
+        const userInfo = localStorage.getItem(USER_INFO)
+        if (userInfo) {
+            return JSON.parse(userInfo)
         }
         else return null
     },
     removeUserInfo: () => {
-        localStorage.setItem(USER_INFO, '')
+        localStorage.removeItem(USER_INFO)
     },
     getAccessToken() {
-        if (this.getUserInfo()){
-            return this.getUserInfo().accessToken
+        const userInfo = localStorage.getItem(USER_INFO)
+        if (userInfo) {
+            return JSON.parse(userInfo).accessToken
         }
         else return null
     },

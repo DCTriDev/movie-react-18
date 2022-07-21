@@ -21,8 +21,8 @@ class AxiosClient {
         return process.env.REACT_APP_API_BASE_URL;
     }
 
-    getAxiosConfig(_token) {
-        const token = _token ? _token : localServices.getAccessToken();
+    getAxiosConfig() {
+        const token = localServices.getAccessToken()? localServices.getAccessToken() : null;
         this.axiosConfig = {
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -83,7 +83,7 @@ class AxiosClient {
             method
                 .then((res) => {
                     loading && store.dispatch(stopLoading());
-                    resolve(res);
+                    resolve(res.data);
                 })
                 .catch((err) => {
                     loading && store.dispatch(stopLoading());
