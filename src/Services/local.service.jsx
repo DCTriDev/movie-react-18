@@ -10,13 +10,16 @@ const localServices = {
         if (userInfo) {
             return JSON.parse(userInfo)
         }
-        else return null
+        else {
+            localServices.removeUserInfo()
+            return null
+        }
     },
     removeUserInfo: () => {
         localStorage.removeItem(USER_INFO)
     },
     getAccessToken() {
-        const userInfo = localStorage.getItem(USER_INFO)
+        const userInfo = this.getUserInfo()
         if (userInfo) {
             return JSON.parse(userInfo).accessToken
         }
