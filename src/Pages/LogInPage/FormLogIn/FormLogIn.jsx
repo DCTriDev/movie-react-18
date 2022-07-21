@@ -70,13 +70,16 @@ function FormLogIn() {
                             Đăng nhập
                         </ButtonSubmit>
                     </div>
-                    <div className='flex justify-center'>
-                        <span>Bạn chưa có tài khoản?
-                            <a
-                                href="/sign-up"
-                                className='text-red-500 hover:text-red-600'> Đăng ký ngay
-                            </a>
+                    <div className='flex justify-center space-x-2'>
+                        <span>Not a member?
+
                         </span>
+                        <a
+                            href="/sign-up"
+                            className='text-red-500 hover:text-red-600'
+                        >
+                            Join now
+                        </a>
                     </div>
                 </div>
             </FormCustom>
