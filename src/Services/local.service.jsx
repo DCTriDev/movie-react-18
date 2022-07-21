@@ -2,13 +2,13 @@ const USER_INFO = process.env.REACT_APP_LOCAL_STORAGE_USER_INFO;
 
 const localServices = {
     setUserInfo: (values) => {
-        let userInfo = JSON.stringify(values)
+        const userInfo = JSON.stringify(values)
         localStorage.setItem(USER_INFO, userInfo)
     },
     getUserInfo: () => {
-        const userInfo = localStorage.getItem(USER_INFO)
-        if (userInfo) {
-            return JSON.parse(userInfo)
+        const userInfoJSON = localStorage.getItem(USER_INFO)
+        if (JSON.parse(userInfoJSON) !== "") {
+            return JSON.parse(userInfoJSON)
         }
         else {
             localServices.removeUserInfo()
@@ -21,9 +21,9 @@ const localServices = {
     getAccessToken() {
         const userInfo = this.getUserInfo()
         if (userInfo) {
-            return JSON.parse(userInfo).accessToken
+            return userInfo.accessToken
         }
-        else return null
+        return null
     },
 }
 
