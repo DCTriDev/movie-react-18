@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Input} from "antd";
 import {useSelector} from "react-redux";
 import PopUpSearch from "./PopUpSearch";
+import {Input} from "antd";
 
 function SearchBox() {
     const [searchTerm, setSearchTerm] = useState('')
@@ -29,8 +29,8 @@ function SearchBox() {
     return (
         <div className='relative'>
             <Input
-                placeholder='Tìm kiếm phim'
-                className='lg:max-w-3xl md:max-w-xl sm:max-w-56 rounded-2xl'
+                placeholder='End game'
+                className='lg:max-w-3xl md:max-w-xl sm:max-w-56 rounded-2xl bg-background-search text-white'
                 onChange={handleSearch}
             >
             </Input>

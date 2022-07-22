@@ -22,6 +22,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        [`background-search`]: "rgb(51, 51, 51)",
         dark: "rgba(0,0,0,.87);",
         dark_mode_light: "#f9fafb",
         gray_theme: "rgb(249, 250, 252)",

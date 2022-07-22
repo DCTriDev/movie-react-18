@@ -11,6 +11,8 @@ const DetailMovie = lazy(() => import("../Pages/DetailMovies/DetailMovie"))
 export const routerMainTemplate = [
     {path: process.env.REACT_APP_LINK_HOME, componentPage: HomePage},
     {path: process.env.REACT_APP_LINK_DETAIL_MOVIE+'/:maPhim', componentPage: DetailMovie},
+    {path: process.env.REACT_APP_LINK_ALL_CONTENTS, componentPage: DetailMovie},
+    {path: process.env.REACT_APP_LINK_NEWS, componentPage: DetailMovie},
 ];
 
 export const routerNoneTemplate = [

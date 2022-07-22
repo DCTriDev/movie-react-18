@@ -20,10 +20,18 @@ function Navbar() {
         }
     }, [])
     return (
-        <div className='navbar flex justify-between items-center px-8 py-2 bg-gray-300 w-full'>
-            <NavLink to='/'>
-                <img src={logo} alt="logo" className='w-22 h-12 cursor-pointer'/>
-            </NavLink>
+        <div className='navbar flex justify-between items-center px-8 py-2 bg-black w-full'>
+            <div className='space-x-3'>
+                <NavLink to={process.env.REACT_APP_LINK_HOME}>
+                    <img src={logo} alt="logo" className='w-22 h-12 cursor-pointer'/>
+                </NavLink>
+                <NavLink to={process.env.REACT_APP_LINK_ALL_CONTENTS} activeStyle={{ color: 'red' }} style={{color: "white"}}>
+                    All contents
+                </NavLink>
+                <NavLink to={process.env.REACT_APP_LINK_NEWS} activeStyle={{ color: 'red' }} style={{color: "white"}}>
+                    News
+                </NavLink>
+            </div>
             <SearchBox/>
             <UserNav/>
         </div>
