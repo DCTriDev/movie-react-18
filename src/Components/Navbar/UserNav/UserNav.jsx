@@ -12,7 +12,7 @@ const {ButtonPrimary} = ButtonCustom
 function UserNav() {
     const dispatch = useDispatch()
     const history = useHistory()
-    let {userInfo} = useSelector(state => state.userSlice)
+    const {userInfo} = useSelector(state => state.userSlice)
 
     let handleLogOut = () => {
         localService.removeUserInfo()
@@ -22,6 +22,7 @@ function UserNav() {
     let handleSignIn = () => {
         history.push('/login')
     }
+
     const menu = (
         <UserMenu
             className='rounded-xl p-[4px] m-[-4px] w-fit'
@@ -31,7 +32,7 @@ function UserNav() {
                     label: (
                         <a className='flex items-center space-x-2 text-[16px]' rel='prefetch' href="/profile">
                             <ion-icon className='' name="person-outline"/>
-                            <span>Trang cá nhân</span>
+                            <span>Profile</span>
                         </a>
                     ),
                 },
@@ -40,7 +41,7 @@ function UserNav() {
                     label: (
                         <a className='flex items-center space-x-2 text-[16px]' href="/dashboard">
                             <ion-icon className='' name="settings-outline"/>
-                            <span>Cài đặt</span>
+                            <span>Setting</span>
                         </a>
                     ),
                 },
@@ -49,7 +50,7 @@ function UserNav() {
                     label: (
                         <a className='flex items-center space-x-2 text-[16px]' onClick={handleLogOut}>
                             <ion-icon className='' name="log-out-outline"/>
-                            <span>Đăng Xuất</span>
+                            <span>Logout</span>
                         </a>
                     ),
                 },
@@ -65,8 +66,8 @@ function UserNav() {
                     overlay={menu} placement="bottom"
                     arrow>
                     <img
-                        className='rounded-full w-14 h-14 cursor-pointer'
-                        src="https://i.pravatar.cc/300" alt="avatar"/>
+                        className='rounded-full w-10 h-10 cursor-pointer'
+                        src={userInfo.avatar} alt="avatar"/>
                 </Dropdown>
             )
             :
@@ -75,11 +76,12 @@ function UserNav() {
                     <ButtonPrimary
                         onClick={handleSignIn}
                     >
-                        Đăng Nhập
+                        Login
                     </ButtonPrimary>
                 </>
             )
     );
 }
 
-export default React.memo(UserNav);
+// export default React.memo(UserNav);
+export default UserNav;
