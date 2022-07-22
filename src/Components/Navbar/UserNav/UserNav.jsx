@@ -61,14 +61,17 @@ function UserNav() {
         userInfo
             ?
             (
-                <Dropdown
-                    className='mr-6'
-                    overlay={menu} placement="bottom"
-                    arrow>
-                    <img
-                        className='rounded-full w-10 h-10 cursor-pointer'
-                        src={userInfo.avatar} alt="avatar"/>
-                </Dropdown>
+                <div>
+                    <span className='pr-2.5'>Welcome, <strong className='text-red-600'>{userInfo.username}</strong></span>
+                    <Dropdown
+                        className='mr-6'
+                        overlay={menu} placement="bottom"
+                        arrow>
+                        <img
+                            className='rounded-full w-10 h-10 cursor-pointer'
+                            src={userInfo.avatar} alt="avatar"/>
+                    </Dropdown>
+                </div>
             )
             :
             (
