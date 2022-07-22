@@ -7,6 +7,7 @@ const LOG_IN = gql`
         login(input:{username: $username, password: $password}) {
             username
             fullName
+            avatar
             email
             phoneNumber
             roleName
