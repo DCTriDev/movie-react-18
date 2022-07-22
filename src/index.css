@@ -59,6 +59,10 @@ button:focus {
     outline: none !important;
 }
 
+body{
+    background-color: #1b1b1b;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

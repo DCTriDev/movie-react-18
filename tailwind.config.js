@@ -23,19 +23,8 @@ module.exports = {
     extend: {
       colors: {
         [`background-search`]: "rgb(51, 51, 51)",
-        dark: "rgba(0,0,0,.87);",
-        dark_mode_light: "#f9fafb",
-        gray_theme: "rgb(249, 250, 252)",
-        // [`blue-theme`]: "#185ADB",
-        [`blue-theme`]: "#222260",
-        [`dark-theme`]: "#212321",
-        [`purple-theme`]: "rgb( 117, 95, 211)",
-        [`pink-theme`]: "rgb(234, 83, 172)",
-        [`gray-theme`]: "#f7f9fa",
-        [`green-theme`]: "rgb(106, 201, 119)",
-        [`yellow-theme`]: "#FDCE00",
-        // [`green-theme`]: "#70D700",
-        [`green-mint-theme`]: "rgb( 70, 220, 216)",
+        [`background`]: "#1b1b1b",
+
       },
       height: {
         "280px": "280px",
