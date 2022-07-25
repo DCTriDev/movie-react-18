@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import PopUpSearch from "./PopUpSearch";
-import {Input} from "antd";
+import SearchBoxOutline from "./SearchBoxOutline"
 
 function SearchBox() {
     const [searchTerm, setSearchTerm] = useState('')
@@ -28,12 +28,14 @@ function SearchBox() {
 
     return (
         <div className='relative'>
-            <Input
+            <SearchBoxOutline
                 placeholder='End game'
-                className='lg:max-w-3xl md:max-w-xl sm:max-w-56 rounded-2xl bg-background-search text-white'
+                className='lg:max-w-3xl md:max-w-xl sm:max-w-56 rounded-2xl bg-background-search text-white border-none'
                 onChange={handleSearch}
+                suffix={<ion-icon name="search-outline"/>}
             >
-            </Input>
+
+            </SearchBoxOutline>
             {
                 searchResults
                     ?
