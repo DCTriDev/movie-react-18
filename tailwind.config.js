@@ -9,16 +9,12 @@ module.exports = {
   },
   theme: {
     screens: {
-      'xs': '280px', //iphone 8
-      // => @media (min-width: 280) { ... }
-      'sm': '376px', //iPhone 8+
-      // => @media (min-width: 376) { ... }
-      'md': '769px', //iPad
-      // => @media (min-width: 769px) { ... }
-      'lg': '1201px', //Desktop
-      // => @media (min-width: 1201px) { ... }
-      '2xl': '1536px',
-      // => @media (min-width: 1536px) { ... }
+      xs: '480px',
+      sm: '576px',
+      md: '768px',
+      lg: '992px',
+      xl: '1200px',
+      xxl: '1600px',
     },
     extend: {
       colors: {
