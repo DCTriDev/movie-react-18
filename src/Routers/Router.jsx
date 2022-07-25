@@ -6,6 +6,7 @@ import {Route} from "react-router-dom";
 const HomePage = lazy(() => import("../Pages/HomePage/HomePage"))
 const LogInPage = lazy(() => import("../Pages/LogInPage/LogInPage"))
 const SignUpPage = lazy(() => import("../Pages/SignUpPage/SignUpPage"))
+const ProfilePage = lazy(() => import("../Pages/ProfilePage/ProfilePage"))
 const DetailMovie = lazy(() => import("../Pages/DetailMovies/DetailMovie"))
 
 export const routerMainTemplate = [
@@ -16,8 +17,9 @@ export const routerMainTemplate = [
 ];
 
 export const routerNoneTemplate = [
-    { path: process.env.REACT_APP_LINK_LOG_IN, componentPage: LogInPage },
-    { path: process.env.REACT_APP_LINK_SIGN_UP, componentPage: SignUpPage }
+    {path: process.env.REACT_APP_LINK_LOG_IN, componentPage: LogInPage},
+    {path: process.env.REACT_APP_LINK_SIGN_UP, componentPage: SignUpPage},
+    {path: process.env.REACT_APP_LINK_PROFILE, componentPage: ProfilePage},
 ];
 
 
