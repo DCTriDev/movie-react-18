@@ -1,6 +1,7 @@
 import React, {useLayoutEffect, useState} from 'react';
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import {ShoppingCartOutlined, UserOutlined} from "@ant-design/icons";
+import GeneralProfile from "./Content/GeneralProfile";
 
 function getItem(label, key, icon, children) {
     return {
@@ -29,9 +30,9 @@ function ProfilePage(props) {
 
     const handleRenderContent = (key) => {
         switch (key) {
-            case '1': return (<div>General</div>);
+            case '1': return (<GeneralProfile/>);
             case '2': return (<div>Transactions</div>);
-            default: return (<div>General</div>);
+            default: return (<GeneralProfile/>);
         }
     }
 
