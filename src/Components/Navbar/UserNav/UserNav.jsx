@@ -16,6 +16,7 @@ function UserNav() {
 
     let handleLogOut = () => {
         localService.removeUserInfo()
+        history.push('/')
         dispatch(removeUserInfo())
     }
 
@@ -25,7 +26,7 @@ function UserNav() {
 
     const menu = (
         <UserMenu
-            className='rounded-xl p-[4px] m-[-4px] w-fit'
+            className='rounded-xl p-[4px] m-[-4px] w-fit bg-black'
             items={[
                 {
                     key: '1',

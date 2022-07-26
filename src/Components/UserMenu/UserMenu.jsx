@@ -8,10 +8,11 @@ const UserMenu = styled(Menu)`
   }
 
   .ant-dropdown-menu-item, .ant-dropdown-menu-submenu-title {
+    background: #000;
     clear: both;
     margin: 3px 0;
     padding: 5px 12px;
-    color: rgba(0, 0, 0, .85);
+    color: #999;
     font-weight: 400;
     font-size: 14px;
     line-height: 22px;
@@ -21,12 +22,12 @@ const UserMenu = styled(Menu)`
   .ant-dropdown-menu-item.ant-dropdown-menu-item-active, .ant-dropdown-menu-item.ant-dropdown-menu-submenu-title-active, .ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title.ant-dropdown-menu-item-active, .ant-dropdown-menu-submenu-title.ant-dropdown-menu-submenu-title-active, .ant-dropdown-menu-submenu-title:hover {
     
     border-radius: 10px;
-    color: white;
+    color: #f5f5f5;
     transition: background-color 0.1s ease-in-out !important;
   }
   
   .ant-dropdown-menu-item.ant-dropdown-menu-item-active, .ant-dropdown-menu-item.ant-dropdown-menu-submenu-title-active, .ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title.ant-dropdown-menu-item-active, .ant-dropdown-menu-submenu-title.ant-dropdown-menu-submenu-title-active, .ant-dropdown-menu-submenu-title:hover{
-    background: #1890ff;
+    background: unset;
     color: #fff;
   }
 `
