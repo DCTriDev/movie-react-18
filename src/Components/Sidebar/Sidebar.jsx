@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react';
 import SiderCustom from '../SiderCustom/SiderCustom'
 import {Menu} from 'antd'
 import {SwapOutlined} from "@ant-design/icons";
+import logo from '../../Assets/Images/logo.png';
 
-function Sidebar({items, isDesktop}) {
+function Sidebar({items, isDesktop, defaultSelectedKeys, setContent}) {
     const [style, setStyle] = useState({
         position: "absolute",
     })
@@ -21,8 +22,18 @@ function Sidebar({items, isDesktop}) {
             collapsedWidth='0'
             trigger={<SwapOutlined/>}
             style={style}
+
         >
-            <Menu items={items}/>
+            <a href="/" className='cursor-pointer w-full flex justify-center'>
+                <img src={logo} alt="logo" className='h-20'/>
+            </a>
+            <Menu items={items}
+                  defaultSelectedKeys={defaultSelectedKeys}
+                  onClick={(item ) => {
+                      console.log(item.key)
+                      setContent(item.key)
+                  }}
+            />
         </SiderCustom>
     );
 }

@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import Sidebar from "../../Components/Sidebar/Sidebar";
-import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons";
+import {ShoppingCartOutlined, UserOutlined} from "@ant-design/icons";
 
 function getItem(label, key, icon, children) {
     return {
@@ -12,19 +12,13 @@ function getItem(label, key, icon, children) {
 }
 
 const items = [
-    getItem('Option 1', '1', <PieChartOutlined />),
-    getItem('Option 2', '2', <DesktopOutlined />),
-    getItem('User', 'sub1', <UserOutlined />, [
-        getItem('Tom', '3'),
-        getItem('Bill', '4'),
-        getItem('Alex', '5'),
-    ]),
-    getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-    getItem('Files', '9', <FileOutlined />),
+    getItem('General', '1', <UserOutlined />),
+    getItem('Transactions', '2', <ShoppingCartOutlined />),
 ];
 
 function ProfilePage(props) {
     const [isDesktop,setIsDeskTop] = useState(window.innerWidth >= 992);
+    const [contentKey, setContentKey] = useState(<div>General</div>);
     const handleResize = () => {
         if(window.innerWidth < 992) {
             setIsDeskTop(false);
@@ -33,8 +27,15 @@ function ProfilePage(props) {
         }
     }
 
-    useEffect(() => {
-        console.log('isDesktop', isDesktop)
+    const handleRenderContent = (key) => {
+        switch (key) {
+            case '1': return (<div>General</div>);
+            case '2': return (<div>Transactions</div>);
+            default: return (<div>General</div>);
+        }
+    }
+
+    useLayoutEffect(() => {
         window.addEventListener('resize', handleResize);
         return () => {
             window.removeEventListener('resize', handleResize);
@@ -43,11 +44,14 @@ function ProfilePage(props) {
 
     return (
         <div className='min-h-[100vh] flex'>
-            <Sidebar items={items} isDesktop={isDesktop}/>
-            <div>
-                <h1 className="profile-page text-white">
-                    Profile Page
-                </h1>
+            <Sidebar items={items} isDesktop={isDesktop} defaultSelectedKeys={['1']} setContent={setContentKey}/>
+            <div className='pl-2'>
+                <div className=''>
+                    Header
+                </div>
+                <div>
+                    {handleRenderContent(contentKey)}
+                </div>
             </div>
         </div>
     );
