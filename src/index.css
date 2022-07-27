@@ -83,3 +83,8 @@ body{
 .ant-dropdown-arrow:before{
     background: #000 !important;
 }
+
+/*Disable tooltip*/
+.ant-tooltip{
+    display: none !important;
+}

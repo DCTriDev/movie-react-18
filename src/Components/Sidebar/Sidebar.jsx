@@ -5,6 +5,7 @@ import {SwapOutlined} from "@ant-design/icons";
 import logo from '../../Assets/Images/logo.png';
 
 function Sidebar({items, isDesktop, defaultSelectedKeys, setContent}) {
+    const [collapsed, setCollapsed] = useState(!isDesktop);
     const [style, setStyle] = useState({
         position: "absolute",
     })
@@ -12,9 +13,15 @@ function Sidebar({items, isDesktop, defaultSelectedKeys, setContent}) {
     const handleSetPosition = () => {
         isDesktop ? setStyle({position: "unset"}) : setStyle({position: "fixed"})
     }
+
+    const handleCollapsed = () => {
+        !isDesktop&&setCollapsed(!collapsed);
+    }
+
     useEffect(() => {
         handleSetPosition()
     }, [isDesktop])
+
     return (
         <SiderCustom
             className='bg-black min-h-[100vh] z-50'
@@ -22,16 +29,17 @@ function Sidebar({items, isDesktop, defaultSelectedKeys, setContent}) {
             collapsedWidth='0'
             trigger={<SwapOutlined/>}
             style={style}
-
+            collapsed={collapsed}
+            onCollapse={handleCollapsed}
         >
             <a href="/" className='cursor-pointer w-full flex justify-center'>
                 <img src={logo} alt="logo" className='h-20'/>
             </a>
             <Menu items={items}
                   defaultSelectedKeys={defaultSelectedKeys}
-                  onClick={(item ) => {
-                      console.log(item.key)
+                  onClick={(item) => {
                       setContent(item.key)
+                      handleCollapsed()
                   }}
             />
         </SiderCustom>
