@@ -17,7 +17,7 @@ function Sidebar({items, isDesktop, defaultSelectedKeys, setContent}) {
     }, [isDesktop])
     return (
         <SiderCustom
-            className='bg-black min-h-[100vh]'
+            className='bg-black min-h-[100vh] z-50'
             breakpoint='lg'
             collapsedWidth='0'
             trigger={<SwapOutlined/>}
