@@ -20,7 +20,8 @@ module.exports = {
       colors: {
         [`background-search`]: "rgb(51, 51, 51)",
         [`background`]: "#1b1b1b",
-
+        [`text-color-primary`]: "#f5f5f5",
+        [`text-color-secondary`]: "#995aff",
       },
       height: {
         "280px": "280px",
