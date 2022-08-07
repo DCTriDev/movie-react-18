@@ -7,12 +7,13 @@ function ListMovie() {
     const RENDER_AMOUNT = 12;
     const dispatch = useDispatch()
     const listMovie = useSelector(state => state.movieSlice.listMovie)
+
     useEffect(() => {
-        dispatch(fetchListMovie())
+        !listMovie&&dispatch(fetchListMovie())
     }, [])
 
     return (
-        <div className='px-8 py-4 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-8'>
+        <div className='mx-auto py-4 grid lg:grid-cols-6 md:grid-cols-5 grid-cols-4 gap-8 lg:max-w-[1200px]'>
             {listMovie?.map((item, key) => {
                 if (key < RENDER_AMOUNT) {
                     return <ItemMovie data={item} key={key}/>
