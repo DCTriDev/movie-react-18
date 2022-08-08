@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import ReactPlayer from 'react-player'
-import {useParams} from 'react-router-dom'
+import {useHistory, useParams} from 'react-router-dom'
 import movieService from '../../API/movieAPI'
 import moment from 'moment'
 import {ButtonCustom} from '../../Components/ButtonCustom/ButtonCustom'
 import ItemActor from './ItemActor/ItemActor'
 
-const {ButtonSecondary} = ButtonCustom
+const {ButtonSecondary, ButtonSquare, ButtonPrimary} = ButtonCustom
 
 const actor = [
     {
@@ -17,12 +17,13 @@ const actor = [
     {
         id: 2,
         name: 'Dolph Lundgren',
-        image: "https://m.media-amazon.com/images/M/MV5BMTUyMzEyNzU4NV5BMl5BanBnXkFtZTgwNDg2MzM3MDE@._V1_UX214_CR0,0,214,317_AL_.jpg"
+        image: 'https://m.media-amazon.com/images/M/MV5BMTUyMzEyNzU4NV5BMl5BanBnXkFtZTgwNDg2MzM3MDE@._V1_UX214_CR0,0,214,317_AL_.jpg',
     },
 ]
 
 function DetailMovie() {
     const {id} = useParams()
+    const history = useHistory()
     const [detailMovies, setDetailMovies] = useState(null)
     useEffect(() => {
         !detailMovies && movieService.getDetailMovie(id)
@@ -44,17 +45,39 @@ function DetailMovie() {
         })
     }
 
-    console.log(detailMovies)
+    const handleRenderActor = (actor) => {
+        return actor?.map((item, index) => {
+            return <ItemActor key={index} actor={item} />
+        })
+    }
 
     return (<div className='w-full px-12'>
-        <div className='grid grid-cols-8 py-5 lg:max-w-[1200px] mx-auto'>
-            <div className='col-span-5 flex flex-col items-center justify-center h-[625px]'>
+        <div className='grid grid-cols-8 py-5 lg:max-w-[1280px] mx-auto h-[600px]'>
+            <div className='col-span-5 flex flex-col items-center justify-center h-full '>
                 <ReactPlayer controls={true} pip={true} url={detailMovies?.trailer} width='100%' height='100%' />
             </div>
-            <div className='col-span-3 bg-black pl-4'>
-                <h3 className='text-xl text-text-color-title font-bold py-4'>{detailMovies?.title}</h3>
-                {detailMovies?.isPurchased ? <ButtonSecondary>Watch Now</ButtonSecondary> :
-                    <button>Purchase Now</button>}
+            <div className='col-span-3 bg-black p-4 h-full'>
+                <div className='flex flex-col justify-between h-full items-center'>
+                    <div>
+                        <h3 className='text-xl text-text-color-title font-bold'>{detailMovies?.title}</h3>
+                    </div>
+                    {
+                        detailMovies?.isPurchased ?
+                            <>
+                                <p className='text-text-color-description'>You're already owned this content. Please
+                                    click on below button to watch!</p>
+                                <ButtonPrimary onClick={() => {
+                                    history.push(`/play/${detailMovies?.id}`)
+                                }}>Watch Now</ButtonPrimary>
+                            </> :
+                            <>
+                                <p className='text-text-color-secondary text-3xl'>Price: {detailMovies?.price}$</p>
+                                <p>You're not owned this content. Please click on below button to purchase!</p>
+
+                                <ButtonPrimary>Purchase Now</ButtonPrimary>
+                            </>
+                    }
+                </div>
             </div>
         </div>
         <div className='max-w-[850px] mx-auto text-text-color-description py-4'>
@@ -69,13 +92,11 @@ function DetailMovie() {
             <h3 className='text-xl text-text-color-title font-bold mt-3'>Actor</h3>
             <div className='grid grid-cols-4 gap-4'>
                 {
-                    actor.map((item, index) => {
-                        return <ItemActor key={index} actor={item} />
-                    })
+                    handleRenderActor(actor)
                 }
             </div>
         </div>
     </div>)
 }
 
-export default DetailMovie;
+export default DetailMovie
