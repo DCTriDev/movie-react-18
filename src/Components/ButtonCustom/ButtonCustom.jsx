@@ -12,11 +12,12 @@ const ButtonDefault = tw.button`
     border-0 
     hover:text-white
     text-lg
+    cursor-pointer
 `
 
 const ButtonPrimary = tw(ButtonDefault)`
-    bg-green-500 
-    hover:bg-green-600
+    bg-btn-primary 
+    hover:bg-btn-primary-hover
 `
 const ButtonSecondary = tw(ButtonDefault)`
     bg-blue-500
