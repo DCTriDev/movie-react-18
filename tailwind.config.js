@@ -22,6 +22,10 @@ module.exports = {
         [`background`]: "#1b1b1b",
         [`text-color-primary`]: "#f5f5f5",
         [`text-color-secondary`]: "#995aff",
+        [`text-color-title`]: "#dee4e9",
+        [`text-color-description`]: "#81868e",
+        [`btn-primary`]: "#995aff",
+        [`btn-primary-hover`]: "#ad7bff",
       },
       height: {
         "280px": "280px",
