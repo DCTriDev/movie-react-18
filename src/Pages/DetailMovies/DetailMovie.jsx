@@ -6,20 +6,7 @@ import moment from 'moment'
 import {ButtonCustom} from '../../Components/ButtonCustom/ButtonCustom'
 import ItemActor from './ItemActor/ItemActor'
 
-const {ButtonSecondary, ButtonSquare, ButtonPrimary} = ButtonCustom
-
-const actor = [
-    {
-        id: 1,
-        name: 'Denise Richards',
-        image: 'https://m.media-amazon.com/images/M/MV5BMTQyNjYxNDU5OV5BMl5BanBnXkFtZTcwNTY5NDQwOA@@._V1_UX214_CR0,0,214,317_AL_.jpg',
-    },
-    {
-        id: 2,
-        name: 'Dolph Lundgren',
-        image: 'https://m.media-amazon.com/images/M/MV5BMTUyMzEyNzU4NV5BMl5BanBnXkFtZTgwNDg2MzM3MDE@._V1_UX214_CR0,0,214,317_AL_.jpg',
-    },
-]
+const {ButtonSquare, ButtonPrimary} = ButtonCustom
 
 function DetailMovie() {
     const {id} = useParams()
@@ -67,7 +54,7 @@ function DetailMovie() {
                                 <p className='text-text-color-description'>You're already owned this content. Please
                                     click on below button to watch!</p>
                                 <ButtonPrimary onClick={() => {
-                                    history.push(`/play/${detailMovies?.id}`)
+                                    history.push(`${process.env.REACT_APP_LINK_WATCH}/${detailMovies?.id}`)
                                 }}>Watch Now</ButtonPrimary>
                             </> :
                             <>
@@ -92,7 +79,7 @@ function DetailMovie() {
             <h3 className='text-xl text-text-color-title font-bold mt-3'>Actor</h3>
             <div className='grid grid-cols-4 gap-4'>
                 {
-                    handleRenderActor(actor)
+                    handleRenderActor(detailMovies?.actor)
                 }
             </div>
         </div>
