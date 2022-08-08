@@ -38,52 +38,54 @@ function DetailMovie() {
         })
     }
 
-    return (<div className='w-full px-12'>
-        <div className='grid grid-cols-8 py-5 lg:max-w-[1280px] mx-auto h-[600px]'>
-            <div className='col-span-5 flex flex-col items-center justify-center h-full '>
-                <ReactPlayer controls={true} pip={true} url={detailMovies?.trailer} width='100%' height='100%' />
-            </div>
-            <div className='col-span-3 bg-black p-4 h-full'>
-                <div className='flex flex-col justify-between h-full items-center'>
-                    <div>
-                        <h3 className='text-xl text-text-color-title font-bold'>{detailMovies?.title}</h3>
-                    </div>
-                    {
-                        detailMovies?.isPurchased ?
-                            <>
-                                <p className='text-text-color-description'>You're already owned this content. Please
-                                    click on below button to watch!</p>
-                                <ButtonPrimary onClick={() => {
-                                    history.push(`${process.env.REACT_APP_LINK_WATCH}/${detailMovies?.id}`)
-                                }}>Watch Now</ButtonPrimary>
-                            </> :
-                            <>
-                                <p className='text-text-color-secondary text-3xl'>Price: {detailMovies?.price}$</p>
-                                <p>You're not owned this content. Please click on below button to purchase!</p>
+    return (
+        <div className='w-full px-12 min-h-screen'>
+            <div className='grid grid-cols-8 py-5 lg:max-w-[1280px] mx-auto h-[600px]'>
+                <div className='col-span-5 flex flex-col items-center justify-center h-full '>
+                    <ReactPlayer controls={true} pip={true} url={detailMovies?.trailer} width='100%' height='100%' />
+                </div>
+                <div className='col-span-3 bg-black p-4 h-full'>
+                    <div className='flex flex-col justify-between h-full items-center'>
+                        <div>
+                            <h3 className='text-xl text-text-color-title font-bold'>{detailMovies?.title}</h3>
+                        </div>
+                        {
+                            detailMovies?.isPurchased ?
+                                <>
+                                    <p className='text-text-color-description'>You're already owned this content. Please
+                                        click on below button to watch!</p>
+                                    <ButtonPrimary onClick={() => {
+                                        history.push(`${process.env.REACT_APP_LINK_WATCH}/${detailMovies?.id}`)
+                                    }}>Watch Now</ButtonPrimary>
+                                </> :
+                                <>
+                                    <p className='text-text-color-secondary text-3xl'>Price: {detailMovies?.price}$</p>
+                                    <p>You're not owned this content. Please click on below button to purchase!</p>
 
-                                <ButtonPrimary>Purchase Now</ButtonPrimary>
-                            </>
+                                    <ButtonPrimary>Purchase Now</ButtonPrimary>
+                                </>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div className='max-w-[850px] mx-auto text-text-color-description py-4'>
+                <h3 className='text-xl text-text-color-title font-bold'>{detailMovies?.title}</h3>
+                <p className='px-2 py-0.5 bg-amber-500 rounded-xl text-black font-bold leading-10 inline'>{detailMovies?.type}</p>
+                <div className='leading-3'>
+                    <p>Director: {detailMovies?.director}</p>
+                    <p>Release Date: {moment(new Date(+detailMovies?.releaseDate)).format('DD/MM/YYYY')}</p>
+                    <p>Category: {handleRenderCategory(detailMovies?.category)}</p>
+                    <p className='mt-2 leading-5'>{detailMovies?.description}</p>
+                </div>
+                <h3 className='text-xl text-text-color-title font-bold mt-3'>Actor</h3>
+                <div className='grid grid-cols-4 gap-4'>
+                    {
+                        handleRenderActor(detailMovies?.actor)
                     }
                 </div>
             </div>
         </div>
-        <div className='max-w-[850px] mx-auto text-text-color-description py-4'>
-            <h3 className='text-xl text-text-color-title font-bold'>{detailMovies?.title}</h3>
-            <p className='px-2 py-0.5 bg-amber-500 rounded-xl text-black font-bold leading-10 inline'>{detailMovies?.type}</p>
-            <div className='leading-3'>
-                <p>Director: {detailMovies?.director}</p>
-                <p>Release Date: {moment(new Date(+detailMovies?.releaseDate)).format('DD/MM/YYYY')}</p>
-                <p>Category: {handleRenderCategory(detailMovies?.category)}</p>
-                <p className='mt-2 leading-5'>{detailMovies?.description}</p>
-            </div>
-            <h3 className='text-xl text-text-color-title font-bold mt-3'>Actor</h3>
-            <div className='grid grid-cols-4 gap-4'>
-                {
-                    handleRenderActor(detailMovies?.actor)
-                }
-            </div>
-        </div>
-    </div>)
+    )
 }
 
 export default DetailMovie
