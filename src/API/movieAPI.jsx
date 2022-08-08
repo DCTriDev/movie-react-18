@@ -40,6 +40,27 @@ const GET_DETAIL_MOVIE = gql`
     }
 `
 
+const GET_SOURCE_MOVIE = gql`
+    mutation getSourceMovie($id: Int!) {
+        getSourceMovie(input:{id: $id}) {
+            id
+            image
+            title
+            director
+            trailer
+            description
+            releaseDate
+            price
+            type
+            status
+            movieSource{
+                detailSource
+                source
+            }
+        }
+    }
+`
+
 class MovieAPI {
     getAllMovie = (setLoading = true) => {
         const payload = {
@@ -51,6 +72,16 @@ class MovieAPI {
     getDetailMovie = (id, setLoading = true) => {
         const payload = {
             query: print(GET_DETAIL_MOVIE),
+            variables:{
+                id: +id
+            }
+        }
+        return Axios.postMethod(payload, setLoading)
+    }
+
+    getSourceMovie = (id, setLoading = true) => {
+        const payload = {
+            query: print(GET_SOURCE_MOVIE),
             variables:{
                 id: +id
             }
