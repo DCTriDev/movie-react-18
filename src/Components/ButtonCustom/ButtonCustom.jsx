@@ -1,5 +1,5 @@
 import tw from 'tailwind-styled-components'
-import {Button} from "antd";
+import {Button} from 'antd'
 
 
 const ButtonDefault = tw.button`
@@ -43,9 +43,21 @@ const ButtonSubmit = tw(Button)`
     text-lg
 `
 
+const ButtonSquare = tw.button`
+    rounded-2xl
+    bg-[#333]
+    cursor-pointer
+    transition-all
+    duration-300
+    text-[#dee4e9]
+    w-16
+    h-16
+`
+
 export const ButtonCustom = {
     ButtonPrimary,
     ButtonSecondary,
     ButtonDanger,
     ButtonSubmit,
+    ButtonSquare,
 }
