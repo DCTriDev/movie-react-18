@@ -2,6 +2,7 @@ import React, {useLayoutEffect, useState} from 'react';
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import {ShoppingCartOutlined, UserOutlined} from "@ant-design/icons";
 import GeneralProfile from "./Content/GeneralProfile";
+import ProfileHeader from "./ProfileHeader/ProfileHeader";
 
 function getItem(label, key, icon, children) {
     return {
@@ -44,13 +45,11 @@ function ProfilePage(props) {
     })
 
     return (
-        <div className='min-h-[100vh] flex'>
+        <div className='min-h-[100vh] flex w-full'>
             <Sidebar items={items} isDesktop={isDesktop} defaultSelectedKeys={['1']} setContent={setContentKey}/>
-            <div className='pl-2'>
-                <div className=''>
-                    Header
-                </div>
-                <div>
+            <div className='w-full'>
+                <ProfileHeader/>
+                <div className='pl-2'>
                     {handleRenderContent(contentKey)}
                 </div>
             </div>
