@@ -4,7 +4,7 @@ import Banner from "./Banner/Banner";
 
 function HomePage() {
     return (
-        <div>
+        <div className='min-h-screen'>
             {/*<Banner/>*/}
             <ListMovie/>
         </div>
