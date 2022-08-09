@@ -1,7 +1,6 @@
 import localService from "../../Services/local.service";
 import {createSlice} from "@reduxjs/toolkit";
 import userAPI from "../../API/userAPI";
-import ApiErrorService from "../../API/apiErrorService";
 
 const initialState = {
     userInfo: localService.getUserInfo(),
@@ -30,13 +29,9 @@ export const userLoginActionThunk = (values) => {
                     dispatch(userSlice.actions.setUserInfo(res.data.login))
                     window.location.href = '/'
                 }
-                else {
-                    ApiErrorService.handleError(res.errors)
-                }
             })
             .catch((err) => {
-                console.log("err",err)
-                // message.error(err.err)
+                console.log(err)
             })
     }
 }

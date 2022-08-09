@@ -2,6 +2,7 @@ import Axios from "axios";
 import store from "../index";
 import {startLoading, stopLoading} from "../Redux/Slice/loadingAnimSlice";
 import localServices from "../Services/local.service";
+import {message} from 'antd'
 
 class AxiosClient {
     axios;
@@ -83,6 +84,10 @@ class AxiosClient {
             method
                 .then((res) => {
                     loading && store.dispatch(stopLoading());
+                    console.log(res.data.errors[0])
+                    if(res.data.errors){
+                        this.handleError(res.data.errors)
+                    }
                     resolve(res.data);
                 })
                 .catch((err) => {
@@ -93,18 +98,21 @@ class AxiosClient {
         });
     }
 
-    handleError = (err) => {
-        const status = err.response?.status;
-        switch (
-            status
-            // case 400:
-            // case 401:
-            // case 403:
-            //   window.location.assign("/lms");
-            //   break;
-            // default:
-            //   break;
-            ) {
+    handleError = (error) => {
+        const firstError = error[0]
+        switch (firstError.status) {
+            case 404:{
+                message.error(firstError.message, 3)
+                break
+            }
+            case 401:{
+                message.error(firstError.message, 3)
+                localServices.removeUserInfo()
+                break
+            }
+            default:
+                message.error(firstError.message, 3)
+                break
         }
     };
     //
