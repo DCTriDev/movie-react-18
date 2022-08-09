@@ -27,10 +27,18 @@ function WatchMovie(props) {
         })
     }
 
+    const handleErrorWithSource = (res) => {
+        if(res.errors[0]){
+            setTimeout(() => {
+                history.push(`/detail-movie/${id}`)
+            },3000)
+        }
+    }
+
     useEffect(() => {
         !detailMovies && movieService.getSourceMovie(id)
             .then(res => {
-                console.log(res)
+                handleErrorWithSource(res)
                 setDetailMovies(res.data.getSourceMovie)
                 setSource(res.data.getSourceMovie.movieSource)
                 setUrl(res.data.getSourceMovie.movieSource[0].source)
