@@ -84,7 +84,6 @@ class AxiosClient {
             method
                 .then((res) => {
                     loading && store.dispatch(stopLoading());
-                    console.log(res.data.errors[0])
                     if(res.data.errors){
                         this.handleError(res.data.errors)
                     }
