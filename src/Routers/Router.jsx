@@ -10,6 +10,7 @@ const ProfilePage = lazy(() => import("../Pages/ProfilePage/ProfilePage"))
 const DetailMovie = lazy(() => import("../Pages/DetailMovies/DetailMovie"))
 const WatchMovie = lazy(() => import("../Pages/WatchMovie/WatchMovie"))
 const DepositPage = lazy(() => import("../Pages/DepositPage/DepositPage"))
+const DashboardPage = lazy(() => import("../Pages/DashboardPage/DashboardPage"))
 
 export const routerMainTemplate = [
     {path: process.env.REACT_APP_LINK_HOME, componentPage: HomePage},
@@ -24,6 +25,7 @@ export const routerNoneTemplate = [
     {path: process.env.REACT_APP_LINK_LOG_IN, componentPage: LogInPage},
     {path: process.env.REACT_APP_LINK_SIGN_UP, componentPage: SignUpPage},
     {path: process.env.REACT_APP_LINK_PROFILE, componentPage: ProfilePage},
+    {path: process.env.REACT_APP_LINK_DASHBOARD, componentPage: DashboardPage},
 ];
 
 
