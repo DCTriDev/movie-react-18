@@ -28,7 +28,7 @@ function WatchMovie(props) {
     }
 
     const handleErrorWithSource = (res) => {
-        if(res.errors[0]){
+        if(res.data.errors){
             setTimeout(() => {
                 history.push(`/detail-movie/${id}`)
             },3000)
