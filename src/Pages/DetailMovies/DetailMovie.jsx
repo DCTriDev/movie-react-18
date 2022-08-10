@@ -5,16 +5,21 @@ import movieService from '../../API/movieAPI'
 import moment from 'moment'
 import {ButtonCustom} from '../../Components/ButtonCustom/ButtonCustom'
 import ItemActor from './ItemActor/ItemActor'
+import Transaction from '../../Components/Transaction/Transaction'
+import localServices from '../../Services/local.service'
 
-const {ButtonSquare, ButtonPrimary} = ButtonCustom
+const {ButtonPrimary, ButtonSubmit, ButtonSecondary} = ButtonCustom
 
 function DetailMovie() {
     const {id} = useParams()
     const history = useHistory()
     const [detailMovies, setDetailMovies] = useState(null)
+    const [visible, setVisible] = useState(false)
+
     useEffect(() => {
         !detailMovies && movieService.getDetailMovie(id)
             .then(res => {
+                console.log(res.data.getDetailMovie)
                 setDetailMovies(res.data.getDetailMovie)
             })
             .catch(err => {
@@ -38,6 +43,41 @@ function DetailMovie() {
         })
     }
 
+    const handleShowTransaction = () => {
+        setVisible(true)
+    }
+
+    const handleRenderNavigationBtn = () => {
+        const isLogin = Boolean(localServices.getAccessToken())
+        if (!isLogin) {
+            return (
+                <>
+                    <p className='text-center text-xl text-text-color-secondary'>You're not login yet.<br/>Please Login Or Sign Up Now!</p>
+                    <div className='space-x-4'>
+                        <ButtonSubmit onClick={() => history.push('/login')}>Login</ButtonSubmit>
+                        <ButtonSecondary onClick={() => history.push('/sign-up')}>Sign Up</ButtonSecondary>
+                    </div>
+                </>
+            )
+        } else if (detailMovies?.isPurchased) {
+            return (
+                <>
+                    <p className='text-center text-xl text-text-color-secondary'>You're owned this content.<br/>Click bellow button to watch!</p>
+                    <ButtonPrimary onClick={() => {
+                        history.push(`${process.env.REACT_APP_LINK_WATCH}/${detailMovies?.id}`)
+                    }}>Watch Now</ButtonPrimary>
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <p className='text-center text-xl text-text-color-secondary'>You're not owned this content.<br/>Click bellow button to buy!</p>
+                    <ButtonPrimary onClick={handleShowTransaction}>Buy Now</ButtonPrimary>
+                </>
+            )
+        }
+    }
+
     return (
         <div className='w-full px-12 min-h-screen'>
             <div className='grid grid-cols-8 py-5 lg:max-w-[1280px] mx-auto h-[600px]'>
@@ -50,23 +90,12 @@ function DetailMovie() {
                             <h3 className='text-xl text-text-color-title font-bold'>{detailMovies?.title}</h3>
                         </div>
                         {
-                            detailMovies?.isPurchased ?
-                                <>
-                                    <p className='text-text-color-description'>You're already owned this content. Please
-                                        click on below button to watch!</p>
-                                    <ButtonPrimary onClick={() => {
-                                        history.push(`${process.env.REACT_APP_LINK_WATCH}/${detailMovies?.id}`)
-                                    }}>Watch Now</ButtonPrimary>
-                                </> :
-                                <>
-                                    <p className='text-text-color-secondary text-3xl'>Price: {detailMovies?.price}$</p>
-                                    <p>You're not owned this content. Please click on below button to purchase!</p>
-
-                                    <ButtonPrimary>Purchase Now</ButtonPrimary>
-                                </>
+                            handleRenderNavigationBtn()
                         }
                     </div>
                 </div>
+                <Transaction detailMovie={detailMovies} handleShowTransaction={handleShowTransaction} visible={visible}
+                             setVisible={setVisible} />
             </div>
             <div className='max-w-[850px] mx-auto text-text-color-description py-4'>
                 <h3 className='text-xl text-text-color-title font-bold'>{detailMovies?.title}</h3>
