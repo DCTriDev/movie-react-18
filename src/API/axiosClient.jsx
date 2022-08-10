@@ -3,6 +3,8 @@ import store from "../index";
 import {startLoading, stopLoading} from "../Redux/Slice/loadingAnimSlice";
 import localServices from "../Services/local.service";
 import {message} from 'antd'
+import localService from '../Services/local.service'
+import {removeUserInfo} from '../Redux/Slice/userSlice'
 
 class AxiosClient {
     axios;
@@ -106,7 +108,9 @@ class AxiosClient {
             }
             case 401:{
                 message.error(firstError.message, 3)
-                localServices.removeUserInfo()
+                localService.removeUserInfo()
+                window.location.reload()
+                removeUserInfo()
                 break
             }
             default:
