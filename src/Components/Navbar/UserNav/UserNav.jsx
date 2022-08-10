@@ -40,9 +40,35 @@ function UserNav() {
                 {
                     key: '2',
                     label: (
+                        <a className='flex items-center space-x-2 text-[16px]' onClick={handleLogOut}>
+                            <ion-icon className='' name="log-out-outline"/>
+                            <span>Logout</span>
+                        </a>
+                    ),
+                },
+            ]}
+        />
+    );
+
+    const menuADMIN = (
+        <UserMenu
+            className='rounded-xl p-[4px] m-[-4px] w-fit bg-black'
+            items={[
+                {
+                    key: '1',
+                    label: (
+                        <a className='flex items-center space-x-2 text-[16px]' rel='prefetch' href="/profile">
+                            <ion-icon className='' name="person-outline"/>
+                            <span>Profile</span>
+                        </a>
+                    ),
+                },
+                {
+                    key: '2',
+                    label: (
                         <a className='flex items-center space-x-2 text-[16px]' href="/dashboard">
-                            <ion-icon className='' name="settings-outline"/>
-                            <span>Setting</span>
+                            <ion-icon name="grid-outline"></ion-icon>
+                            <span>Dashboard</span>
                         </a>
                     ),
                 },
@@ -58,15 +84,16 @@ function UserNav() {
             ]}
         />
     );
+
     return (
         userInfo
             ?
             (
                 <div>
-                    <span className='pr-2.5'>Welcome, <strong className='text-red-600'>{userInfo.username}</strong></span>
+                    <span className='pr-2.5'>Hi, <strong className='text-text-color-secondary'>{userInfo.username}</strong></span>
                     <Dropdown
                         className='mr-6'
-                        overlay={menu} placement="bottom"
+                        overlay={localService.isAdmin?menuADMIN:menu} placement="bottom"
                         arrow>
                         <img
                             className='rounded-full w-10 h-10 cursor-pointer'
