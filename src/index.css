@@ -88,6 +88,10 @@ body{
     height: unset !important;
 }
 
+.ant-list-split .ant-list-item {
+    border-bottom: 1px solid black;
+}
+
 /*Disable tooltip*/
 .ant-tooltip{
     display: none !important;

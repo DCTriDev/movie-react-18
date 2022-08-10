@@ -7,12 +7,15 @@ function SearchBox() {
     const [searchTerm, setSearchTerm] = useState('')
     const [searchResults, setSearchResults] = useState(null)
     const listMovie = useSelector(state => state.movieSlice.listMovie)
+    console.log(listMovie)
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             if (searchTerm.length > 0) {
                 const result = listMovie.filter(item => {
-                    return item.tenPhim.toLowerCase().includes(searchTerm.toLowerCase())
+                    console.log(item)
+                    return item.title.toLowerCase().includes(searchTerm.toLowerCase())
                 })
+                console.log(result)
                 setSearchResults(result)
             } else {
                 setSearchResults(null)
