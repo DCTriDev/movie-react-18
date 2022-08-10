@@ -5,11 +5,17 @@ import {ButtonCustom} from '../../Components/ButtonCustom/ButtonCustom'
 import {DollarOutlined} from '@ant-design/icons'
 import validator from 'validator'
 import userService from '../../API/userAPI'
+import ModalCustom from '../../Components/ModalCustom/ModalCustom'
+import ResultCustom from '../../Components/ResultCustom/ResultCustom'
+import {useHistory} from 'react-router-dom'
 
-const {ButtonSubmit} = ButtonCustom
+const {ButtonPrimary, ButtonSubmit} = ButtonCustom
 
 function DepositPage(props) {
+    const history = useHistory()
     const [value, setValue] = useState('VISA')
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [depositResult, setDepositResult] = useState(`$`);
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo)
     }
@@ -21,7 +27,11 @@ function DepositPage(props) {
         }
         userService.deposit(newValues)
             .then(res => {
-                console.log(res)
+                if(res.data.deposit){
+                    console.log(res.data.deposit)
+                    setDepositResult(`${res.data.deposit.balance}$`)
+                    setIsModalVisible(true)
+                }
             })
             .catch(err => {
                 console.log(err)
@@ -126,6 +136,32 @@ function DepositPage(props) {
                     </Form.Item>
                 </FormCustom>
             </div>
+            <ModalCustom
+                title={null}
+                footer={null}
+                visible={isModalVisible}
+            >
+                <ResultCustom
+                    status="success"
+                    title={`Successfully deposit!`}
+                    subTitle={`Your new balance is ${depositResult}`}
+                    extra={[
+                        <ButtonPrimary type="primary" key="console"
+                                       onClick={() => {
+                                           history.push('/')
+                                       }}
+                        >
+                            Back to Homepage
+                        </ButtonPrimary>,
+                        <ButtonSubmit key="buy"
+                                        onClick={() => {
+                                            window.location.reload()
+                                        }}
+
+                        >Deposit Again</ButtonSubmit>,
+                    ]}
+                />
+            </ModalCustom>
         </div>
     )
 }
