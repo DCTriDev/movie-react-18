@@ -31,6 +31,13 @@ const localServices = {
         }
         return null
     },
+    isAdmin() {
+        const userInfo = this.getUserInfo()
+        if (userInfo) {
+            return userInfo.roleName === 'ADMIN'
+        }
+        return false
+    }
 }
 
 export default localServices
