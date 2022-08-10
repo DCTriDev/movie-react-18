@@ -20,6 +20,7 @@ function Sidebar({items, isDesktop, defaultSelectedKeys, setContent}) {
 
     useEffect(() => {
         handleSetPosition()
+        isDesktop&&setCollapsed(false)
     }, [isDesktop])
 
     return (
