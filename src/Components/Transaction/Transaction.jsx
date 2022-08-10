@@ -2,10 +2,12 @@ import React, {useEffect, useState} from 'react'
 import ModalCustom from '../ModalCustom/ModalCustom'
 import {ButtonCustom} from '../ButtonCustom/ButtonCustom'
 import userService from '../../API/userAPI'
+import {useHistory} from 'react-router-dom'
 
 const {ButtonPrimary, ButtonDanger} = ButtonCustom
 
 function Transaction(props) {
+    const history = useHistory()
     const {detailMovie, visible, setVisible, handleShowTransaction} = props
     console.log(detailMovie)
     const [confirmLoading, setConfirmLoading] = useState(false)
