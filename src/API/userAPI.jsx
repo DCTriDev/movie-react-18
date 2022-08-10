@@ -16,6 +16,22 @@ const LOG_IN = gql`
     }
 `
 
+const GET_ACCOUNT_BALANCE = gql`
+    query getUserBalanceWithAccessToken {
+        getUserBalanceWithAccessToken{
+            balance
+        }
+    }
+`
+
+const DEPOSIT = gql`
+    mutation deposit($amount: Int!) {
+        deposit(input:{amount: $amount}) {
+            balance
+        }
+    }
+`
+
 class UserAPI {
     login = (data, setLoading = true) => {
         const payload = {
@@ -27,6 +43,23 @@ class UserAPI {
         }
         return Axios.postMethod(payload, setLoading);
     };
+
+    getAccountBalance = (setLoading = true) => {
+        const payload = {
+            query: print(GET_ACCOUNT_BALANCE)
+        }
+        return Axios.postMethod(payload, setLoading);
+    }
+
+    deposit = (data, setLoading = true) => {
+        const payload = {
+            query: print(DEPOSIT),
+            variables:{
+                amount: data.amount
+            }
+        }
+        return Axios.postMethod(payload, setLoading);
+    }
 }
 
 const userService = new UserAPI();
