@@ -32,6 +32,17 @@ const DEPOSIT = gql`
     }
 `
 
+const PURCHASE_MOVIE = gql`
+    mutation purchaseMovie($movieId: Int!, $promoCode: String) {
+        purchaseMovie(input:{movieId: $movieId, promoCode: $promoCode}) {
+            movieId
+            accountBalance{
+                balance
+            }
+        }
+    }
+`
+
 class UserAPI {
     login = (data, setLoading = true) => {
         const payload = {
@@ -56,6 +67,17 @@ class UserAPI {
             query: print(DEPOSIT),
             variables:{
                 amount: data.amount
+            }
+        }
+        return Axios.postMethod(payload, setLoading);
+    }
+
+    purchaseMovie = (data, setLoading = true) => {
+        const payload = {
+            query: print(PURCHASE_MOVIE),
+            variables:{
+                movieId: data.id,
+                promoCode: data.promoCode
             }
         }
         return Axios.postMethod(payload, setLoading);
