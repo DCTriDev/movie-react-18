@@ -113,6 +113,10 @@ class AxiosClient {
                 removeUserInfo()
                 break
             }
+            case 406:{
+                message.warning(firstError.message, 3)
+                break
+            }
             default:
                 message.error(firstError.message, 3)
                 break
