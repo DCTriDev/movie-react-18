@@ -94,7 +94,7 @@ function UserNav(props) {
                     <span className='pr-2.5'>Hi, <strong className='text-text-color-secondary'>{userInfo.username}</strong></span>
                     <Dropdown
                         className='mr-6'
-                        overlay={localService.isAdmin?menuADMIN:menu} placement="bottom"
+                        overlay={localService.isAdmin()?menuADMIN:menu} placement="bottom"
                         arrow>
                         <img
                             className='rounded-full w-10 h-10 cursor-pointer'
