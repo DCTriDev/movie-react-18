@@ -9,7 +9,8 @@ import UserMenu from '../../UserMenu/UserMenu';
 
 const {ButtonPrimary} = ButtonCustom
 
-function UserNav() {
+function UserNav(props) {
+    const {isDesktop} = props
     const dispatch = useDispatch()
     const history = useHistory()
     const {userInfo} = useSelector(state => state.userSlice)
