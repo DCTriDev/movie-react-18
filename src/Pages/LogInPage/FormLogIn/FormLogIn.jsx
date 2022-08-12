@@ -22,7 +22,7 @@ function FormLogIn() {
 
     return (
         <div className='flex flex-col justify-center'>
-            <FormTitle>LogIn</FormTitle>
+            <FormTitle className='text-text-color-title'>LogIn</FormTitle>
             <FormCustom
                 name="basic"
                 labelCol={{
@@ -35,7 +35,7 @@ function FormLogIn() {
                     remember: true,
                 }}
                 onFinish={onFinish}
-                autoComplete="on"
+                autoComplete="off"
             >
                 <Form.Item
                     label="Username"
@@ -55,10 +55,10 @@ function FormLogIn() {
                     name="password"
                     rules={[
                         {
-                            required: true, message: 'Không được để trống!',
+                            required: true, message: 'Required!',
                         },
                         {whitespace: true},
-                        {min: 5, message: "Mật khẩu tối thiểu 5 ký tự"},
+                        {min: 5, message: "Password at least 5 characters"},
                     ]}
                 >
                     <Input.Password/>
@@ -71,7 +71,7 @@ function FormLogIn() {
                         </ButtonSubmit>
                     </div>
                     <div className='flex justify-center space-x-2'>
-                        <span>Not a member?
+                        <span className='text-text-color-title'>Not a member?
 
                         </span>
                         <a

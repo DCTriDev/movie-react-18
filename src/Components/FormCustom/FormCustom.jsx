@@ -50,6 +50,10 @@ const FormCustom = styled(Form)`
   .ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper, .ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover {
     background: rgb(51, 51, 51) !important;
   }
+
+  .ant-input-password-icon.anticon {
+    color: #dee4e9;
+  }
   
 `
 

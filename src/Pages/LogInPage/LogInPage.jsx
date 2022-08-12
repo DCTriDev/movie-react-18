@@ -31,7 +31,7 @@ function LogInPage() {
                         </div>
                     </div>
                     <div className='lg:w-1/2 md:w-4/5 h-full flex justify-center'>
-                        <div className='rounded-3xl bg-blue-100 bg-opacity-70 px-12 py-6 h-fit self-center'>
+                        <div className='rounded-3xl bg-[#161A1C] px-12 py-6 h-fit self-center'>
                             <FormLogIn/>
                         </div>
                     </div>
