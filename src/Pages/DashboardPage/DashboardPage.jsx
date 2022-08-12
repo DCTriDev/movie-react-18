@@ -1,6 +1,9 @@
 import React, {useLayoutEffect, useState} from 'react';
 import Sidebar from "../../Components/Sidebar/Sidebar";
-import {PlaySquareOutlined, UserOutlined} from '@ant-design/icons'
+import {IdcardOutlined, PlaySquareOutlined, UserOutlined} from '@ant-design/icons'
+import UserManagement from './UserManagement/UserManagement'
+import MovieManagement from './MovieManagement/MovieManagement'
+import ActorManagement from './ActorManagement/ActorManagement'
 
 function getItem(label, key, icon, children) {
     return {
@@ -13,7 +16,8 @@ function getItem(label, key, icon, children) {
 
 const items = [
     getItem('Movie', '1', <PlaySquareOutlined />),
-    getItem('Actor', '2', <UserOutlined />),
+    getItem('Actor', '2', <IdcardOutlined />),
+    getItem('User', '3', <UserOutlined />),
 ];
 
 function DashboardPage(props) {
@@ -29,9 +33,10 @@ function DashboardPage(props) {
 
     const handleRenderContent = (key) => {
         switch (key) {
-            case '1': return (<div>Movie</div>);
-            case '2': return (<div>Actor</div>);
-            default: return (<div>Movie</div>);
+            case '1': return (<MovieManagement/>);
+            case '2': return (<ActorManagement/>);
+            case '3': return (<UserManagement />);
+            default: return (<MovieManagement/>);
         }
     }
 
