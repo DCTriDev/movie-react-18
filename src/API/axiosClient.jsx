@@ -117,6 +117,13 @@ class AxiosClient {
                 message.warning(firstError.message, 3)
                 break
             }
+            case 403:{
+                message.error(firstError.message, 3)
+                setTimeout(() => {
+                    window.location.href = '/'
+                },3000)
+                break
+            }
             default:
                 message.error(firstError.message, 3)
                 break
