@@ -8,7 +8,7 @@ import {Form, Input} from 'antd'
 import FormCustom from '../../../Components/FormCustom/FormCustom'
 import moment from 'moment'
 
-const {ButtonPrimary, ButtonDanger} = ButtonCustom
+const {ButtonPrimary, ButtonDanger, ButtonSubmit} = ButtonCustom
 
 const initialState = [
     {
@@ -30,7 +30,11 @@ function ActorManagement(props) {
     const [imgURL, setImgURL] = useState()
     const [dataActorEdit, setDataEditActor] = useState()
 
+    const [isCreatingActor, setIsCreatingActor] = useState(false)
+
     const [form] = Form.useForm()
+
+    const [formCreate] = Form.useForm()
 
 
     const columns = [
@@ -124,6 +128,23 @@ function ActorManagement(props) {
 
     }
 
+    const handleInsertActor = (values) => {
+        const newData = {
+            ...values,
+            birthday: (new Date(values.birthday).getTime()).toString(),
+        }
+        adminService.insertActor(newData)
+            .then(res => {
+                if (res.data.insertActor.status) {
+                    message.success('Add successfully!')
+                    setIsCreatingActor(false)
+                    fetchActorData()
+                    formCreate.resetFields()
+                    setImgURL(null)
+                }
+            })
+    }
+
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             if (searchInput.length > 0) {
@@ -148,7 +169,8 @@ function ActorManagement(props) {
 
     useEffect(() => {
         form.setFieldsValue(dataActorEdit)
-    }, [form, dataActorEdit])
+        formCreate.setFieldsValue(null)
+    }, [form, dataActorEdit, formCreate])
 
     const handleSearch = (e) => {
         setSearchInput(e.target.value)
@@ -162,15 +184,23 @@ function ActorManagement(props) {
     return (
         <div>
             <h2 className='text-text-color-secondary text-center text-4xl my-4'>Actor Management</h2>
-            <div className='my-4'>
-                <label htmlFor='search-movie' className='mr-3'>Search Actor</label>
-                <input
-                    id='search-movie'
-                    type='text'
-                    placeholder='Vin Diesel'
-                    className='bg-background-search border-background-search border-0 rounded-xl outline-none'
-                    onChange={handleSearch}
-                />
+            <div className='my-4 space-x-1'>
+                <>
+                    <label htmlFor='search-movie' className='mr-3'>Search Actor</label>
+                    <input
+                        id='search-movie'
+                        type='text'
+                        placeholder='Vin Diesel'
+                        className='bg-background-search border-background-search border-0 rounded-xl outline-none'
+                        onChange={handleSearch}
+                    />
+                </>
+                <ButtonSubmit className='px-2.5 py-1'
+                               onClick={() => {
+                    setIsCreatingActor(true)
+                }}>
+                    New Actor
+                </ButtonSubmit>
             </div>
 
             <TableCustom columns={columns} dataSource={searchResults ? searchResults : actors} />
@@ -244,6 +274,73 @@ function ActorManagement(props) {
                             type='submit'
                         >
                             Update
+                        </ButtonPrimary>
+                    </div>
+                </FormCustom>
+            </ModalCustom>
+
+            <ModalCustom
+                title={null}
+                footer={null}
+                visible={isCreatingActor}
+                onCancel={() => {
+                    setIsCreatingActor(false)
+                }}
+                getContainer={false}
+            >
+                <FormCustom
+                    form={formCreate}
+                    // initialValues={dataActorCreate}
+                    labelCol={{span: 6}}
+                    wrapperCol={{span: 18}}
+                    onFinish={handleInsertActor}
+                >
+                    <h3 className='text-2xl text-center text-text-color-secondary'>Add New Actor</h3>
+                    <Form.Item
+                        label='Name'
+                        name='name'
+                    >
+                        <Input className='text-right' />
+                    </Form.Item>
+
+                    <Form.Item
+                        label='Birthday'
+                        name='birthday'
+                    >
+                        <Input type='date' className='text-right' />
+                    </Form.Item>
+
+                    <Form.Item
+                        label='Image URL'
+                        name='image'
+                    >
+                        <Input className='text-right' name='image' onChange={(e) => {
+                            setImgURL(e.target.value)
+                        }} />
+                    </Form.Item>
+
+                    <Form.Item
+                        label='Preview avatar'
+                        name='previewAvatar'
+                    >
+                        <img src={imgURL} alt='previewImage' height='120' />
+                    </Form.Item>
+
+                    <Form.Item
+                        label='Gender'
+                        name='genderId'
+                    >
+                        <Select className='text-right' placeholder='Select gender'>
+                            <Select.Option value={1}>Male</Select.Option>
+                            <Select.Option value={2}>Female</Select.Option>
+                        </Select>
+                    </Form.Item>
+
+                    <div className='w-full flex justify-center'>
+                        <ButtonPrimary
+                            type='submit'
+                        >
+                            Submit
                         </ButtonPrimary>
                     </div>
                 </FormCustom>

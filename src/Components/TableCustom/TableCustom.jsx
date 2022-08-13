@@ -40,10 +40,21 @@ const TableCustom = styled(Table)`
     border-color: rgb(52, 58, 61);
   }
 
+  .ant-pagination-item{
+    border-color: rgb(52, 58, 61);
+  }
+  
+  .ant-pagination-item a {
+    color: rgba(255, 255, 255, 0.25);
+    background: rgb(45, 45, 45);
+    border-color: rgb(52,58,61) !important;
+  }
+
   .ant-pagination-item-active a {
     color: rgb(32, 175, 255);
     background: transparent;
   }
+  
   .ant-pagination-item-active {
     font-weight: 500;
     background: transparent;
@@ -62,6 +73,7 @@ const TableCustom = styled(Table)`
   .ant-table-tbody>tr.ant-table-placeholder:hover>td {
     background: rgb(45, 45, 45);
   }
+
 `
 
 export default TableCustom

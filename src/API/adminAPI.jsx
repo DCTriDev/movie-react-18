@@ -110,6 +110,24 @@ const UPDATE_ACTOR = gql`
     }
 `
 
+const INSERT_ACTOR = gql`
+    mutation insertActor(
+        $name: String, 
+        $image: String, 
+        $birthday: String, 
+        $genderId: Int
+    ) {
+        insertActor(input:{
+            name: $name, 
+            image: $image, 
+            birthday: $birthday, 
+            genderId: $genderId
+        }) {
+            status
+        }
+    }
+`
+
 class AdminAPI {
     getAllMovie = (setLoading = true) => {
         const payload = {
@@ -191,6 +209,18 @@ class AdminAPI {
         return Axios.postMethod(payload, setLoading)
     }
 
+    insertActor = (data, setLoading = true) => {
+        const payload = {
+            query: print(INSERT_ACTOR),
+            variables: {
+                name: data.name,
+                image: data.image,
+                birthday: data.birthday,
+                genderId: data.genderId,
+            }
+        }
+        return Axios.postMethod(payload, setLoading)
+    }
 }
 
 const adminService = new AdminAPI()
