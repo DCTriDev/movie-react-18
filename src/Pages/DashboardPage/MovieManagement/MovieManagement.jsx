@@ -192,9 +192,13 @@ function MovieManagement(props) {
         }
         adminService.updateMovieBasic(newData, true)
             .then((res) => {
-                message.success('Update Successfully!')
-                fetchMovieData()
-                setIsEditingBasic(false)
+                if (res.data.updateMovieBasic) {
+                    message.success('Update successfully')
+                    fetchMovieData()
+                    setIsEditingBasic(false)
+                } else {
+                    message.error('Update failed!')
+                }
             })
     }
 
@@ -337,7 +341,7 @@ function MovieManagement(props) {
                         <ButtonPrimary
                             type='submit'
                         >
-                            Submit
+                            Update
                         </ButtonPrimary>
                     </div>
 
