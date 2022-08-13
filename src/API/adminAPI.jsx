@@ -221,7 +221,7 @@ class AdminAPI {
                 releaseDate: data.releaseDate,
                 director: data.director,
                 status: data.status,
-                price: data.price,
+                price: +data.price,
             },
         }
         return Axios.postMethod(payload, setLoading)
