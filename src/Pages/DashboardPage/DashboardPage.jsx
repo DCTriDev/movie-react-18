@@ -4,6 +4,7 @@ import {IdcardOutlined, PlaySquareOutlined, UserOutlined} from '@ant-design/icon
 import UserManagement from './UserManagement/UserManagement'
 import MovieManagement from './MovieManagement/MovieManagement'
 import ActorManagement from './ActorManagement/ActorManagement'
+import UserNav from '../../Components/Navbar/UserNav/UserNav'
 
 function getItem(label, key, icon, children) {
     return {
@@ -50,8 +51,11 @@ function DashboardPage(props) {
     return (
         <div className='min-h-[100vh] flex w-full'>
             <Sidebar items={items} isDesktop={isDesktop} defaultSelectedKeys={['1']} setContent={setContentKey}/>
-            <div className='w-full'>
-                <div className='pl-2'>
+            <div className='w-full relative'>
+                    <div className='absolute right-16 top-2'>
+                        <UserNav />
+                    </div>
+                <div className='px-2'>
                     {handleRenderContent(contentKey)}
                 </div>
             </div>
