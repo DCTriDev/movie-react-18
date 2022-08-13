@@ -163,11 +163,11 @@ function ActorManagement(props) {
         <div>
             <h2 className='text-text-color-secondary text-center text-4xl my-4'>Actor Management</h2>
             <div className='my-4'>
-                <label htmlFor='search-movie' className='mr-3'>Search Username</label>
+                <label htmlFor='search-movie' className='mr-3'>Search Actor</label>
                 <input
                     id='search-movie'
                     type='text'
-                    placeholder='Admin'
+                    placeholder='Vin Diesel'
                     className='bg-background-search border-background-search border-0 rounded-xl outline-none'
                     onChange={handleSearch}
                 />
