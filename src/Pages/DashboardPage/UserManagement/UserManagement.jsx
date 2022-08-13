@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import adminService from '../../../API/adminAPI'
-import {Space, Tag, Select, message} from 'antd'
+import {Tag, Select, message} from 'antd'
 import TableCustom from '../../../Components/TableCustom/TableCustom'
 import {ButtonCustom} from '../../../Components/ButtonCustom/ButtonCustom'
 import ModalCustom from '../../../Components/ModalCustom/ModalCustom'
@@ -13,13 +13,13 @@ const {ButtonPrimary, ButtonDanger} = ButtonCustom
 const initialState =
     [
         {
-            'id': 1,
-            'username': 'admin',
-            'fullName': 'Admin',
-            'birthday': '852076800000',
+            'id': '1',
+            'username': '',
+            'fullName': '',
+            'birthday': '',
             'avatar': 'https://cdn-icons-png.flaticon.com/512/1053/1053244.png?w=360',
-            'email': 'admin@gmail.com',
-            'phoneNumber': '0987654321',
+            'email': '',
+            'phoneNumber': '',
             'roleName': 'ADMIN',
             'genderId': 1,
             'key': 1,
@@ -35,10 +35,6 @@ function UserManagement(props) {
     const [isEditingUser, setIsEditingUser] = useState(false)
     const [imgURL, setImgURL] = useState()
     const [dataEditBasic, setDataEditBasic] = useState()
-
-    const [isEditingActor, setIsEditingActor] = useState(false)
-    // const [dataEditActor, setDataEditActor] = useState(users[0].actor)
-    // const [dataEditCategory, setDataEditCategory] = useState(users[0].category)
 
     const [form] = Form.useForm()
 
@@ -109,7 +105,11 @@ function UserManagement(props) {
                 >
                     Edit
                 </ButtonPrimary>
-                <ButtonDanger className='px-2 text-[16px] bg-red-500 hover:bg-red-600'>
+                <ButtonDanger className='px-2 text-[16px] bg-red-500 hover:bg-red-600'
+                              onClick={() => {
+                                 handleDeleteUser(record.id)
+                              }}
+                >
                     Delete
                 </ButtonDanger>
             </div>),
@@ -123,17 +123,26 @@ function UserManagement(props) {
             })
     }
 
-    const handleSubmit = (values) => {
+    const handleUpdateUserInfo = (values) => {
         const newData = {
             ...values,
             birthday: (new Date(values.birthday).getTime()).toString(),
         }
-        console.log(newData)
         adminService.updateUserAdmin(newData)
             .then(res => {
                 if(res.data.updateUserAdmin.status) {
-                    message.success('Update successfully')
+                    message.success('Update successfully!')
                     setIsEditingUser(false)
+                    fetchUserData()
+                }
+            })
+    }
+
+    const handleDeleteUser = (id) => {
+        adminService.deleteUserAdmin(id)
+            .then(res => {
+                if(res.data.deleteUserAdmin.status) {
+                    message.success('Delete successfully!')
                     fetchUserData()
                 }
             })
@@ -157,7 +166,7 @@ function UserManagement(props) {
     useEffect(() => {
         const error = document.querySelector('.ant-empty-description')
         if (error) {
-            error.innerHTML = '<span class="text-text-color-primary">No movie found!</span>'
+            error.innerHTML = '<span class="text-text-color-primary">No user found!</span>'
         }
     }, [searchResults])
 
@@ -176,7 +185,7 @@ function UserManagement(props) {
 
     return (
         <div>
-            <h2 className='text-text-color-secondary text-center text-4xl my-4'>Movie Management</h2>
+            <h2 className='text-text-color-secondary text-center text-4xl my-4'>User Management</h2>
             <div className='my-4'>
                 <label htmlFor='search-movie' className='mr-3'>Search Username</label>
                 <input
@@ -187,8 +196,9 @@ function UserManagement(props) {
                     onChange={handleSearch}
                 />
             </div>
+
             <TableCustom columns={columns} dataSource={searchResults ? searchResults : users} />
-            {/*Edit Basic Movie Information*/}
+
             <ModalCustom
                 title={null}
                 footer={null}
@@ -203,7 +213,7 @@ function UserManagement(props) {
                     initialValues={dataEditBasic}
                     labelCol={{span: 6}}
                     wrapperCol={{span: 18}}
-                    onFinish={handleSubmit}
+                    onFinish={handleUpdateUserInfo}
                 >
                     <h3 className='text-2xl text-center text-text-color-secondary'>Edit User Info</h3>
                     <Form.Item
@@ -301,7 +311,6 @@ function UserManagement(props) {
                             Update
                         </ButtonPrimary>
                     </div>
-
                 </FormCustom>
             </ModalCustom>
         </div>
