@@ -124,6 +124,10 @@ class AxiosClient {
                 },3000)
                 break
             }
+            case 400:{
+                message.error(firstError.message, 3)
+                break
+            }
             default:
                 message.error(firstError.message, 3)
                 break
