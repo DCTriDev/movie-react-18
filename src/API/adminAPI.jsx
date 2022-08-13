@@ -90,6 +90,26 @@ const DELETE_USER_ADMIN = gql`
     }
 `
 
+const GET_ALL_ACTOR = gql`
+    query getAllActor {
+        actor {
+            id
+            name
+            image
+            birthday
+            genderId
+        }
+    }
+`
+
+const UPDATE_ACTOR = gql`
+    mutation updateActor($id: Int!, $name: String, $image: String, $birthday: String, $genderId: Int) {
+        updateActor(input:{id: $id, name: $name, image: $image, birthday: $birthday, genderId: $genderId}) {
+            status
+        }
+    }
+`
+
 class AdminAPI {
     getAllMovie = (setLoading = true) => {
         const payload = {
@@ -146,6 +166,27 @@ class AdminAPI {
             variables: {
                 id: id,
             },
+        }
+        return Axios.postMethod(payload, setLoading)
+    }
+
+    getAllActor = (setLoading = true) => {
+        const payload = {
+            query: print(GET_ALL_ACTOR),
+        }
+        return Axios.postMethod(payload, setLoading)
+    }
+
+    updateActor = (data, setLoading = true) => {
+        const payload = {
+            query: print(UPDATE_ACTOR),
+            variables: {
+                id: data.id,
+                name: data.name,
+                image: data.image,
+                birthday: data.birthday,
+                genderId: data.genderId,
+            }
         }
         return Axios.postMethod(payload, setLoading)
     }
