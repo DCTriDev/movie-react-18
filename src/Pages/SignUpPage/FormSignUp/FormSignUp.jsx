@@ -1,19 +1,25 @@
 import React, {useEffect} from 'react';
 import {Form, Input, message, Select} from 'antd';
 import {useHistory} from "react-router-dom";
-import userAPI from "../../../API/userAPI";
 import {ButtonCustom} from "../../../Components/ButtonCustom/ButtonCustom";
 import FormCustom from "../../../Components/FormCustom/FormCustom";
 import {Title} from "../../../Components/Titles/Titles";
 
 import validator from "validator";
 import localService from "../../../Services/local.service";
+import userService from '../../../API/userAPI'
 
 const {ButtonSubmit} = ButtonCustom
 const {Option} = Select;
 const {FormTitle} = Title
 
 function FormSignUp() {
+    const [genderArr, setGenderArr] = React.useState([
+        {
+            id: 1,
+            gender: "Male"
+        }
+    ])
     const history = useHistory()
     const accessToken = localService.getAccessToken()
 
@@ -26,15 +32,19 @@ function FormSignUp() {
     };
 
     const handleSignUp = (values) => {
-        userAPI.signup(values)
-            .then((res) => {
-                if (res.status === 200) {
-                    message.success("Chúc mừng, bạn đã đăng ký thành công!")
-                    history.push('/login')
+        const newValues = {
+            ...values,
+            birthday: new Date(values.birthday).getTime().toString()
+        }
+        console.log(newValues)
+        userService.signup(newValues)
+            .then(res => {
+                if(res.data.signup){
+                    message.success('Signup success. Plesae login to continue!', 3)
+                    setTimeout(() => {
+                        history.push('/login')
+                    }, 3000)
                 }
-            })
-            .catch((err) => {
-                message.error(err.err.response.data.content)
             })
     }
 
@@ -44,17 +54,27 @@ function FormSignUp() {
         }
     }
 
+    const handleRenderGender = () => {
+        return genderArr.map(({gender,id}) => {
+            return <Option key={id} value={id}>{gender}</Option>
+        })
+    }
+
     useEffect(() => {
         loginChecking()
+        userService.getGender()
+            .then((res) => {
+                setGenderArr(res.data.gender)
+            })
     }, []);
 
 
     return (
         <div className='flex flex-col justify-center'>
-            <FormTitle>Đăng ký</FormTitle>
+            <FormTitle className='text-text-color-secondary'>Sign Up</FormTitle>
             <FormCustom
                 name="signup"
-                title="Đăng ký"
+                title="Sign Up                                                          "
                 labelCol={{
                     span: 24,
                 }}
@@ -68,41 +88,41 @@ function FormSignUp() {
                 onFinishFailed={onFinishFailed}
                 autoComplete="on">
                 <Form.Item
-                    label="Họ Tên"
-                    name="hoTen"
+                    label="Full name"
+                    name="fullName"
                     rules={[{
-                        required: true, message: 'Không được để trống!',
+                        required: true, message: 'Required!',
                     },]}
                 >
-                    <Input placeholder='Họ và tên'/>
+                    <Input placeholder='Full name'/>
                 </Form.Item>
 
                 <Form.Item
-                    label="Tài khoản"
-                    name="taiKhoan"
+                    label="Username"
+                    name="username"
                     rules={[{
-                        required: true, message: 'Không được để trống!',
-                    }, {whitespace: true}, {min: 3, message: "Tên tài khoản ít nhất 3 ký tự"},]}
+                        required: true, message: 'Required!',
+                    }, {whitespace: true}, {min: 5, message: "At least 5 characters"},]}
                 >
-                    <Input placeholder='Tài khoản'/>
+                    <Input placeholder='Username'/>
                 </Form.Item>
 
                 <Form.Item
-                    label="Mật khẩu"
-                    name="matKhau"
+                    label="Password"
+                    name="password"
                     rules={[{
-                        required: true, message: 'Không được để trống!',
-                    }, {whitespace: true}, {min: 8, message: "Mật khẩu tối thiểu 8 ký tự"}, {
+                        required: true, message: 'Required!',
+                    }, {whitespace: true}, {min: 5, message: "At least 5 characters"}, {
                         validator: (rule, value) => {
                             if (value.length !== 0 && value >= 8) {
-                                return validator.isStrongPassword(value) ? Promise.resolve() : Promise.reject('Mật khẩu phải có ít nhất 1 chữhoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt')
+                                return validator.isStrongPassword(value) ? Promise.resolve() : Promise.reject('At least one uppercase, lowercase, number and special character')
                             } else {
                                 return Promise.resolve()
                             }
                         },
-                        message: 'Mật khẩu phải có ít nhất 1 ký tự hoa, 1 ký tự thường, 1 ký tự số và 1 ký tự đặc biệt'
+                        message: 'At least one uppercase, lowercase, number and special character'
                     }]}>
-                    <Input.Password placeholder='Mật khẩu'/>
+                    <Input.Password placeholder='Password'/>
                 </Form.Item>
 
                 <Form.Item
@@ -110,57 +130,58 @@ function FormSignUp() {
                     name="email"
                     rules={[{
                         validator: (_, value) => {
-                            return validator.isEmail(value) ? Promise.resolve() : Promise.reject('Email không hợp lệ')
-                        }, message: 'Email không hợp lệ'
+                            return validator.isEmail(value) ? Promise.resolve() : Promise.reject('Wrong email format')
+                        }, message: 'Wrong email format'
                     },]}
                 >
                     <Input placehodler='Email'/>
                 </Form.Item>
 
                 <Form.Item
-                    label="Số điện thoại"
-                    name="soDt"
+                    label="Phone number"
+                    name="phoneNumber"
                     rules={[{
                         validator: (_, value) => {
-                            return validator.isMobilePhone(value, 'vi-VN') ? Promise.resolve() : Promise.reject('Số điện thoại không hợp lệ')
-                        }, message: 'Số điện thoại không hợp lệ'
+                            return validator.isMobilePhone(value, 'vi-VN') ? Promise.resolve() : Promise.reject('Wrong phone number format')
+                        }, message: 'Wrong phone number format'
                     }]}
                 >
-                    <Input placeholder='Số điện thoại'/>
+                    <Input placeholder='Phone number'/>
                 </Form.Item>
 
                 <Form.Item
-                    label="Mã nhóm"
-                    name="maNhom"
-                    initialValue="GP01"
+                    label="Birthday"
+                    name="birthday"
+                    initialValue={new Date()}
+                >
+                   <Input type='date' placeholder='Birthday'/>
+                </Form.Item>
+
+                <Form.Item
+                    label="Gender"
+                    name="genderId"
+                    initialValue={1}
                 >
                     <Select
-                        placeholder="Chọn Nhóm"
+                        placeholder="Select gender"
                     >
-                        <Option value="GP01">GP01</Option>
-                        <Option value="GP02">GP02</Option>
-                        <Option value="GP03">GP03</Option>
-                        <Option value="GP04">GP04</Option>
-                        <Option value="GP05">GP05</Option>
-                        <Option value="GP06">GP06</Option>
-                        <Option value="GP07">GP07</Option>
-                        <Option value="GP08">GP08</Option>
-                        <Option value="GP09">GP09</Option>
-                        <Option value="GP10">GP10</Option>
+                        {
+                            handleRenderGender()
+                        }
                     </Select>
                 </Form.Item>
 
                 <div className='grid-cols-2'>
                     <div className='flex justify-center pb-2'>
                         <ButtonSubmit htmlType="submit">
-                            Đăng ký
+                            Sign Up
                         </ButtonSubmit>
                     </div>
                     <div className='flex justify-center'>
-                        <span>Bạn đã có tài khoản?
+                        <span className='text-text-color-title'>You have an account?
                             <a
                                 href="/login"
-                                className='text-red-500 hover:text-red-600'> Đăng nhập
+                                className='text-red-500 hover:text-red-600'> Login
                             </a>
                         </span>
                     </div>
