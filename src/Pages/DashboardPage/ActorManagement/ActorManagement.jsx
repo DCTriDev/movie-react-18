@@ -36,7 +36,6 @@ function ActorManagement(props) {
 
     const [formCreate] = Form.useForm()
 
-
     const columns = [
         {
             title: 'ID',
@@ -125,7 +124,13 @@ function ActorManagement(props) {
     }
 
     const handleDeleteUser = (id) => {
-
+        adminService.deleteActor(id)
+            .then(res => {
+                if (res.data.deleteActor.status) {
+                    message.success('Delete successfully!')
+                    fetchActorData()
+                }
+            })
     }
 
     const handleInsertActor = (values) => {

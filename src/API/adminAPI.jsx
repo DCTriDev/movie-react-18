@@ -128,6 +128,14 @@ const INSERT_ACTOR = gql`
     }
 `
 
+const DELETE_ACTOR = gql`
+    mutation deleteActor($id: Int!) {
+        deleteActor(input:{id: $id}) {
+            status
+        }
+    }
+`
+
 class AdminAPI {
     getAllMovie = (setLoading = true) => {
         const payload = {
@@ -144,7 +152,6 @@ class AdminAPI {
     }
 
     updateMovieBasic = (data, setLoading = true) => {
-        console.log('data', data)
         const payload = {
             query: print(UPDATE_MOVIE_BASIC),
             variables: {
@@ -217,6 +224,16 @@ class AdminAPI {
                 image: data.image,
                 birthday: data.birthday,
                 genderId: data.genderId,
+            }
+        }
+        return Axios.postMethod(payload, setLoading)
+    }
+
+    deleteActor = (id, setLoading = true) => {
+        const payload = {
+            query: print(DELETE_ACTOR),
+            variables: {
+                id: id,
             }
         }
         return Axios.postMethod(payload, setLoading)
