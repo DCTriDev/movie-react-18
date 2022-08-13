@@ -25,7 +25,7 @@ function PopUpSearch(props) {
                             <List.Item
                                 className='duration-200 hover:bg-black ease-in-out cursor-pointer text-text-color-title'
                                 onClick={() => {
-                                    history.push(`/movie-detail/${item.id}`)
+                                    history.push(`/detail-movie/${item.id}`)
                                 }}
                             >
                                 {item.title}
