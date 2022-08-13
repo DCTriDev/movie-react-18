@@ -22,7 +22,7 @@ function FormLogIn() {
 
     return (
         <div className='flex flex-col justify-center'>
-            <FormTitle className='text-text-color-title'>LogIn</FormTitle>
+            <FormTitle className='text-text-color-secondary'>LogIn</FormTitle>
             <FormCustom
                 name="basic"
                 labelCol={{
@@ -67,7 +67,7 @@ function FormLogIn() {
                 <div className='grid-cols-2'>
                     <div className='flex justify-center pb-2'>
                         <ButtonSubmit htmlType="submit">
-                            Đăng nhập
+                            Login
                         </ButtonSubmit>
                     </div>
                     <div className='flex justify-center space-x-2'>
