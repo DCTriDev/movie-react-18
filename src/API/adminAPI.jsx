@@ -82,6 +82,14 @@ const UPDATE_USER_ADMIN = gql`
     }
 `
 
+const DELETE_USER_ADMIN = gql`
+    mutation deleteUserAdmin($id: Int!) {
+        deleteUserAdmin(input:{id: $id}) {
+            status
+        }
+    }
+`
+
 class AdminAPI {
     getAllMovie = (setLoading = true) => {
         const payload = {
@@ -127,6 +135,16 @@ class AdminAPI {
                 fullName: data.fullName,
                 phoneNumber: data.phoneNumber,
                 roleName: data.roleName,
+            },
+        }
+        return Axios.postMethod(payload, setLoading)
+    }
+
+    deleteUserAdmin = (id, setLoading = true) => {
+        const payload = {
+            query: print(DELETE_USER_ADMIN),
+            variables: {
+                id: id,
             },
         }
         return Axios.postMethod(payload, setLoading)
