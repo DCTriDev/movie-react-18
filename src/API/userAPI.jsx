@@ -78,6 +78,52 @@ const GET_GENDER = gql`
     }
 `
 
+const GET_USER_INFO = gql`
+    query getUserInfo {
+        getUserInfo{
+            username
+            avatar
+            fullName
+            email
+            phoneNumber
+            birthday
+            genderId
+            balance
+            purchasedMovie {
+                id
+                title
+                image
+            }
+        }
+    }
+`
+
+const UPDATE_USER_INFO = gql`
+    mutation updateProfile($fullName: String, $email: String, $phoneNumber: String, $birthday: String, $genderId: Int) {
+        updateProfile(input:{
+            fullName: $fullName,
+            email: $email,
+            phoneNumber: $phoneNumber,
+            birthday: $birthday,
+            genderId: $genderId,
+        }) {
+            fullName
+            email
+            phoneNumber
+            birthday
+            genderId
+        }
+    }
+`
+
+const UPDATE_AVATAR = gql`
+    mutation updateAvatar($avatar: String!) {
+        updateAvatar(input:{avatar: $avatar}) {
+            avatar
+        }
+    }
+`
+
 class UserAPI {
     login = (data, setLoading = true) => {
         const payload = {
@@ -137,6 +183,37 @@ class UserAPI {
                 birthday: data.birthday,
                 genderId: data.genderId,
             },
+        }
+        return Axios.postMethod(payload, setLoading)
+    }
+
+    getUserInfo = (setLoading = true) => {
+        const payload = {
+            query: print(GET_USER_INFO),
+        }
+        return Axios.postMethod(payload, setLoading)
+    }
+
+    updateProfile = (data, setLoading = true) => {
+        const payload = {
+            query: print(UPDATE_USER_INFO),
+            variables: {
+                fullName: data.fullName,
+                email: data.email,
+                phoneNumber: data.phoneNumber,
+                birthday: data.birthday,
+                genderId: data.genderId,
+            }
+        }
+        return Axios.postMethod(payload, setLoading)
+    }
+
+    updateAvatar = (data, setLoading = true) => {
+        const payload = {
+            query: print(UPDATE_AVATAR),
+            variables: {
+                avatar: data.avatar,
+            }
         }
         return Axios.postMethod(payload, setLoading)
     }
