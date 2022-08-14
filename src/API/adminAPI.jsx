@@ -112,15 +112,15 @@ const UPDATE_ACTOR = gql`
 
 const INSERT_ACTOR = gql`
     mutation insertActor(
-        $name: String, 
-        $image: String, 
-        $birthday: String, 
+        $name: String,
+        $image: String,
+        $birthday: String,
         $genderId: Int
     ) {
         insertActor(input:{
-            name: $name, 
-            image: $image, 
-            birthday: $birthday, 
+            name: $name,
+            image: $image,
+            birthday: $birthday,
             genderId: $genderId
         }) {
             status
@@ -139,6 +139,49 @@ const DELETE_ACTOR = gql`
 const UPDATE_MOVIE_ACTOR = gql`
     mutation updateMovieActor($movieId: Int!, $actorIdArr: [Int]) {
         updateMovieActor(input:{movieId: $movieId, actorIdArr: $actorIdArr}) {
+            status
+        }
+    }
+`
+
+const GET_ALL_CATEGORY = gql`
+    query getAllCategory {
+        category {
+            id
+            categoryName
+        }
+    }
+`
+
+const INSERT_MOVIE = gql`
+    mutation insertMovie(
+        $title: String!
+        $image: String
+        $description: String
+        $director: String
+        $trailer: String
+        $releaseDate: String
+        $price: Int
+        $movieTypeId: Int
+        $movieStatusId: Int
+        $categoryId: [Int]
+        $actorId: [Int]
+        $source: [Source]
+    ) {
+        insertMovie(input:{
+            title: $title,
+            image: $image,
+            description: $description,
+            director: $director,
+            trailer: $trailer,
+            releaseDate: $releaseDate,
+            price: $price,
+            movieTypeId: $movieTypeId,
+            movieStatusId: $movieStatusId,
+            categoryId: $categoryId,
+            actorId: $actorId,
+            source: $source
+        }) {
             status
         }
     }
@@ -219,7 +262,7 @@ class AdminAPI {
                 image: data.image,
                 birthday: data.birthday,
                 genderId: data.genderId,
-            }
+            },
         }
         return Axios.postMethod(payload, setLoading)
     }
@@ -232,7 +275,7 @@ class AdminAPI {
                 image: data.image,
                 birthday: data.birthday,
                 genderId: data.genderId,
-            }
+            },
         }
         return Axios.postMethod(payload, setLoading)
     }
@@ -242,7 +285,7 @@ class AdminAPI {
             query: print(DELETE_ACTOR),
             variables: {
                 id: id,
-            }
+            },
         }
         return Axios.postMethod(payload, setLoading)
     }
@@ -253,9 +296,37 @@ class AdminAPI {
             variables: {
                 movieId: data.id,
                 actorIdArr: data.actor,
-            }
+            },
         }
         console.log(payload)
+        return Axios.postMethod(payload, setLoading)
+    }
+
+    getAllCategory = (setLoading = true) => {
+        const payload = {
+            query: print(GET_ALL_CATEGORY),
+        }
+        return Axios.postMethod(payload, setLoading)
+    }
+
+    insertMovie = (data, setLoading = true) => {
+        const payload = {
+            query: print(INSERT_MOVIE),
+            variables: {
+                title: data.title,
+                image: data.image,
+                description: data.description,
+                director: data.director,
+                trailer: data.trailer,
+                releaseDate: data.releaseDate,
+                price: data.price,
+                movieTypeId: data.movieTypeId,
+                movieStatusId: data.movieStatusId,
+                categoryId: data.categoryId,
+                actorId: data.actorId,
+                source: data.source,
+            },
+        }
         return Axios.postMethod(payload, setLoading)
     }
 
