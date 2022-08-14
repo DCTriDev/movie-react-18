@@ -15,7 +15,7 @@ function getItem(label, key, icon, children) {
 
 const items = [
     getItem('General', '1', <UserOutlined />),
-    getItem('Transactions', '2', <ShoppingCartOutlined />),
+    // getItem('Transactions', '2', <ShoppingCartOutlined />),
 ];
 
 function ProfilePage(props) {
