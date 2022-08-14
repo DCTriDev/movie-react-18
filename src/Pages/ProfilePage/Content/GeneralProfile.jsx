@@ -24,7 +24,6 @@ const initialState = {
         {
             id: 'Loading...',
             title: 'Loading...',
-            // image: 'https://cdn2.unrealengine.com/en-13pr-movienite-motd-1920x1080-1920x1080-295750369.jpg',
             image: 'https://static.vecteezy.com/system/resources/thumbnails/001/826/199/small/progress-loading-bar-buffering-download-upload-and-loading-icon-vector.jpg',
         },
     ],
