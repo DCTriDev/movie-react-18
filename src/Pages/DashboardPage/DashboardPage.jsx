@@ -1,10 +1,11 @@
 import React, {useLayoutEffect, useState} from 'react';
 import Sidebar from "../../Components/Sidebar/Sidebar";
-import {IdcardOutlined, PlaySquareOutlined, UserOutlined} from '@ant-design/icons'
+import {IdcardOutlined, PlaySquareOutlined, PlusSquareOutlined, UserOutlined} from '@ant-design/icons'
 import UserManagement from './UserManagement/UserManagement'
 import MovieManagement from './MovieManagement/MovieManagement'
 import ActorManagement from './ActorManagement/ActorManagement'
 import UserNav from '../../Components/Navbar/UserNav/UserNav'
+import AddMovie from './AddMovie/AddMovie'
 
 function getItem(label, key, icon, children) {
     return {
@@ -19,11 +20,12 @@ const items = [
     getItem('Movie', '1', <PlaySquareOutlined />),
     getItem('Actor', '2', <IdcardOutlined />),
     getItem('User', '3', <UserOutlined />),
+    getItem('Add Movie', '4', <PlusSquareOutlined />),
 ];
 
 function DashboardPage(props) {
     const [isDesktop,setIsDeskTop] = useState(window.innerWidth >= 992);
-    const [contentKey, setContentKey] = useState(<div>Movie</div>);
+    const [contentKey, setContentKey] = useState("1");
     const handleResize = () => {
         if(window.innerWidth < 992) {
             setIsDeskTop(false);
@@ -34,9 +36,10 @@ function DashboardPage(props) {
 
     const handleRenderContent = (key) => {
         switch (key) {
-            case '1': return (<MovieManagement/>);
+            case '1': return (<MovieManagement setContentKey={setContentKey}/>);
             case '2': return (<ActorManagement/>);
             case '3': return (<UserManagement />);
+            case '4': return (<AddMovie />);
             default: return (<MovieManagement/>);
         }
     }
