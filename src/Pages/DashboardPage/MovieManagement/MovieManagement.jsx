@@ -8,6 +8,8 @@ import {Form, Input} from 'antd'
 import FormCustom from '../../../Components/FormCustom/FormCustom'
 import moment from 'moment'
 
+const {Option} = Select
+
 const {ButtonPrimary, ButtonDanger} = ButtonCustom
 
 const initialState = [{
@@ -53,10 +55,14 @@ function MovieManagement(props) {
     const [dataEditBasic, setDataEditBasic] = useState()
 
     const [isEditingActor, setIsEditingActor] = useState(false)
-    // const [dataEditActor, setDataEditActor] = useState(movies[0].actor)
-    // const [dataEditCategory, setDataEditCategory] = useState(movies[0].category)
+    const [dataEditActor, setDataEditActor] = useState(movies[0].actor)
+
+    const [actorArray, setActorArray] = useState([])
+
+    const [dataEditCategory, setDataEditCategory] = useState(movies[0].category)
 
     const [form] = Form.useForm()
+    const [formUpdateActor] = Form.useForm()
 
 
     const columns = [
@@ -91,7 +97,8 @@ function MovieManagement(props) {
             title: 'Actor',
             dataIndex: 'actor',
             key: 'actor',
-            render: (_, {actor}) => {
+            render: (_, record) => {
+                const {actor} = record
                 return (<div className='flex flex-col'>
                     {actor.map(({name, image, id}) => {
                         return (<Space key={id} direction='horizontal'>
@@ -102,7 +109,13 @@ function MovieManagement(props) {
                     <ButtonPrimary
                         className='px-2 py-0 text-[16px] bg-yellow-500 hover:bg-amber-500 mt-2 w-fit'
                         onClick={() => {
-                            setDataEditBasic(actor)
+                            const newActor = actor.map((actor) => {
+                                return actor.id
+                            })
+                            console.log(newActor, 'newActor')
+                            const newData = {...record, actor: newActor}
+                            setDataEditActor(newData)
+                            setIsEditingActor(true)
                         }}
                     >
                         Edit Actor
@@ -185,7 +198,7 @@ function MovieManagement(props) {
             })
     }
 
-    const handleSubmit = (values) => {
+    const handleUpdateBasicInfo = (values) => {
         const newData = {
             ...values,
             releaseDate: (new Date(values.releaseDate).getTime()).toString(),
@@ -202,6 +215,36 @@ function MovieManagement(props) {
             })
     }
 
+    const handleUpdateActor = (values) => {
+        console.log(values, 'values')
+        adminService.updateMovieActor(values)
+            .then((res) => {
+                if (res.data.updateMovieActor) {
+                    message.success('Update successfully!')
+                    fetchMovieData()
+                    setIsEditingActor(false)
+                }else {
+                    message.error('Update failed!', 3)
+                }
+            })
+    }
+
+    const handleSearch = (e) => {
+        setSearchInput(e.target.value)
+    }
+
+    const handleRenderActorOption = () => {
+        return actorArray.map(({name, image, id}) => {
+            return (
+                <Option key={id} value={id}>
+                    <img src={image} alt='actor' width='40' height='50' />
+                    <span className='ml-2'>{name}</span>
+                </Option>
+            )
+        })
+    }
+
+    //Debounce search
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             if (searchInput.length > 0) {
@@ -228,14 +271,17 @@ function MovieManagement(props) {
         form.setFieldsValue(dataEditBasic)
     }, [form, dataEditBasic])
 
-    const handleSearch = (e) => {
-        setSearchInput(e.target.value)
-    }
 
     useEffect(() => {
         fetchMovieData()
     }, [])
 
+    useEffect(() => {
+        adminService.getAllActor()
+            .then(res => {
+                setActorArray(res.data.actor)
+            })
+    }, [])
 
     return (
         <div>
@@ -250,7 +296,7 @@ function MovieManagement(props) {
                     onChange={handleSearch}
                 />
             </div>
-            <TableCustom columns={columns} dataSource={searchResults?searchResults:movies}/>
+            <TableCustom columns={columns} dataSource={searchResults ? searchResults : movies} />
             {/*Edit Basic Movie Information*/}
             <ModalCustom
                 title={null}
@@ -266,7 +312,7 @@ function MovieManagement(props) {
                     initialValues={dataEditBasic}
                     labelCol={{span: 6}}
                     wrapperCol={{span: 18}}
-                    onFinish={handleSubmit}
+                    onFinish={handleUpdateBasicInfo}
                 >
                     <h3 className='text-2xl text-center text-text-color-secondary'>Editing Basic Info</h3>
                     <Form.Item
@@ -346,6 +392,66 @@ function MovieManagement(props) {
                     </div>
 
                 </FormCustom>
+            </ModalCustom>
+
+            {/*Edit Movie Actor*/}
+
+            <ModalCustom
+                title={null}
+                footer={null}
+                visible={isEditingActor}
+                onCancel={() => {
+                    setIsEditingActor(false)
+                }}
+                getContainer={false}
+                className='relative'
+            >
+                <FormCustom
+                    form={formUpdateActor}
+                    initialValues={dataEditActor}
+                    labelCol={{span: 6}}
+                    wrapperCol={{span: 18}}
+                    onFinish={handleUpdateActor}
+                >
+                    <h3 className='text-2xl text-center text-text-color-secondary'>Update Movie Actor</h3>
+
+                    <Form.Item
+                        label='Movie ID'
+                        name='id'
+                    >
+                        <Input disabled className='text-right' />
+                    </Form.Item>
+
+                    <Form.Item
+                        label='Actor'
+                        name='actor'
+                    >
+                        <Select className='text-right' mode='multiple'>
+                            {
+                                handleRenderActorOption()
+                            }
+                        </Select>
+                    </Form.Item>
+
+                    <div className='w-full flex justify-end space-x-10'>
+                        <ButtonPrimary
+                            type='submit'
+                            className='mr-10'
+                        >
+                            Submit
+                        </ButtonPrimary>
+                    </div>
+                </FormCustom>
+                <div className='absolute bottom-6 left-16'>
+                    <ButtonDanger
+                        onClick={() => {
+                            setIsEditingActor(false)
+                            formUpdateActor.resetFields()
+                        }}
+                    >
+                        Cancel
+                    </ButtonDanger>
+                </div>
             </ModalCustom>
         </div>
     )
