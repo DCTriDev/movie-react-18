@@ -37,6 +37,22 @@ const localServices = {
             return userInfo.roleName === 'ADMIN'
         }
         return false
+    },
+    refreshAvatar(avatarURL) {
+        const userInfo = this.getUserInfo()
+        const newUserInfo = {
+            ...userInfo,
+            avatar: avatarURL
+        }
+        this.setUserInfo(newUserInfo)
+    },
+    refreshUserInfo(data) {
+        const userInfo = this.getUserInfo()
+        const newUserInfo = {
+            ...userInfo,
+            ...data
+        }
+        this.setUserInfo(newUserInfo)
     }
 }
 
