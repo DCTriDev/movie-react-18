@@ -47,4 +47,4 @@ const renderNoneTemplate = (() => {
 })();
 
 
-export const routerTemplates = [...renderMainTemplate, ...renderNoneTemplate];
+export const routerTemplates = [ ...renderNoneTemplate, ...renderMainTemplate,];
