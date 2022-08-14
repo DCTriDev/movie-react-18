@@ -187,6 +187,14 @@ const INSERT_MOVIE = gql`
     }
 `
 
+const DELETE_MOVIE = gql`
+    mutation deleteMovie($id: Int!) {
+        deleteMovie(input:{id: $id}) {
+            status
+        }
+    }
+`
+
 class AdminAPI {
     getAllMovie = (setLoading = true) => {
         const payload = {
@@ -325,6 +333,16 @@ class AdminAPI {
                 categoryId: data.categoryId,
                 actorId: data.actorId,
                 source: data.source,
+            },
+        }
+        return Axios.postMethod(payload, setLoading)
+    }
+
+    deleteMovie = (id, setLoading = true) => {
+        const payload = {
+            query: print(DELETE_MOVIE),
+            variables: {
+                id: id,
             },
         }
         return Axios.postMethod(payload, setLoading)

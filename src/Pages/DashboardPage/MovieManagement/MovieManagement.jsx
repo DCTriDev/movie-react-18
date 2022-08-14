@@ -178,7 +178,11 @@ function MovieManagement(props) {
                 >
                     Edit
                 </ButtonPrimary>
-                <ButtonDanger className='px-2 text-[16px] bg-red-500 hover:bg-red-600'>
+                <ButtonDanger className='px-2 text-[16px] bg-red-500 hover:bg-red-600'
+                              onClick={() => {
+                                  handleDeleteMovie(record.id)
+                              }}
+                    >
                     Delete
                 </ButtonDanger>
             </div>),
@@ -215,6 +219,15 @@ function MovieManagement(props) {
             })
     }
 
+    const handleDeleteMovie = (id) => {
+        adminService.deleteMovie(id)
+            .then((res) => {
+                if (res.data.deleteMovie.status) {
+                    message.success('Delete successfully!')
+                    fetchMovieData()
+                }
+            })
+    }
     const handleUpdateActor = (values) => {
         console.log(values, 'values')
         adminService.updateMovieActor(values)
