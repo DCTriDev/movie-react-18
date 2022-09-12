@@ -109,7 +109,9 @@ class AxiosClient {
             case 401:{
                 message.error(firstError.message, 3)
                 localService.removeUserInfo()
-                window.location.reload()
+                setTimeout(() => {
+                    window.location.href = '/login'
+                },1000)
                 removeUserInfo()
                 break
             }
@@ -133,7 +135,7 @@ class AxiosClient {
                 break
         }
     };
-    //
+
     axiosInstance = (req) => {
         this.axios(req, this.axiosConfig);
     };
