@@ -127,6 +127,16 @@ body{
     color: white;
 }
 
+.ant-upload-list-picture-card .ant-upload-list-item, .ant-upload-list-picture .ant-upload-list-item {
+    color: white;
+    border: 1px solid #131313;
+    background: #000;
+}
+
+.ant-upload-list-item-card-actions .anticon {
+    color: red;
+}
+
 /*Disable tooltip*/
 .ant-tooltip{
     display: none !important;

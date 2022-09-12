@@ -1,7 +1,7 @@
 import React, {useLayoutEffect, useState} from 'react';
 import Sidebar from "../../Components/Sidebar/Sidebar";
-import {ShoppingCartOutlined, UserOutlined} from "@ant-design/icons";
-import GeneralProfile from "./Content/GeneralProfile";
+import {UserOutlined} from "@ant-design/icons";
+import GeneralProfile from "./GeneralProfile/GeneralProfile";
 import ProfileHeader from "./ProfileHeader/ProfileHeader";
 
 function getItem(label, key, icon, children) {
