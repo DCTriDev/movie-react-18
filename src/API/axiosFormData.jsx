@@ -6,7 +6,7 @@ import {message} from 'antd'
 import localService from '../Services/local.service'
 import {removeUserInfo} from '../Redux/Slice/userSlice'
 
-class AxiosClient {
+class AxiosFormData {
     axios;
     axiosConfig;
     authService;
@@ -21,7 +21,7 @@ class AxiosClient {
     }
 
     getBaseUrl() {
-        return process.env.REACT_APP_API_BASE_URL;
+        return process.env.REACT_APP_API_BASE_URL
     }
 
     getAxiosConfig() {
@@ -30,52 +30,16 @@ class AxiosClient {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token, X-Requested-With, Authorization',
-                'Content-Type': 'application/json;charset=utf-8',
+                'Access-Control-Allow-Headers': 'Origin, GeneralProfile-Type, X-Auth-Token, X-Requested-With, Authorization',
+                'Content-Type': 'multipart/form-data',
                 'Authorization': token,
             },
         };
     };
 
-    removeAxiosConfig = () => {
-        this.axiosConfig = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
-    };
-
-    getMethod(data, loading = true) {
-        return this.handleFlow(
-            this.axios.get('', data, this.axiosConfig),
-            loading
-        );
-    }
-
     postMethod(data, loading = true) {
         return this.handleFlow(
             this.axios.post('', data, this.axiosConfig),
-            loading
-        );
-    }
-
-    putMethod(data, loading = true) {
-        return this.handleFlow(
-            this.axios.put('', data, this.axiosConfig),
-            loading
-        );
-    }
-
-    patchMethod(data, loading = true) {
-        return this.handleFlow(
-            this.axios.patch('', data, this.axiosConfig),
-            loading
-        );
-    }
-
-    deleteMethod(data, loading = true) {
-        return this.handleFlow(
-            this.axios.delete('', data, this.axiosConfig),
             loading
         );
     }
@@ -92,6 +56,7 @@ class AxiosClient {
                     resolve(res.data);
                 })
                 .catch((err) => {
+                    console.log(err.response.data.errors[0])
                     loading && store.dispatch(stopLoading());
                     this.handleError(err);
                     reject(err);
@@ -111,7 +76,7 @@ class AxiosClient {
                 localService.removeUserInfo()
                 setTimeout(() => {
                     window.location.href = '/login'
-                },1000)
+                },3000)
                 removeUserInfo()
                 break
             }
@@ -135,11 +100,11 @@ class AxiosClient {
                 break
         }
     };
-
+    //
     axiosInstance = (req) => {
         this.axios(req, this.axiosConfig);
     };
 }
 
-const AxiosService = new AxiosClient();
-export default AxiosService;
+const axiosLocal = new AxiosFormData();
+export default axiosLocal;
