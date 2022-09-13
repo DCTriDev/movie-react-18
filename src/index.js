@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import 'antd/dist/antd.min.css';
 import './index.css';
+import './Styles/antd.custom.css'
 import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
 import store from "./Redux/store";
