@@ -9,7 +9,6 @@ const {ButtonPrimary} = ButtonCustom
 function UploadImage(props) {
     const {label, name, url, setUrl} = props
 
-    // const [url, setUrl] = useState()
     const [defaultFileList, setDefaultFileList] = useState([])
     const [progress, setProgress] = useState(0)
 
@@ -23,8 +22,6 @@ function UploadImage(props) {
                     onProgress(progress)
                 })
         } catch (err) {
-            console.log('Errors: ', err)
-            const error = new Error('Some error')
             onError({err})
         }
     }
@@ -38,6 +35,7 @@ function UploadImage(props) {
         <Form.Item
             label={label}
             name={name}
+            rules={[{required: true, message: 'Please choose image!'}]}
         >
             <Upload
                 accept='image/*'
