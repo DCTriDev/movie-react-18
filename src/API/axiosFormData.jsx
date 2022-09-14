@@ -56,7 +56,6 @@ class AxiosFormData {
                     resolve(res.data);
                 })
                 .catch((err) => {
-                    console.log(err.response.data.errors[0])
                     loading && store.dispatch(stopLoading());
                     this.handleError(err);
                     reject(err);
@@ -65,6 +64,10 @@ class AxiosFormData {
     }
 
     handleError = (error) => {
+        if(error?.message){
+            message.error(error.message,2)
+            return false
+        }
         const firstError = error[0]
         switch (firstError.status) {
             case 404:{
