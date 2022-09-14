@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Form, Upload} from 'antd'
 import {UploadOutlined} from '@ant-design/icons'
 import {ButtonCustom} from '../ButtonCustom/ButtonCustom'
@@ -18,6 +18,15 @@ function UploadImage(props) {
             await uploadFileService.fileUpload(file)
                 .then(res => {
                     setUrl(res.data.uploadFile.url)
+                    setDefaultFileList([
+                        {
+                            uid: '1',
+                            name: file.name,
+                            status: 'done',
+                            url: res.data.uploadFile.url,
+                            thumbUrl: res.data.uploadFile.url,
+                        }
+                    ])
                     onSuccess('Ok')
                     onProgress(progress)
                 })
@@ -26,10 +35,20 @@ function UploadImage(props) {
         }
     }
 
-    const handleOnChange = ({file, fileList, event}) => {
-        setDefaultFileList(fileList)
-    }
-
+    useEffect(() => {
+        if (url) {
+            setDefaultFileList([
+                {
+                    uid: '-1',
+                    name: 'image.png',
+                    status: 'done',
+                    url: url,
+                    thumbUrl: url,
+                }
+            ])
+            setUrl(url)
+        }
+    },[url])
 
     return (
         <Form.Item
@@ -40,10 +59,9 @@ function UploadImage(props) {
             <Upload
                 accept='image/*'
                 customRequest={uploadImage}
-                onChange={handleOnChange}
                 listType='picture'
                 maxCount={1}
-                // fileList={defaultFileList}
+                fileList={defaultFileList}
                 className='image-upload-grid'
                 defaultFileList={defaultFileList}
                 onProgress={({percent}) => {
@@ -53,7 +71,8 @@ function UploadImage(props) {
                     return setProgress(Math.floor(percent))
                 }}
             >
-                {defaultFileList.length === 0 ? <ButtonPrimary type='button' className='text-[16px]'> Chose Image <UploadOutlined /></ButtonPrimary> : null}
+                {defaultFileList.length===0 ? <ButtonPrimary type='button' className='text-[16px]'> Choose
+                    Image <UploadOutlined /></ButtonPrimary> : <ButtonPrimary type='button' className='px-1.5 py-0.5 text-[16px] normal-case '>Choose Image</ButtonPrimary>}
             </Upload>
         </Form.Item>
     )
