@@ -306,7 +306,6 @@ class AdminAPI {
                 actorIdArr: data.actor,
             },
         }
-        console.log(payload)
         return Axios.postMethod(payload, setLoading)
     }
 
