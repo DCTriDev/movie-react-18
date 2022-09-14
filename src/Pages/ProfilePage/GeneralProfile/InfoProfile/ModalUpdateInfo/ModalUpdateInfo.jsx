@@ -39,6 +39,7 @@ function ModalUpdateInfo(props) {
             }}
             getContainer={false}
             className='relative'
+            forceRender
         >
             <FormCustom
                 form={form}

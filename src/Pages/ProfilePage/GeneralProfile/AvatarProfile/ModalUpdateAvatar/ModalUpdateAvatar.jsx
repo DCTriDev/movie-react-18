@@ -38,6 +38,7 @@ function ModalUpdateAvatar(props) {
                 setVisible(false)
             }}
             getContainer={false}
+            forceRender
         >
             <FormCustom
                 labelCol={{span: 6}}
