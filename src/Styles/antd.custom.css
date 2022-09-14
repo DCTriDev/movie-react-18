@@ -11,6 +11,11 @@
     border-bottom: 1px solid black;
 }
 
+/*Ant Design Select*/
+.ant-select-arrow{
+    color: #dee4e9;
+}
+
 .ant-select:not(.ant-select-customize-input) .ant-select-selector {
     color: #dee4e9;
     background-color: rgb(51, 51, 51);
@@ -46,6 +51,7 @@
     color: white;
 }
 
+/*Ant Design Upload*/
 .ant-upload-list-picture-card .ant-upload-list-item, .ant-upload-list-picture .ant-upload-list-item {
     color: white;
     border: 1px solid #131313;
@@ -56,24 +62,17 @@
     color: red;
 }
 
-.ant-select-arrow{
-    color: #dee4e9;
-}
-
-
-/*Disable tooltip*/
-.ant-tooltip{
-    display: none !important;
-}
-
+/*Antd Date Picker*/
 .ant-picker{
     background: rgb(51, 51, 51);
     border: rgb(51, 51, 51);
     color: white;
+    min-width: 100%;
 }
 
 .ant-picker-input>input {
     color: #DEE4E9;
+    text-align: right;
 }
 
 .ant-picker-suffix{
@@ -123,4 +122,9 @@ input::-webkit-calendar-picker-indicator{
     background: url('https://cdn-icons-png.flaticon.com/512/3143/3143636.png') no-repeat;
     background-size: contain;
     margin-left: 10px;
+}
+
+/*Disable tooltip*/
+.ant-tooltip{
+    display: none !important;
 }

@@ -78,3 +78,7 @@ body{
     box-shadow: 0 0 25px 2px rgba(19,19,19,0.7);
     transition: all 0.2s ease-in-out;
 }
+
+#source-area{
+    background: rgb(51, 51, 51);
+}
