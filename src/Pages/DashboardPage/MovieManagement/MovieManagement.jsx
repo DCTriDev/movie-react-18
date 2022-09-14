@@ -1,14 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import adminService from '../../../API/adminAPI'
-import {Space, Tag, Select, message} from 'antd'
+import {Space, Tag, message} from 'antd'
 import TableCustom from '../../../Components/TableCustom/TableCustom'
 import {ButtonCustom} from '../../../Components/ButtonCustom/ButtonCustom'
-import ModalCustom from '../../../Components/ModalCustom/ModalCustom'
-import {Form, Input} from 'antd'
-import FormCustom from '../../../Components/FormCustom/FormCustom'
 import moment from 'moment'
-
-const {Option} = Select
+import ModalUpdateMovie from './ModalUpdateMovie/ModalUpdateMovie'
+import ModalUpdateMovieActor from './ModalUpdateMovieActor/ModalUpdateMovieActor'
 
 const {ButtonPrimary, ButtonDanger} = ButtonCustom
 
@@ -51,18 +48,10 @@ function MovieManagement(props) {
 
     const [movies, setMovies] = useState(initialState)
     const [isEditingBasic, setIsEditingBasic] = useState(false)
-    const [imgURL, setImgURL] = useState()
     const [dataEditBasic, setDataEditBasic] = useState()
 
     const [isEditingActor, setIsEditingActor] = useState(false)
     const [dataEditActor, setDataEditActor] = useState(movies[0].actor)
-
-    const [actorArray, setActorArray] = useState([])
-
-    const [dataEditCategory, setDataEditCategory] = useState(movies[0].category)
-
-    const [form] = Form.useForm()
-    const [formUpdateActor] = Form.useForm()
 
 
     const columns = [
@@ -129,8 +118,8 @@ function MovieManagement(props) {
             dataIndex: 'category',
             render: (_, {category}) => {
                 return (<div className='flex flex-col gap-2'>
-                    {category.map((category) => {
-                        return (<Tag color={'green'} key={category.id} className='w-fit'>
+                    {category.map((category, index) => {
+                        return (<Tag color={'green'} key={index} className='w-fit'>
                             {category.categoryName}
                         </Tag>)
                     })}
@@ -169,10 +158,10 @@ function MovieManagement(props) {
                     className='px-2 text-[16px] bg-yellow-500 hover:bg-amber-500'
                     onClick={() => {
                         setIsEditingBasic(true)
-                        setImgURL(record.image)
                         const data = {
                             ...record, releaseDate: moment(+record.releaseDate).format('yyyy-MM-DD'),
                         }
+                        console.log(data)
                         setDataEditBasic(data)
                     }}
                 >
@@ -192,30 +181,16 @@ function MovieManagement(props) {
     const fetchMovieData = () => {
         adminService.getAllMovie()
             .then(res => {
-                const data = res.data.getAllMovieAdmin.map(movie => {
+                const data = res.data.getAllMovieAdmin.map((movie, index) => {
                     return {
                         ...movie,
-                        key: movie.id,
+                        key: index,
                     }
                 })
-                setMovies(data)
-            })
-    }
-
-    const handleUpdateBasicInfo = (values) => {
-        const newData = {
-            ...values,
-            releaseDate: (new Date(values.releaseDate).getTime()).toString(),
-        }
-        adminService.updateMovieBasic(newData, true)
-            .then((res) => {
-                if (res.data.updateMovieBasic) {
-                    message.success('Update successfully')
-                    fetchMovieData()
-                    setIsEditingBasic(false)
-                } else {
-                    message.error('Update failed!')
-                }
+                const dataSorted = data.sort((a,b) => {
+                    return a.id - b.id
+                })
+                setMovies(dataSorted)
             })
     }
 
@@ -228,33 +203,9 @@ function MovieManagement(props) {
                 }
             })
     }
-    const handleUpdateActor = (values) => {
-        console.log(values, 'values')
-        adminService.updateMovieActor(values)
-            .then((res) => {
-                if (res.data.updateMovieActor) {
-                    message.success('Update successfully!')
-                    fetchMovieData()
-                    setIsEditingActor(false)
-                }else {
-                    message.error('Update failed!', 3)
-                }
-            })
-    }
 
     const handleSearch = (e) => {
         setSearchInput(e.target.value)
-    }
-
-    const handleRenderActorOption = () => {
-        return actorArray.map(({name, image, id}) => {
-            return (
-                <Option key={id} value={id}>
-                    <img src={image} alt='actor' width='40' height='50' />
-                    <span className='ml-2'>{name}</span>
-                </Option>
-            )
-        })
     }
 
     //Debounce search
@@ -280,20 +231,9 @@ function MovieManagement(props) {
         }
     }, [searchResults])
 
-    useEffect(() => {
-        form.setFieldsValue(dataEditBasic)
-    }, [form, dataEditBasic])
-
 
     useEffect(() => {
         fetchMovieData()
-    }, [])
-
-    useEffect(() => {
-        adminService.getAllActor()
-            .then(res => {
-                setActorArray(res.data.actor)
-            })
     }, [])
 
     return (
@@ -309,163 +249,23 @@ function MovieManagement(props) {
                     onChange={handleSearch}
                 />
             </div>
+
             <TableCustom columns={columns} dataSource={searchResults ? searchResults : movies} />
-            {/*Edit Basic Movie Information*/}
-            <ModalCustom
-                title={null}
-                footer={null}
+
+            <ModalUpdateMovie
                 visible={isEditingBasic}
-                onCancel={() => {
-                    setIsEditingBasic(false)
-                }}
-                getContainer={false}
-            >
-                <FormCustom
-                    form={form}
-                    initialValues={dataEditBasic}
-                    labelCol={{span: 6}}
-                    wrapperCol={{span: 18}}
-                    onFinish={handleUpdateBasicInfo}
-                >
-                    <h3 className='text-2xl text-center text-text-color-secondary'>Editing Basic Info</h3>
-                    <Form.Item
-                        label='Movie ID'
-                        name='id'
-                    >
-                        <Input disabled className='text-right' />
-                    </Form.Item>
+                setVisible={setIsEditingBasic}
+                initialValues={dataEditBasic}
+                fetchMovieData={fetchMovieData}
+            />
 
-                    <Form.Item
-                        label='Title'
-                        name='title'
-                    >
-                        <Input className='text-right' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Director'
-                        name='director'
-                    >
-                        <Input className='text-right' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Image URL'
-                        name='image'
-                    >
-                        <Input className='text-right' name='image' onChange={(e) => {
-                            setImgURL(e.target.value)
-                        }} />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Preview Image'
-                        name='previewImage'
-                    >
-                        <img src={imgURL} alt='previewImage' width='60' height='100' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Release Date'
-                        name='releaseDate'
-                    >
-                        <Input type='date' className='text-right' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Price'
-                        name='price'
-                    >
-                        <Input className='text-right' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Status'
-                        name='status'
-                    >
-                        <Select className='text-right' theme='dark'>
-                            <Select.Option value='Released'>Released</Select.Option>
-                            <Select.Option value='Upcoming'>Upcoming</Select.Option>
-                        </Select>
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Description'
-                        name='description'
-                    >
-                        <Input.TextArea autoSize={{minRows: 4, maxRows: 7}} />
-                    </Form.Item>
-
-                    <div className='w-full flex justify-center'>
-                        <ButtonPrimary
-                            type='submit'
-                        >
-                            Update
-                        </ButtonPrimary>
-                    </div>
-
-                </FormCustom>
-            </ModalCustom>
-
-            {/*Edit Movie Actor*/}
-
-            <ModalCustom
-                title={null}
-                footer={null}
+            <ModalUpdateMovieActor
                 visible={isEditingActor}
-                onCancel={() => {
-                    setIsEditingActor(false)
-                }}
-                getContainer={false}
-                className='relative'
-            >
-                <FormCustom
-                    form={formUpdateActor}
-                    initialValues={dataEditActor}
-                    labelCol={{span: 6}}
-                    wrapperCol={{span: 18}}
-                    onFinish={handleUpdateActor}
-                >
-                    <h3 className='text-2xl text-center text-text-color-secondary'>Update Movie Actor</h3>
+                setVisible={setIsEditingActor}
+                initialValues={dataEditActor}
+                fetchMovieData={fetchMovieData}
+            />
 
-                    <Form.Item
-                        label='Movie ID'
-                        name='id'
-                    >
-                        <Input disabled className='text-right' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Actor'
-                        name='actor'
-                    >
-                        <Select className='text-right' mode='multiple'>
-                            {
-                                handleRenderActorOption()
-                            }
-                        </Select>
-                    </Form.Item>
-
-                    <div className='w-full flex justify-end space-x-10'>
-                        <ButtonPrimary
-                            type='submit'
-                            className='mr-10'
-                        >
-                            Submit
-                        </ButtonPrimary>
-                    </div>
-                </FormCustom>
-                <div className='absolute bottom-6 left-16'>
-                    <ButtonDanger
-                        onClick={() => {
-                            setIsEditingActor(false)
-                            formUpdateActor.resetFields()
-                        }}
-                    >
-                        Cancel
-                    </ButtonDanger>
-                </div>
-            </ModalCustom>
         </div>
     )
 }

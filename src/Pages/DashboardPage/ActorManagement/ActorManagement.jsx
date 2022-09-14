@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import adminService from '../../../API/adminAPI'
-import {Tag, Select, message} from 'antd'
+import {Tag, message} from 'antd'
 import TableCustom from '../../../Components/TableCustom/TableCustom'
 import {ButtonCustom} from '../../../Components/ButtonCustom/ButtonCustom'
-import ModalCustom from '../../../Components/ModalCustom/ModalCustom'
-import {Form, Input} from 'antd'
-import FormCustom from '../../../Components/FormCustom/FormCustom'
 import moment from 'moment'
+import ModalUpdateActor from './ModalUpdateActor/ModalUpdateActor'
+import ModalCreateActor from './ModalCreateActor/ModalCreateActor'
 
 const {ButtonPrimary, ButtonDanger, ButtonSubmit} = ButtonCustom
 
@@ -27,14 +26,9 @@ function ActorManagement(props) {
 
     const [actors, setActors] = useState(initialState)
     const [isEditingActor, setIsEditingActor] = useState(false)
-    const [imgURL, setImgURL] = useState()
     const [dataActorEdit, setDataEditActor] = useState()
 
     const [isCreatingActor, setIsCreatingActor] = useState(false)
-
-    const [form] = Form.useForm()
-
-    const [formCreate] = Form.useForm()
 
     const columns = [
         {
@@ -81,9 +75,9 @@ function ActorManagement(props) {
                     className='px-2 text-[16px] bg-yellow-500 hover:bg-amber-500'
                     onClick={() => {
                         setIsEditingActor(true)
-                        setImgURL(record.image)
                         const data = {
-                            ...record, birthday: moment(+record.birthday).format('yyyy-MM-DD'),
+                            ...record,
+                            birthday: moment(+record.birthday).format('yyyy-MM-DD'),
                         }
                         setDataEditActor(data)
                     }}
@@ -104,22 +98,16 @@ function ActorManagement(props) {
     const fetchActorData = () => {
         adminService.getAllActor()
             .then(res => {
-                setActors(res.data.actor)
-            })
-    }
-
-    const handleUpdateActorInfo = (values) => {
-        const newData = {
-            ...values,
-            birthday: (new Date(values.birthday).getTime()).toString(),
-        }
-        adminService.updateActor(newData)
-            .then(res => {
-                if (res.data.updateActor.status) {
-                    message.success('Update successfully!')
-                    setIsEditingActor(false)
-                    fetchActorData()
-                }
+                const actorsWithKey = res.data.actor.map((actor,index) => {
+                    return {
+                        ...actor,
+                        key: index
+                    }
+                })
+                const actorsSortedByKey = actorsWithKey.sort((a,b) => {
+                    return a.id - b.id
+                })
+                setActors(actorsSortedByKey)
             })
     }
 
@@ -133,21 +121,8 @@ function ActorManagement(props) {
             })
     }
 
-    const handleInsertActor = (values) => {
-        const newData = {
-            ...values,
-            birthday: (new Date(values.birthday).getTime()).toString(),
-        }
-        adminService.insertActor(newData)
-            .then(res => {
-                if (res.data.insertActor.status) {
-                    message.success('Add successfully!')
-                    setIsCreatingActor(false)
-                    fetchActorData()
-                    formCreate.resetFields()
-                    setImgURL(null)
-                }
-            })
+    const handleSearch = (e) => {
+        setSearchInput(e.target.value)
     }
 
     useEffect(() => {
@@ -173,18 +148,8 @@ function ActorManagement(props) {
     }, [searchResults])
 
     useEffect(() => {
-        form.setFieldsValue(dataActorEdit)
-        formCreate.setFieldsValue(null)
-    }, [form, dataActorEdit, formCreate])
-
-    const handleSearch = (e) => {
-        setSearchInput(e.target.value)
-    }
-
-    useEffect(() => {
         fetchActorData()
     }, [])
-
 
     return (
         <div>
@@ -210,146 +175,17 @@ function ActorManagement(props) {
 
             <TableCustom columns={columns} dataSource={searchResults ? searchResults : actors} />
 
-            <ModalCustom
-                title={null}
-                footer={null}
+            <ModalUpdateActor
                 visible={isEditingActor}
-                onCancel={() => {
-                    setIsEditingActor(false)
-                }}
-                getContainer={false}
-            >
-                <FormCustom
-                    form={form}
-                    initialValues={dataActorEdit}
-                    labelCol={{span: 6}}
-                    wrapperCol={{span: 18}}
-                    onFinish={handleUpdateActorInfo}
-                >
-                    <h3 className='text-2xl text-center text-text-color-secondary'>Edit Actor Info</h3>
-                    <Form.Item
-                        label='Actor ID'
-                        name='id'
-                    >
-                        <Input disabled className='text-right' />
-                    </Form.Item>
+                setVisible={setIsEditingActor}
+                initialValue={dataActorEdit}
+                fetchActorData={fetchActorData}
+            />
 
-                    <Form.Item
-                        label='Name'
-                        name='name'
-                    >
-                        <Input className='text-right' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Birthday'
-                        name='birthday'
-                    >
-                        <Input type='date' className='text-right' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Image URL'
-                        name='image'
-                    >
-                        <Input className='text-right' name='image' onChange={(e) => {
-                            setImgURL(e.target.value)
-                        }} />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Preview avatar'
-                        name='previewAvatar'
-                    >
-                        <img src={imgURL} alt='previewImage' height='120' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Gender'
-                        name='genderId'
-                    >
-                        <Select className='text-right'>
-                            <Select.Option value={1}>Male</Select.Option>
-                            <Select.Option value={2}>Female</Select.Option>
-                        </Select>
-                    </Form.Item>
-
-                    <div className='w-full flex justify-center'>
-                        <ButtonPrimary
-                            type='submit'
-                        >
-                            Update
-                        </ButtonPrimary>
-                    </div>
-                </FormCustom>
-            </ModalCustom>
-
-            <ModalCustom
-                title={null}
-                footer={null}
+            <ModalCreateActor
                 visible={isCreatingActor}
-                onCancel={() => {
-                    setIsCreatingActor(false)
-                }}
-                getContainer={false}
-            >
-                <FormCustom
-                    form={formCreate}
-                    // initialValues={dataActorCreate}
-                    labelCol={{span: 6}}
-                    wrapperCol={{span: 18}}
-                    onFinish={handleInsertActor}
-                >
-                    <h3 className='text-2xl text-center text-text-color-secondary'>Add New Actor</h3>
-                    <Form.Item
-                        label='Name'
-                        name='name'
-                    >
-                        <Input className='text-right' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Birthday'
-                        name='birthday'
-                    >
-                        <Input type='date' className='text-right' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Image URL'
-                        name='image'
-                    >
-                        <Input className='text-right' name='image' onChange={(e) => {
-                            setImgURL(e.target.value)
-                        }} />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Preview avatar'
-                        name='previewAvatar'
-                    >
-                        <img src={imgURL} alt='previewImage' height='120' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Gender'
-                        name='genderId'
-                    >
-                        <Select className='text-right' placeholder='Select gender'>
-                            <Select.Option value={1}>Male</Select.Option>
-                            <Select.Option value={2}>Female</Select.Option>
-                        </Select>
-                    </Form.Item>
-
-                    <div className='w-full flex justify-center'>
-                        <ButtonPrimary
-                            type='submit'
-                        >
-                            Submit
-                        </ButtonPrimary>
-                    </div>
-                </FormCustom>
-            </ModalCustom>
+                setVisible={setIsCreatingActor}
+                fetchActorData={fetchActorData}/>
         </div>
     )
 }
