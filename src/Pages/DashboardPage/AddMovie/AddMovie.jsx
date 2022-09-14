@@ -1,12 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react'
-import {DatabaseOutlined, SmileOutlined} from '@ant-design/icons'
-import { Form, Input, Typography, Select, message } from 'antd';
+import {DatabaseOutlined, DeleteOutlined} from '@ant-design/icons'
+import {Form, Input, Select, message, DatePicker} from 'antd'
 import FormCustom from '../../../Components/FormCustom/FormCustom'
 import adminService from '../../../API/adminAPI'
 import {ButtonCustom} from '../../../Components/ButtonCustom/ButtonCustom'
 import ModalCustom from '../../../Components/ModalCustom/ModalCustom'
+import UploadImage from '../../../Components/UploadImage/UploadImage'
+import validator from 'validator'
 
-const {ButtonPrimary, ButtonSubmit} = ButtonCustom
+const {ButtonPrimary, ButtonDanger, ButtonSubmit} = ButtonCustom
 const {Option} = Select
 
 function AddMovie(props) {
@@ -15,7 +17,8 @@ function AddMovie(props) {
     const [actorData, setActorData] = useState([])
     const [categoryData, setCategoryData] = useState([])
     const [sourceList, setSourceList] = useState([])
-    const [imgURL, setImgURL] = useState('https://www.nodata.co/static/images/homepage/nodata_logo_heavy.png')
+    const [url, setUrl] = useState()
+    const [visible, setVisible] = useState(false)
 
     const handleRenderActorOption = () => {
         return actorData.map(({name, image, id}) => {
@@ -41,19 +44,19 @@ function AddMovie(props) {
             ...values,
             source: sourceList,
             price: +values.price,
-            releaseDate: new Date(values.releaseDate).getTime().toString()
+            image: url,
+            releaseDate: new Date(values.releaseDate).getTime().toString(),
         }
 
         adminService.insertMovie(newValues)
             .then(res => {
                 if(res.data.insertMovie.status){
-                    message.success('Add new movie success!', 3)
+                    message.success('Add new movie success!', 1)
                     setTimeout(() => {
                         window.location.reload()
-                    },3000)
+                    },1000)
                 }
             })
-
     }
 
     useEffect(() => {
@@ -66,93 +69,99 @@ function AddMovie(props) {
             .then(res => {
                 setCategoryData(res.data.category)
             })
-
     }, [])
 
     // reset form fields when modal is form, closed
-    const useResetFormOnCloseModal = ({ form, visible }) => {
-        const prevVisibleRef = useRef();
+    const useResetFormOnCloseModal = ({form, visible}) => {
+        const prevVisibleRef = useRef()
         useEffect(() => {
-            prevVisibleRef.current = visible;
-        }, [visible]);
-        const prevVisible = prevVisibleRef.current;
+            prevVisibleRef.current = visible
+        }, [visible])
+        const prevVisible = prevVisibleRef.current
         useEffect(() => {
             if (!visible && prevVisible) {
-                form.resetFields();
+                form.resetFields()
             }
-        }, [form, prevVisible, visible]);
-    };
+        }, [form, prevVisible, visible])
+    }
 
-    const ModalForm = ({ visible, onCancel }) => {
-        const [form] = Form.useForm();
+    const ModalForm = ({visible, onCancel}) => {
+        const [form] = Form.useForm()
         useResetFormOnCloseModal({
             form,
             visible,
-        });
+        })
 
         const onOk = () => {
-            form.submit();
-        };
+            form.submit()
+        }
 
         return (
-            <ModalCustom title={null} visible={visible} onOk={onOk} onCancel={onCancel}>
-                <FormCustom form={form} layout="vertical" name="userForm">
+            <ModalCustom
+                title={null}
+                footer={null}
+                visible={visible}
+                onOk={onOk}
+                onCancel={onCancel}
+            >
+                <FormCustom form={form} layout='vertical' name='sourceForm'>
+                    <h3 className='text-2xl text-center text-text-color-secondary'>Add Source</h3>
                     <Form.Item
-                        name="detailSource"
-                        label="Detail Source"
+                        name='detailSource'
+                        label='Detail Source'
                     >
-                        <Input className='text-right'/>
+                        <Input className='text-right' />
                     </Form.Item>
                     <Form.Item
-                        name="source"
-                        label="Source URL"
+                        name='source'
+                        label='Source URL'
                     >
-                        <Input className='text-right'/>
+                        <Input className='text-right' />
                     </Form.Item>
                 </FormCustom>
+                <div className='flex justify-between px-10'>
+                    <ButtonDanger onClick={onCancel}>Cancel</ButtonDanger>
+                    <ButtonPrimary onClick={onOk}>Submit</ButtonPrimary>
+                </div>
             </ModalCustom>
-        );
-    };
-
-    const [visible, setVisible] = useState(false);
+        )
+    }
 
     const showUserModal = () => {
-        setVisible(true);
-    };
+        setVisible(true)
+    }
 
     const hideSourceModal = () => {
-        setVisible(false);
-    };
-
+        setVisible(false)
+    }
 
     const tailLayout = {
         wrapperCol: {
             offset: 8,
             span: 16,
         },
-    };
+    }
 
     return (
         <div>
             <h2 className='text-text-color-secondary text-center text-4xl my-4'>Add New Movie</h2>
             <div className='p-6 bg-black rounded-2xl'>
                 <FormCustom.Provider
-                    onFormFinish={(name, { values, forms }) => {
-                        if (name === 'userForm') {
-                            const { basicForm } = forms;
-                            const users = basicForm.getFieldValue('users') || [];
-                            setSourceList([...sourceList, values]);
+                    onFormFinish={(name, {values, forms}) => {
+                        if (name === 'sourceForm') {
+                            const {basicForm} = forms
+                            const sourceValues = basicForm.getFieldValue('sourceForm') || []
+                            setSourceList([...sourceList, values])
                             basicForm.setFieldsValue({
-                                users: [...users, values],
-                            });
-                            setVisible(false);
+                                sourceForm: [...sourceValues, values],
+                            })
+                            setVisible(false)
                         }
                     }}
                 >
                     <FormCustom
                         name='basicForm'
                         form={form}
-                        // initialValues={dataEditActor}
                         labelCol={{span: 4}}
                         wrapperCol={{span: 18}}
                         onFinish={handleAddNewMovie}
@@ -160,31 +169,23 @@ function AddMovie(props) {
                         <Form.Item
                             label='Movie Title'
                             name='title'
+                            rules={[
+                                {required: true, message: 'Please input Movie Title!'},
+                            ]}
                         >
                             <Input className='text-right' />
                         </Form.Item>
 
-                        <Form.Item
-                            label='Image URL'
-                            name='image'
-                        >
-                            <Input className='text-right' name='image' onChange={(e) => {
-                                setImgURL(e.target.value)
-                            }} />
-                        </Form.Item>
-
-                        <Form.Item
-                            label='Preview Image'
-                            name='previewImage'
-                        >
-                            <img src={imgURL} alt='previewImage' width='60' height='100' />
-                        </Form.Item>
-
-
+                        <UploadImage label='Image' name='image' url={url} setUrl={setUrl} />
 
                         <Form.Item
                             label='Trailer URL'
                             name='trailer'
+                            rules={[{
+                                validator: (_, value) => {
+                                    return validator.isURL(value) ? Promise.resolve() : Promise.reject('Wrong URL format!')
+                                }, message: 'Wrong URL format!',
+                            }]}
                         >
                             <Input className='text-right' />
                         </Form.Item>
@@ -192,6 +193,9 @@ function AddMovie(props) {
                         <Form.Item
                             label='Director'
                             name='director'
+                            rules={[{
+                                required: true, message: 'Please input Director!',
+                            }]}
                         >
                             <Input className='text-right' />
                         </Form.Item>
@@ -199,6 +203,11 @@ function AddMovie(props) {
                         <Form.Item
                             label='Price'
                             name='price'
+                            rules={[{
+                                validator: (_, value) => {
+                                    return validator.isNumeric(value, 'vi-VN') ? Promise.resolve() : Promise.reject('Wrong number format!')
+                                }, message: 'Wrong number format!',
+                            }]}
                         >
                             <Input className='text-right' />
                         </Form.Item>
@@ -206,6 +215,9 @@ function AddMovie(props) {
                         <Form.Item
                             label='Description'
                             name='description'
+                            rules={[{
+                                required: true, message: 'Please input description!',
+                            }]}
                         >
                             <Input.TextArea autoSize={{minRows: 4, maxRows: 10}} />
                         </Form.Item>
@@ -213,6 +225,9 @@ function AddMovie(props) {
                         <Form.Item
                             label='Actor (Multiple)'
                             name='actorId'
+                            rules={[{
+                                required: true, message: 'Please choose at least one actor!',
+                            }]}
                         >
                             <Select className='text-right' mode='multiple' placeholder='Choose actor'>
                                 {
@@ -224,6 +239,9 @@ function AddMovie(props) {
                         <Form.Item
                             label='Category (Multiple)'
                             name='categoryId'
+                            rules={[{
+                                required: true, message: 'Please choose at least one category!',
+                            }]}
                         >
                             <Select className='text-right' mode='multiple' placeholder='Choose category'>
                                 {
@@ -235,8 +253,11 @@ function AddMovie(props) {
                         <Form.Item
                             label='Release Date'
                             name='releaseDate'
+                            rules={[{
+                                required: true, message: 'Required!',
+                            }]}
                         >
-                            <Input type='date' className='text-right' />
+                            <DatePicker />
                         </Form.Item>
 
                         <Form.Item
@@ -263,34 +284,54 @@ function AddMovie(props) {
                         </Form.Item>
 
                         <Form.Item
-                            label="Source List"
-                            shouldUpdate={(prevValues, curValues) => prevValues.users !== curValues.users}
+                            label='Source List'
+                            // name='sourceForm'
+                            shouldUpdate={(prevValues, curValues) => prevValues.sourceForm !== curValues.sourceForm}
+                            rules={[
+                                {
+                                    validator: () => {
+                                        return sourceList.length > 0 ? Promise.resolve() : Promise.reject('No source found!')
+                                    }, message: 'No source found!',
+                                },
+                            ]}
                         >
-                            {({ getFieldValue }) => {
-                                const users = getFieldValue('users') || [];
-                                return users.length ? (
-                                    <ul>
-                                        {users.map((user, index) => (
-                                            <li key={index} className="user">
+                            {({getFieldValue, setFieldsValue}) => {
+                                const sourceData = getFieldValue('sourceForm') || []
+                                const handleDeleteSourceItem = (sourceList, detailSource) => {
+                                    const newSourceList = sourceList.filter((source) => {
+                                        return source.detailSource !== detailSource
+                                    })
+                                    setFieldsValue(newSourceList)
+                                    setSourceList(newSourceList)
+                                }
+                                console.log(sourceData)
+                                return sourceData.length ? (
+                                    <ul className='m-0 py-2 rounded-[2px]' id='source-area'>
+                                        {sourceData.map((source, index) => (
+                                            <li key={index} className='source text-white list-none'>
                                                 <DatabaseOutlined />
-                                                <span className='text-text-color-title'>{user.detailSource}</span>
+                                                <span
+                                                    className='text-text-color-title ml-2 mr-4'>{source.detailSource}</span>
+                                                <a className='text-red-600 bold'
+                                                   onClick={() => {
+                                                       setFieldsValue(sourceData.splice(index, 1))
+                                                       handleDeleteSourceItem(sourceData, source.detailSource)
+                                                   }}
+                                                ><DeleteOutlined /></a>
                                             </li>
                                         ))}
                                     </ul>
                                 ) : (
-                                    <Typography.Text className="ant-form-text" type="secondary">
-                                        ( <SmileOutlined /> No source yet. )
-                                    </Typography.Text>
-                                );
+                                    <Input value='No source yet.' className='text-right' disabled />
+                                )
                             }}
                         </Form.Item>
 
                         <Form.Item {...tailLayout}>
-                            {/*<ButtonPrimary htmlType="submit" type="primary">*/}
-                            {/*    Submit*/}
-                            {/*</ButtonPrimary>*/}
                             <ButtonSubmit
-                                htmlType="button"
+                                className='px-1.5 py-0.5 text-[16px]'
+                                htmlType='button'
+                                type='button'
                                 style={{
                                     margin: '0 8px',
                                 }}
