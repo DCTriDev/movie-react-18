@@ -71,8 +71,11 @@ function UploadImage(props) {
                     return setProgress(Math.floor(percent))
                 }}
             >
-                {defaultFileList.length===0 ? <ButtonPrimary type='button' className='text-[16px]'> Choose
-                    Image <UploadOutlined /></ButtonPrimary> : <ButtonPrimary type='button' className='px-1.5 py-0.5 text-[16px] normal-case '>Choose Image</ButtonPrimary>}
+                {defaultFileList.length===0
+                    ?
+                    <ButtonPrimary type='button' className='text-[16px]'><UploadOutlined /> Upload</ButtonPrimary>
+                    :
+                    <ButtonPrimary type='button' className='px-1.5 py-0.5 text-[16px] normal-case '><UploadOutlined /> New Image</ButtonPrimary>}
             </Upload>
         </Form.Item>
     )
