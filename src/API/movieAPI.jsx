@@ -53,9 +53,17 @@ const GET_SOURCE_MOVIE = gql`
             price
             type
             status
+            category{
+                categoryName
+            }
             movieSource{
                 detailSource
                 source
+            }
+            actor{
+                id
+                name
+                image
             }
         }
     }
