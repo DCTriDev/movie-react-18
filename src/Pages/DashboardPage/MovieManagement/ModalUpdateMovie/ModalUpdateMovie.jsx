@@ -46,9 +46,7 @@ function ModalUpdateMovie(props) {
             title={null}
             footer={null}
             visible={visible}
-            onCancel={() => {
-                setVisible(false)
-            }}
+            onCancel={handleCancel}
             getContainer={false}
             forceRender
         >
