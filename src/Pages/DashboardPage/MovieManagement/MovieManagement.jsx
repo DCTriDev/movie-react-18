@@ -61,7 +61,7 @@ function MovieManagement(props) {
 
     const columns = [
         {
-            title: 'Movie ID',
+            title: 'ID',
             dataIndex: 'id',
             key: 'id',
         },
@@ -111,7 +111,7 @@ function MovieManagement(props) {
                             setIsEditingActor(true)
                         }}
                     >
-                        Edit Actor
+                        Edit
                     </ButtonPrimary>
                 </div>)
             },
@@ -124,7 +124,7 @@ function MovieManagement(props) {
                 const {category} = record
                 return (<div className='flex flex-col gap-2'>
                     {category.map((category, index) => {
-                        return (<Tag color={'green'} key={index} className='w-fit'>
+                        return (<Tag color={'green'} key={index} className='w-fit tracking-tight'>
                             {category.categoryName}
                         </Tag>)
                     })}
@@ -138,7 +138,7 @@ function MovieManagement(props) {
                             setIsEditingCategory(true)
                         }}
                     >
-                        Edit Category
+                        Edit
                     </ButtonPrimary>
                 </div>)
             },
@@ -149,7 +149,7 @@ function MovieManagement(props) {
             dataIndex: 'status',
             render: (_, {status}) => {
                 let color = status === 'Released' ? 'green' : 'red'
-                return <Tag color={color}>{status.toUpperCase()}</Tag>
+                return <Tag color={color} className='tracking-tight'>{status.toUpperCase()}</Tag>
             },
         },
         {
