@@ -78,6 +78,10 @@ const TableCustom = styled(Table)`
     color: #dee4e9;
   }
 
+  .ant-table-tbody>tr>td, .ant-table-thead>tr>th, .ant-table tfoot>tr>td, .ant-table tfoot>tr>th{
+    padding: 8px;
+  }
+
 `
 
 export default TableCustom
