@@ -24,6 +24,7 @@ const GET_ALL_MOVIE = gql`
                 id
             }
             category{
+                id
                 categoryName
             }
             status
