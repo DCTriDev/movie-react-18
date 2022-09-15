@@ -15,14 +15,12 @@ function WatchMovie(props) {
     const [source, setSource] = useState([])
     const [url, setUrl] = useState(null)
 
-    console.log(detailMovies)
-
     const handleRenderListSourceBtn = (source) => {
         if(source.length > 0) {
             return source?.map((item, index) => {
                 return (
                     <ButtonSquare key={index} onClick={() => {
-
+                        setUrl(item.source)
                     }}>
                         {item.detailSource}
                     </ButtonSquare>
