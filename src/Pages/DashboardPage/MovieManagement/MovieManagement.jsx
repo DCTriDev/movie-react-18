@@ -8,6 +8,7 @@ import ModalUpdateMovie from './ModalUpdateMovie/ModalUpdateMovie'
 import ModalUpdateMovieActor from './ModalUpdateMovieActor/ModalUpdateMovieActor'
 import ModalUpdateCategory from './ModalUpdateCategory/ModalUpdateCategory'
 import {initialStateMovieManagement} from '../../../Utils/initialState'
+import ModalUpdateSource from './ModalUpdateSource/ModalUpdateSource'
 
 const {ButtonPrimary, ButtonDanger} = ButtonCustom
 
@@ -25,6 +26,9 @@ function MovieManagement(props) {
     //State for edit movie category
     const [isEditingCategory, setIsEditingCategory] = useState(false)
     const [dataEditCategory, setDataEditCategory] = useState()
+    //State for edit movie source
+    const [isEditingSource, setIsEditingSource] = useState(false)
+    const [dataEditSource, setDataEditSource] = useState()
 
 
     const columns = [
@@ -131,6 +135,19 @@ function MovieManagement(props) {
             title: 'Action',
             key: 'action',
             render: (_, record) => (<div className='flex flex-col space-y-1'>
+                <ButtonPrimary
+                    className='px-2 text-[16px] bg-yellow-500 hover:bg-amber-500'
+                    onClick={() => {
+                        console.log(record, 'record')
+                        setIsEditingSource(true)
+                        const data= {
+                            ...record,
+                        }
+                        setDataEditSource(data)
+                    }}
+                >
+                    Source
+                </ButtonPrimary>
                 <ButtonPrimary
                     className='px-2 text-[16px] bg-yellow-500 hover:bg-amber-500'
                     onClick={() => {
@@ -249,6 +266,12 @@ function MovieManagement(props) {
                 fetchMovieData={fetchMovieData}
             />
 
+            <ModalUpdateSource
+                visible={isEditingSource}
+                setVisible={setIsEditingSource}
+                initialValues={dataEditSource}
+                fetchMovieData={fetchMovieData}
+            />
         </div>
     )
 }
