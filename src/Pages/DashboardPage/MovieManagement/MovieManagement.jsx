@@ -6,6 +6,7 @@ import {ButtonCustom} from '../../../Components/ButtonCustom/ButtonCustom'
 import moment from 'moment'
 import ModalUpdateMovie from './ModalUpdateMovie/ModalUpdateMovie'
 import ModalUpdateMovieActor from './ModalUpdateMovieActor/ModalUpdateMovieActor'
+import ModalUpdateCategory from './ModalUpdateCategory/ModalUpdateCategory'
 
 const {ButtonPrimary, ButtonDanger} = ButtonCustom
 
@@ -43,15 +44,19 @@ const initialState = [{
 
 
 function MovieManagement(props) {
+    const [movies, setMovies] = useState(initialState)
+    //State for debounce search
     const [searchInput, setSearchInput] = useState('')
     const [searchResults, setSearchResults] = useState(null)
-
-    const [movies, setMovies] = useState(initialState)
+    //State for edit movie basic info
     const [isEditingBasic, setIsEditingBasic] = useState(false)
     const [dataEditBasic, setDataEditBasic] = useState()
-
+    //State for edit movie actor
     const [isEditingActor, setIsEditingActor] = useState(false)
-    const [dataEditActor, setDataEditActor] = useState(movies[0].actor)
+    const [dataEditActor, setDataEditActor] = useState()
+    //State for edit movie category
+    const [isEditingCategory, setIsEditingCategory] = useState(false)
+    const [dataEditCategory, setDataEditCategory] = useState()
 
 
     const columns = [
@@ -101,7 +106,6 @@ function MovieManagement(props) {
                             const newActor = actor.map((actor) => {
                                 return actor.id
                             })
-                            console.log(newActor, 'newActor')
                             const newData = {...record, actor: newActor}
                             setDataEditActor(newData)
                             setIsEditingActor(true)
@@ -116,7 +120,8 @@ function MovieManagement(props) {
             title: 'Category',
             key: 'category',
             dataIndex: 'category',
-            render: (_, {category}) => {
+            render: (_, record) => {
+                const {category} = record
                 return (<div className='flex flex-col gap-2'>
                     {category.map((category, index) => {
                         return (<Tag color={'green'} key={index} className='w-fit'>
@@ -126,7 +131,11 @@ function MovieManagement(props) {
                     <ButtonPrimary
                         className='px-2 py-0 text-[16px] bg-yellow-500 hover:bg-amber-500 mt-2 w-fit'
                         onClick={() => {
-                            setDataEditBasic(category)
+                            const newCategory = category.map((category) => {
+                                return category.id
+                            })
+                            setDataEditCategory({...record, categoryId: newCategory})
+                            setIsEditingCategory(true)
                         }}
                     >
                         Edit Category
@@ -161,7 +170,6 @@ function MovieManagement(props) {
                         const data = {
                             ...record, releaseDate: moment(+record.releaseDate).format('yyyy-MM-DD'),
                         }
-                        console.log(data)
                         setDataEditBasic(data)
                     }}
                 >
@@ -263,6 +271,13 @@ function MovieManagement(props) {
                 visible={isEditingActor}
                 setVisible={setIsEditingActor}
                 initialValues={dataEditActor}
+                fetchMovieData={fetchMovieData}
+            />
+
+            <ModalUpdateCategory
+                visible={isEditingCategory}
+                setVisible={setIsEditingCategory}
+                initialValues={dataEditCategory}
                 fetchMovieData={fetchMovieData}
             />
 

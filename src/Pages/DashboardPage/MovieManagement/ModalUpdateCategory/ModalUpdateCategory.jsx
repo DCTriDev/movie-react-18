@@ -1,32 +1,32 @@
 import React, {useEffect, useState} from 'react'
-import FormCustom from '../../../../Components/FormCustom/FormCustom'
 import {Form, Input, message, Select} from 'antd'
-import ModalCustom from '../../../../Components/ModalCustom/ModalCustom'
 import adminService from '../../../../API/adminAPI'
+import ModalCustom from '../../../../Components/ModalCustom/ModalCustom'
+import FormCustom from '../../../../Components/FormCustom/FormCustom'
 import {ButtonCustom} from '../../../../Components/ButtonCustom/ButtonCustom'
 
-const {Option} = Select
 const {ButtonPrimary, ButtonDanger} = ButtonCustom
+const {Option} = Select
 
-function ModalUpdateMovieActor(props) {
+function ModalUpdateCategory(props) {
     const {visible, setVisible, initialValues, fetchMovieData} = props
-    const [actors, setActors] = useState([])
+    const [category, setCategory] = useState([])
 
+    console.log('initialValues',initialValues)
     const [form] = Form.useForm()
 
-    const fetchActorData = () => {
-        adminService.getAllActor()
+    const fetchCategoryData = () => {
+        adminService.getAllCategory()
             .then(res => {
-                setActors(res.data.actor)
+                setCategory(res.data.category)
             })
     }
 
-    const handleRenderActorOption = () => {
-        return actors.map(({name, image, id}) => {
+    const handleRenderCategoryOption = () => {
+        return category.map(({id, categoryName},index) => {
             return (
-                <Option key={id} value={id}>
-                    <img src={image} alt='actor' width='40' height='50' />
-                    <span className='ml-2'>{name}</span>
+                <Option key={index} value={id}>
+                    <span className='ml-2'>{categoryName}</span>
                 </Option>
             )
         })
@@ -38,7 +38,7 @@ function ModalUpdateMovieActor(props) {
     }
 
     useEffect(() => {
-        fetchActorData()
+        fetchCategoryData()
     }, [])
 
     useEffect(() => {
@@ -46,11 +46,11 @@ function ModalUpdateMovieActor(props) {
     }, [form, initialValues])
 
 
-    const handleUpdateActor = (values) => {
+    const handleUpdateCategory = (values) => {
         console.log(values, 'values')
-        adminService.updateMovieActor(values)
+        adminService.updateMovieCategory(values)
             .then((res) => {
-                if (res.data.updateMovieActor) {
+                if (res.data.updateMovieCategory) {
                     message.success('Update successfully!')
                     fetchMovieData()
                     setVisible(false)
@@ -76,7 +76,7 @@ function ModalUpdateMovieActor(props) {
                 initialValues={initialValues}
                 labelCol={{span: 6}}
                 wrapperCol={{span: 18}}
-                onFinish={handleUpdateActor}
+                onFinish={handleUpdateCategory}
             >
                 <h3 className='text-2xl text-center text-text-color-secondary'>Update Movie Actor</h3>
 
@@ -95,12 +95,12 @@ function ModalUpdateMovieActor(props) {
                 </Form.Item>
 
                 <Form.Item
-                    label='Actor'
-                    name='actor'
+                    label='Category'
+                    name='categoryId'
                 >
                     <Select className='text-right' mode='multiple'>
                         {
-                            handleRenderActorOption()
+                            handleRenderCategoryOption()
                         }
                     </Select>
                 </Form.Item>
@@ -125,4 +125,4 @@ function ModalUpdateMovieActor(props) {
     )
 }
 
-export default ModalUpdateMovieActor
+export default ModalUpdateCategory
