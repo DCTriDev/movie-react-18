@@ -196,6 +196,14 @@ const DELETE_MOVIE = gql`
     }
 `
 
+const UPDATE_MOVIE_CATEGORY = gql`
+    mutation updateMovieCategory($movieId: Int!, $categoryIdArr: [Int]) {
+        updateMovieCategory(input:{movieId: $movieId, categoryIdArr: $categoryIdArr}) {
+            status
+        }
+    }
+`
+
 class AdminAPI {
     getAllMovie = (setLoading = true) => {
         const payload = {
@@ -344,6 +352,17 @@ class AdminAPI {
             variables: {
                 id: id,
             },
+        }
+        return Axios.postMethod(payload, setLoading)
+    }
+
+    updateMovieCategory = (data, setLoading = true) => {
+        const payload = {
+            query: print(UPDATE_MOVIE_CATEGORY),
+            variables: {
+                movieId: data.id,
+                categoryIdArr: data.categoryId,
+            }
         }
         return Axios.postMethod(payload, setLoading)
     }
