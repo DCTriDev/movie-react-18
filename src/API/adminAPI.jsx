@@ -240,7 +240,7 @@ class AdminAPI {
         const payload = {
             query: print(UPDATE_USER_ADMIN),
             variables: {
-                id: data.id,
+                id: +data.id,
                 username: data.username,
                 avatar: data.avatar,
                 birthday: data.birthday,
