@@ -204,6 +204,14 @@ const UPDATE_MOVIE_CATEGORY = gql`
     }
 `
 
+const UPDATE_MOVIE_SOURCE = gql`
+    mutation updateMovieSource($movieId: Int!, $movieSourceArr: [Source]) {
+        updateMovieSource(input:{movieId: $movieId, movieSourceArr: $movieSourceArr}) {
+            status
+        }
+    }
+`
+
 class AdminAPI {
     getAllMovie = (setLoading = true) => {
         const payload = {
@@ -362,6 +370,17 @@ class AdminAPI {
             variables: {
                 movieId: data.id,
                 categoryIdArr: data.categoryId,
+            }
+        }
+        return Axios.postMethod(payload, setLoading)
+    }
+
+    updateMovieSource = (data, setLoading = true) => {
+        const payload = {
+            query: print(UPDATE_MOVIE_SOURCE),
+            variables: {
+                movieId: +data.id,
+                movieSourceArr: data.source,
             }
         }
         return Axios.postMethod(payload, setLoading)
