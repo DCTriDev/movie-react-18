@@ -1,43 +1,22 @@
 import React, {useEffect, useState} from 'react'
 import adminService from '../../../API/adminAPI'
-import {Tag, Select, message} from 'antd'
+import {Tag, message} from 'antd'
 import TableCustom from '../../../Components/TableCustom/TableCustom'
 import {ButtonCustom} from '../../../Components/ButtonCustom/ButtonCustom'
-import ModalCustom from '../../../Components/ModalCustom/ModalCustom'
-import {Form, Input} from 'antd'
-import FormCustom from '../../../Components/FormCustom/FormCustom'
 import moment from 'moment'
+import ModalUpdateUserInfo from './ModalUpdateUserInfo/ModalUpdateUserInfo'
+import {initialStateUserManagement} from '../../../Utils/initialState'
 
 const {ButtonPrimary, ButtonDanger} = ButtonCustom
 
-const initialState =
-    [
-        {
-            'id': '1',
-            'username': '',
-            'fullName': '',
-            'birthday': '',
-            'avatar': 'https://cdn-icons-png.flaticon.com/512/1053/1053244.png?w=360',
-            'email': '',
-            'phoneNumber': '',
-            'roleName': 'ADMIN',
-            'genderId': 1,
-            'key': 1,
-        },
-    ]
-
-
 function UserManagement(props) {
+    //State for Debounce Search
     const [searchInput, setSearchInput] = useState('')
     const [searchResults, setSearchResults] = useState(null)
 
-    const [users, setUsers] = useState(initialState)
+    const [users, setUsers] = useState(initialStateUserManagement)
     const [isEditingUser, setIsEditingUser] = useState(false)
-    const [imgURL, setImgURL] = useState()
-    const [dataEditBasic, setDataEditBasic] = useState()
-
-    const [form] = Form.useForm()
-
+    const [dataEditUser, setDataEditUser] = useState()
 
     const columns = [
         {
@@ -96,11 +75,10 @@ function UserManagement(props) {
                     className='px-2 text-[16px] bg-yellow-500 hover:bg-amber-500'
                     onClick={() => {
                         setIsEditingUser(true)
-                        setImgURL(record.avatar)
                         const data = {
                             ...record, birthday: moment(+record.birthday).format('yyyy-MM-DD'),
                         }
-                        setDataEditBasic(data)
+                        setDataEditUser(data)
                     }}
                 >
                     Edit
@@ -119,22 +97,16 @@ function UserManagement(props) {
     const fetchUserData = () => {
         adminService.getAllUser()
             .then(res => {
-                setUsers(res.data.user)
-            })
-    }
-
-    const handleUpdateUserInfo = (values) => {
-        const newData = {
-            ...values,
-            birthday: (new Date(values.birthday).getTime()).toString(),
-        }
-        adminService.updateUserAdmin(newData)
-            .then(res => {
-                if(res.data.updateUserAdmin.status) {
-                    message.success('Update successfully!')
-                    setIsEditingUser(false)
-                    fetchUserData()
-                }
+                const dataWithKey= res.data.user.map((user, index) =>{
+                    return {
+                        ...user,
+                        key: index,
+                    }
+                })
+                const dataSorted = dataWithKey.sort((a, b) =>{
+                    return a.id - b.id
+                })
+                setUsers(dataSorted)
             })
     }
 
@@ -148,6 +120,11 @@ function UserManagement(props) {
             })
     }
 
+    const handleSearch = (e) => {
+        setSearchInput(e.target.value)
+    }
+
+    //Debounce Search
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             if (searchInput.length > 0) {
@@ -171,17 +148,8 @@ function UserManagement(props) {
     }, [searchResults])
 
     useEffect(() => {
-        form.setFieldsValue(dataEditBasic)
-    }, [form, dataEditBasic])
-
-    const handleSearch = (e) => {
-        setSearchInput(e.target.value)
-    }
-
-    useEffect(() => {
         fetchUserData()
     }, [])
-
 
     return (
         <div>
@@ -199,120 +167,12 @@ function UserManagement(props) {
 
             <TableCustom columns={columns} dataSource={searchResults ? searchResults : users} />
 
-            <ModalCustom
-                title={null}
-                footer={null}
+            <ModalUpdateUserInfo
                 visible={isEditingUser}
-                onCancel={() => {
-                    setIsEditingUser(false)
-                }}
-                getContainer={false}
-            >
-                <FormCustom
-                    form={form}
-                    initialValues={dataEditBasic}
-                    labelCol={{span: 6}}
-                    wrapperCol={{span: 18}}
-                    onFinish={handleUpdateUserInfo}
-                >
-                    <h3 className='text-2xl text-center text-text-color-secondary'>Edit User Info</h3>
-                    <Form.Item
-                        label='User ID'
-                        name='id'
-                    >
-                        <Input disabled className='text-right' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Username'
-                        name='username'
-                    >
-                        <Input className='text-right' disabled/>
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Full name'
-                        name='fullName'
-                    >
-                        <Input className='text-right' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Avatar URL'
-                        name='avatar'
-                    >
-                        <Input className='text-right' name='image' onChange={(e) => {
-                            setImgURL(e.target.value)
-                        }} />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Preview avatar'
-                        name='previewAvatar'
-                    >
-                        <img src={imgURL} alt='previewImage' width='40' height='40' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Birthday'
-                        name='birthday'
-                    >
-                        <Input type='date' className='text-right' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Email'
-                        name='email'
-                    >
-                        <Input className='text-right' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Role'
-                        name='roleName'
-                    >
-                        <Select className='text-right'>
-                            <Select.Option value='ADMIN'>Admin</Select.Option>
-                            <Select.Option value='USER'>User</Select.Option>
-                        </Select>
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Role'
-                        name='roleName'
-                    >
-                        <Select className='text-right'>
-                            <Select.Option value='ADMIN'>Admin</Select.Option>
-                            <Select.Option value='USER'>User</Select.Option>
-                        </Select>
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Gender'
-                        name='genderId'
-                    >
-                        <Select className='text-right'>
-                            <Select.Option value={1}>Male</Select.Option>
-                            <Select.Option value={2}>Female</Select.Option>
-                        </Select>
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Phone number'
-                        name='phoneNumber'
-                    >
-                        <Input className='text-right'/>
-                    </Form.Item>
-
-                    <div className='w-full flex justify-center'>
-                        <ButtonPrimary
-                            type='submit'
-                        >
-                            Update
-                        </ButtonPrimary>
-                    </div>
-                </FormCustom>
-            </ModalCustom>
+                setVisible={setIsEditingUser}
+                initialValues={dataEditUser}
+                fetchUserData={fetchUserData}
+            />
         </div>
     )
 }

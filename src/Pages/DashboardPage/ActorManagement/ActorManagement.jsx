@@ -6,25 +6,15 @@ import {ButtonCustom} from '../../../Components/ButtonCustom/ButtonCustom'
 import moment from 'moment'
 import ModalUpdateActor from './ModalUpdateActor/ModalUpdateActor'
 import ModalCreateActor from './ModalCreateActor/ModalCreateActor'
+import {initialStateActorManagement} from '../../../Utils/initialState'
 
 const {ButtonPrimary, ButtonDanger, ButtonSubmit} = ButtonCustom
-
-const initialState = [
-    {
-        'id': 1,
-        'name': 'Vin Diesel',
-        'image': 'https://upload.wikimedia.org/wikipedia/commons/7/71/Vin_Diesel_XXX_Return_of_Xander_Cage_premiere.png',
-        'birthday': '-77587200000',
-        'genderId': 1,
-        'key': 1,
-    },
-]
 
 function ActorManagement(props) {
     const [searchInput, setSearchInput] = useState('')
     const [searchResults, setSearchResults] = useState(null)
 
-    const [actors, setActors] = useState(initialState)
+    const [actors, setActors] = useState(initialStateActorManagement)
     const [isEditingActor, setIsEditingActor] = useState(false)
     const [dataActorEdit, setDataEditActor] = useState()
 

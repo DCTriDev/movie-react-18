@@ -7,44 +7,12 @@ import moment from 'moment'
 import ModalUpdateMovie from './ModalUpdateMovie/ModalUpdateMovie'
 import ModalUpdateMovieActor from './ModalUpdateMovieActor/ModalUpdateMovieActor'
 import ModalUpdateCategory from './ModalUpdateCategory/ModalUpdateCategory'
+import {initialStateMovieManagement} from '../../../Utils/initialState'
 
 const {ButtonPrimary, ButtonDanger} = ButtonCustom
 
-const initialState = [{
-    'id': 1,
-    'title': 'Altitude',
-    'trailer': 'https://www.youtube.com/watch?v=1TvhM6Neosk',
-    'image': 'https://m.media-amazon.com/images/M/MV5BYjRlOWZmOWItN2ZlMi00MWMyLWI5ODUtOTc5YWNjNzViYTNlXkEyXkFqcGdeQXVyMjU3NTI0Mg@@._V1_.jpg',
-    'movieSource': [{
-        'detailSource': 'FULL', 'id': 1, 'movieId': 1, 'source': 'https://www.youtube.com/watch?v=rzc1PRN6y_g',
-    }],
-    'price': 20,
-    'director': 'Alex Merkin',
-    'description': 'FBI agent Gretchen Blair is on a flight to Washington D.C. when the man seated beside her makes an unusual offer. He explains that the plane they\'re on is about to be hijacked, and promises to pay her seventy-five million dollars if she can get him safely back on the ground. When a gang of professional thieves takes control of the plane, she realizes he isn\'t joking. Soon Gretchen finds herself caught in the middle of an elaborate mid-air heist, fighting to save the passengers while the thieves tear the plane apart, searching for the stolen loot hidden somewhere on board.',
-    'actor': [{
-        'name': 'Denise Richards',
-        'image': 'https://m.media-amazon.com/images/M/MV5BMTQyNjYxNDU5OV5BMl5BanBnXkFtZTcwNTY5NDQwOA@@._V1_UX214_CR0,0,214,317_AL_.jpg',
-        'id': 3,
-    }, {
-        'name': 'Dolph Lundgren',
-        'image': 'https://m.media-amazon.com/images/M/MV5BMTUyMzEyNzU4NV5BMl5BanBnXkFtZTgwNDg2MzM3MDE@._V1_UX214_CR0,0,214,317_AL_.jpg',
-        'id': 4,
-    }],
-    'category': [{
-        'categoryName': 'Action', 'id': 2,
-    }, {
-        'categoryName': 'Crime', 'id': 9,
-    }, {
-        'categoryName': 'Thriller', 'id': 11,
-    }],
-    'status': 'Released',
-    'releaseDate': '1492128000000',
-    'key': 1,
-}]
-
-
 function MovieManagement(props) {
-    const [movies, setMovies] = useState(initialState)
+    const [movies, setMovies] = useState(initialStateMovieManagement)
     //State for debounce search
     const [searchInput, setSearchInput] = useState('')
     const [searchResults, setSearchResults] = useState(null)

@@ -3,27 +3,10 @@ import userService from '../../../API/userAPI'
 import AvatarProfile from './AvatarProfile/AvatarProfile'
 import PurchasedMovieProfile from './PurchasedMovieProfile/PurchasedMovieProfile'
 import InfoProfile from './InfoProfile/InfoProfile'
-
-const initialState = {
-    avatar: 'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-default-avatar-profile-icon-vector-social-media-user-image-vector-illustration-227787227.jpg',
-    username: 'Loading...',
-    fullName: 'Loading...',
-    email: 'Loading...',
-    phoneNumber: 'Loading...',
-    birthday: 'Loading...',
-    genderId: 1,
-    balance: 0,
-    purchasedMovie: [
-        {
-            id: 'Loading...',
-            title: 'Loading...',
-            image: 'https://static.vecteezy.com/system/resources/thumbnails/001/826/199/small/progress-loading-bar-buffering-download-upload-and-loading-icon-vector.jpg',
-        },
-    ],
-}
+import {initialStateGeneralProfile} from '../../../Utils/initialState'
 
 function GeneralProfile(props) {
-    const [userInfo, setUserInfo] = useState(initialState)
+    const [userInfo, setUserInfo] = useState(initialStateGeneralProfile)
 
     useEffect(() => {
         userService.getUserInfo()
