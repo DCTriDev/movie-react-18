@@ -74,7 +74,7 @@ function DashboardPage(props) {
                     )
                     :
                     <div className='w-screen h-screen flex flex-col items-center justify-center'>
-                        <div>
+                        <div className='px-4'>
                             <h1 className='md:text-2xl text-xl text-yellow-500 text-center'>
                                 You must be login on desktop device to continue.
                             </h1>
