@@ -4,8 +4,18 @@ import {useHistory} from 'react-router-dom'
 
 function PopUpSearch(props) {
     const history = useHistory()
+    const {setSearchTerm} = props
     const [renderAmount, setRenderAmount] = useState(5)
     const {searchResults} = props
+
+    const handleClickSearchTerm = (uri) => {
+        return () => {
+            setSearchTerm('')
+            history.push(uri)
+            window.location.reload()
+        }
+    }
+
     useEffect(() => {
         const error = document.querySelector('.ant-empty-description')
         if (error) {
@@ -24,9 +34,7 @@ function PopUpSearch(props) {
                         return (
                             <List.Item
                                 className='duration-200 hover:bg-black ease-in-out cursor-pointer text-text-color-title'
-                                onClick={() => {
-                                    history.push(`/detail-movie/${item.id}`)
-                                }}
+                                onClick={handleClickSearchTerm(`/detail-movie/${item.id}`)}
                             >
                                 {item.title}
                             </List.Item>
@@ -37,9 +45,7 @@ function PopUpSearch(props) {
                                 <>
                                     <List.Item
                                         className='duration-200 hover:bg-amber-200 ease-in-out cursor-pointer'
-                                        onClick={() => {
-                                            history.push(`/movie-detail/${item.id}`)
-                                        }}
+                                        onClick={handleClickSearchTerm(`/detail-movie/${item.id}`)}
                                     >
                                         {item.title}
                                     </List.Item>
