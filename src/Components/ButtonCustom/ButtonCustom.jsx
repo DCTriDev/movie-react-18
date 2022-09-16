@@ -4,14 +4,17 @@ import {Button} from 'antd'
 
 const ButtonDefault = tw.button`
     rounded-3xl
-    px-4
+    lg:px-4
+    px-2.5
     py-1.5
     transition-all 
     duration-300 
     text-gray-100
     border-0 
     hover:text-white
-    text-lg
+    lg:text-lg
+    md:text-[15px]
+    text-[14px]
     cursor-pointer
 `
 

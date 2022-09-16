@@ -62,7 +62,7 @@ function DetailMovie() {
         } else if (detailMovies?.isPurchased) {
             return (
                 <>
-                    <p className='text-center text-xl text-text-color-secondary'>You're owned this content.<br/>Click bellow button to watch!</p>
+                    <p className='text-center lg:text-xl md:text-[16px] text-[14px] text-text-color-secondary'>You're owned this content.<br/>Click bellow button to watch!</p>
                     <ButtonPrimary onClick={() => {
                         history.push(`${process.env.REACT_APP_LINK_WATCH}/${detailMovies?.id}`)
                     }}>Watch Now</ButtonPrimary>
@@ -79,12 +79,12 @@ function DetailMovie() {
     }
 
     return (
-        <div className='w-full px-12 min-h-screen'>
-            <div className='grid grid-cols-8 py-5 lg:max-w-[1280px] mx-auto h-[600px]'>
-                <div className='col-span-5 flex flex-col items-center justify-center h-full '>
-                    <ReactPlayer controls={true} pip={true} url={detailMovies?.trailer} width='100%' height='100%' />
+        <div className='w-full min-h-screen'>
+            <div className='grid grid-cols-8 py-5 lg:max-w-[1280px] mx-auto max-w-[95vw] lg:h-[600px]'>
+                <div className='lg:col-span-5 col-span-8 flex flex-col items-center justify-center lg:h-full md:h-[500px] h-[300px]'>
+                    <ReactPlayer controls={true} pip={true} url={detailMovies?.trailer} width='100%' height='100%'/>
                 </div>
-                <div className='col-span-3 bg-black p-4 h-full'>
+                <div className='lg:col-span-3 col-span-8 bg-black p-4 lg:h-full h-max-content'>
                     <div className='flex flex-col justify-between h-full items-center'>
                         <div>
                             <h3 className='text-xl text-text-color-title font-bold'>{detailMovies?.title}</h3>
@@ -97,7 +97,7 @@ function DetailMovie() {
                 <Transaction detailMovie={detailMovies} handleShowTransaction={handleShowTransaction} visible={visible}
                              setVisible={setVisible} />
             </div>
-            <div className='max-w-[850px] mx-auto text-text-color-description py-4'>
+            <div className='lg:max-w-[850px] max-w-[80vw] mx-auto text-text-color-description py-4'>
                 <h3 className='text-xl text-text-color-title font-bold'>{detailMovies?.title}</h3>
                 <p className='px-2 py-0.5 bg-amber-500 rounded-xl text-black font-bold leading-10 inline'>{detailMovies?.type}</p>
                 <div className='leading-3'>
@@ -107,7 +107,7 @@ function DetailMovie() {
                     <p className='mt-2 leading-5'>{detailMovies?.description}</p>
                 </div>
                 <h3 className='text-xl text-text-color-title font-bold mt-3'>Actor</h3>
-                <div className='grid grid-cols-4 gap-4'>
+                <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-3 lg:gap-4 gap-3'>
                     {
                         handleRenderActor(detailMovies?.actor)
                     }
