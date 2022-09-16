@@ -13,7 +13,7 @@ function ListMovie() {
     }, [])
 
     return (
-        <div className='mx-auto py-4 grid lg:grid-cols-6 md:grid-cols-5 grid-cols-4 gap-8 lg:max-w-[1200px]'>
+        <div className='mx-auto py-4 grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3 lg:gap-8 gap-3 lg:max-w-[1200px] max-w-[95vw]'>
             {listMovie?.map((item, key) => {
                 if (key < RENDER_AMOUNT) {
                     return <ItemMovie data={item} key={key}/>
