@@ -3,6 +3,7 @@ import Sidebar from "../../Components/Sidebar/Sidebar";
 import {UserOutlined} from "@ant-design/icons";
 import GeneralProfile from "./GeneralProfile/GeneralProfile";
 import ProfileHeader from "./ProfileHeader/ProfileHeader";
+import Footer from '../../Components/Footer/Footer'
 
 function getItem(label, key, icon, children) {
     return {
@@ -49,9 +50,10 @@ function ProfilePage(props) {
             <Sidebar items={items} isDesktop={isDesktop} defaultSelectedKeys={['1']} setContent={setContentKey}/>
             <div className='w-full'>
                 <ProfileHeader/>
-                <div className='pl-2'>
+                <div className='lg:pl-2 min-h-screen mb-2'>
                     {handleRenderContent(contentKey)}
                 </div>
+                <Footer/>
             </div>
         </div>
     );

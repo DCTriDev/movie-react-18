@@ -8,9 +8,9 @@ function AvatarProfile(props) {
     const [visible, setVisible] = useState()
 
     return (
-        <div className='h-28 w-28 relative'>
-            <img src={userInfo?.avatar} alt='avatar' className='h-28 w-28 relative rounded-full' />
-            <button className='absolute bottom-0 -right-1 bg-background-search rounded-full cursor-pointer'
+        <div className='lg:h-48 md:h-40 h-28 lg:w-48 md:w-40 w-28 relative'>
+            <img src={userInfo?.avatar} alt='avatar' className='h-full w-full relative rounded-full' />
+            <button className='absolute bottom-[8%] right-[4%] bg-black rounded-full cursor-pointer border-none lg:text-xl'
                     onClick={() => {
                         setVisible(true)
                     }}

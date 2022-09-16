@@ -19,7 +19,7 @@ function GeneralProfile(props) {
 
     return (
         <>
-            <div className='flex flex-col justify-center items-center p-4'>
+            <div className='flex lg:flex-row md:flex-row flex-col justify-center items-center p-4 lg:space-x-28 md:space-x-20'>
                 <AvatarProfile userInfo={userInfo} />
 
                 <InfoProfile userInfo={userInfo} />
