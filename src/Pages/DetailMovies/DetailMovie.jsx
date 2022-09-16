@@ -81,10 +81,10 @@ function DetailMovie() {
     return (
         <div className='w-full min-h-screen'>
             <div className='grid grid-cols-8 py-5 lg:max-w-[1280px] mx-auto max-w-[95vw] lg:h-[600px]'>
-                <div className='lg:col-span-5 col-span-8 flex flex-col items-center justify-center lg:h-full md:h-[500px] h-[300px]'>
+                <div className='lg:col-span-6 col-span-8 flex flex-col items-center justify-center lg:h-full md:h-[500px] h-[300px]'>
                     <ReactPlayer controls={true} pip={true} url={detailMovies?.trailer} width='100%' height='100%'/>
                 </div>
-                <div className='lg:col-span-3 col-span-8 bg-black p-4 lg:h-full h-max-content'>
+                <div className='lg:col-span-2 col-span-8 bg-black p-4 lg:h-full h-max-content'>
                     <div className='flex flex-col justify-between h-full items-center'>
                         <div>
                             <h3 className='text-xl text-text-color-title font-bold'>{detailMovies?.title}</h3>
@@ -100,7 +100,7 @@ function DetailMovie() {
             <div className='lg:max-w-[850px] max-w-[80vw] mx-auto text-text-color-description py-4'>
                 <h3 className='text-xl text-text-color-title font-bold'>{detailMovies?.title}</h3>
                 <p className='px-2 py-0.5 bg-amber-500 rounded-xl text-black font-bold leading-10 inline'>{detailMovies?.type}</p>
-                <div className='leading-3'>
+                <div className='leading-3 lg:text-[14px] md:text-[13px] text-[12px]'>
                     <p>Director: {detailMovies?.director}</p>
                     <p>Release Date: {moment(new Date(+detailMovies?.releaseDate)).format('DD/MM/YYYY')}</p>
                     <p>Category: {handleRenderCategory(detailMovies?.category)}</p>
