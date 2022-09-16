@@ -6,6 +6,9 @@ import MovieManagement from './MovieManagement/MovieManagement'
 import ActorManagement from './ActorManagement/ActorManagement'
 import UserNav from '../../Components/Navbar/UserNav/UserNav'
 import AddMovie from './AddMovie/AddMovie'
+import {ButtonCustom} from '../../Components/ButtonCustom/ButtonCustom'
+
+const {ButtonPrimary} = ButtonCustom
 
 function getItem(label, key, icon, children) {
     return {
@@ -53,15 +56,34 @@ function DashboardPage(props) {
 
     return (
         <div className='min-h-[100vh] flex w-full'>
-            <Sidebar items={items} isDesktop={isDesktop} defaultSelectedKeys={['1']} setContent={setContentKey}/>
-            <div className='w-full relative'>
-                    <div className='absolute right-16 top-2'>
-                        <UserNav />
+            {
+                isDesktop
+                    ?
+                    (
+                        <>
+                            <Sidebar items={items} isDesktop={isDesktop} defaultSelectedKeys={['1']} setContent={setContentKey}/>
+                            <div className='w-full relative'>
+                                <div className='absolute right-16 top-2'>
+                                    <UserNav />
+                                </div>
+                                <div className='px-2'>
+                                    {handleRenderContent(contentKey)}
+                                </div>
+                            </div>
+                        </>
+                    )
+                    :
+                    <div className='w-screen h-screen flex flex-col items-center justify-center'>
+                        <div>
+                            <h1 className='md:text-2xl text-xl text-yellow-500 text-center'>
+                                You must be login on desktop device to continue.
+                            </h1>
+                        </div>
+                        <ButtonPrimary>
+                            Homepage
+                        </ButtonPrimary>
                     </div>
-                <div className='px-2'>
-                    {handleRenderContent(contentKey)}
-                </div>
-            </div>
+            }
         </div>
     );
 }
