@@ -47,14 +47,24 @@ const ButtonSubmit = tw(Button)`
 `
 
 const ButtonSquare = tw.button`
-    rounded-2xl
+    lg:rounded-2xl
+    rounded-lg
     bg-[#333]
     cursor-pointer
     transition-all
     duration-300
     text-[#dee4e9]
-    w-16
-    h-16
+    lg:w-16
+    md:w-12
+    w-10
+    lg:h-16
+    md:h-12
+    h-10
+    border-[1px]
+    border-solid
+    lg:text-lg
+    md:text-[13px]
+    text-[10px]
 `
 
 export const ButtonCustom = {
