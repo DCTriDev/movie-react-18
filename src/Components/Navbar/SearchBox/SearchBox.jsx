@@ -32,7 +32,6 @@ function SearchBox() {
         !listMovie&&dispatch(fetchListMovie())
     }, [listMovie])
 
-
     return (
         <div className='relative'>
             <SearchBoxOutline
@@ -40,13 +39,11 @@ function SearchBox() {
                 className='lg:max-w-3xl md:max-w-xl sm:max-w-56 rounded-2xl bg-background-search text-white border-none'
                 onChange={handleSearch}
                 suffix={<ion-icon name="search-outline"/>}
-            >
-
-            </SearchBoxOutline>
+            />
             {
                 searchResults
                     ?
-                    <PopUpSearch searchResults={searchResults}/>
+                    <PopUpSearch searchResults={searchResults} setSearchTerm={setSearchTerm}/>
                     :
                     <></>
             }
