@@ -71,7 +71,7 @@ function DetailMovie() {
         } else {
             return (
                 <>
-                    <p className='text-center text-xl text-text-color-secondary'>You're not owned this content.<br/>Click bellow button to buy!</p>
+                    <p className='text-center lg:text-lg md:text-[15px] text-[13px] text-text-color-secondary'>You're not owned this content.<br/>Click bellow button to buy!</p>
                     <ButtonPrimary onClick={handleShowTransaction}>Buy Now</ButtonPrimary>
                 </>
             )

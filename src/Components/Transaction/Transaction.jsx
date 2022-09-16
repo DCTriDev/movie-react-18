@@ -63,7 +63,7 @@ function Transaction(props) {
     }
 
     useEffect(() => {
-        !detailMovie?.isPurchased&&userService.getAccountBalance()
+        !detailMovie?.isPurchased && userService.getAccountBalance()
             .then(res => {
                 setBalance(res.data.getUserBalanceWithAccessToken.balance)
             })
@@ -80,8 +80,10 @@ function Transaction(props) {
                 footer={[<ButtonDanger onClick={handleCancel}>Cancel</ButtonDanger>]}
             >
                 <h3 className='text-text-color-title'>{detailMovie?.title}</h3>
-                <div className='flex px-10 gap-5'>
-                    <img src={detailMovie?.image} alt='movie image' className='h-52' />
+                <div className='lg:flex md:flex px-2 gap-5'>
+                    <div className='flex justify-center items-center lg:mb-0 md:mb-0 mb-3'>
+                        <img src={detailMovie?.image} alt='movie image' className='lg:h-52 md:h-44 h-40' />
+                    </div>
                     <div className='grid grid-cols-3 w-full'>
                         <div className='col-span-2'>
                             <p>Account Balance</p>
@@ -107,15 +109,19 @@ function Transaction(props) {
                     title='Successfully!'
                     subTitle={[`Your reaming balance is ${balance}$`]}
                     extra={[
-                        <ButtonPrimary type="primary" key="console"
-                                       onClick={() => {
-                                           history.push('/')
-                                       }}
+                        <ButtonPrimary
+                            type='primary'
+                            key='console'
+                            className='lg:mb-0 md:mb-0 mb-3'
+                            onClick={() => {
+                                history.push('/')
+                            }}
                         >
                             Back to Homepage
                         </ButtonPrimary>,
                         <ButtonSubmit
-                            type='primary' key='console'
+                            type='primary'
+                            key='console'
                             onClick={() => {
                                 history.push(`/watch/${detailMovie?.id}`)
                             }}
