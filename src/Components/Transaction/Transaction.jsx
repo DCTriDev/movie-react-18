@@ -9,8 +9,7 @@ const {ButtonPrimary, ButtonDanger, ButtonSubmit} = ButtonCustom
 
 function Transaction(props) {
     const history = useHistory()
-    const {detailMovie, visible, setVisible, handleShowTransaction} = props
-    console.log(detailMovie)
+    const {detailMovie, visible, setVisible} = props
     const [confirmLoading, setConfirmLoading] = useState(false)
     const [balance, setBalance] = useState(0)
     const [isResultVisible, setIsResultVisible] = useState(false)
@@ -24,7 +23,6 @@ function Transaction(props) {
     }
 
     const handleCancel = () => {
-        console.log('Clicked cancel button')
         setVisible(false)
     }
 
@@ -65,10 +63,8 @@ function Transaction(props) {
     }
 
     useEffect(() => {
-        console.log('helle')
-        userService.getAccountBalance()
+        !detailMovie?.isPurchased&&userService.getAccountBalance()
             .then(res => {
-                console.log(res)
                 setBalance(res.data.getUserBalanceWithAccessToken.balance)
             })
     }, [])
