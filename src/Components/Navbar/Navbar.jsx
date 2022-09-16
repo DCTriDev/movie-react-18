@@ -28,6 +28,14 @@ function Navbar() {
             window.removeEventListener('scroll', handleScroll)
         }
     }, [])
+
+    useLayoutEffect(() => {
+        window.addEventListener('resize', handleResize)
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
+
     return (
         <div className='navbar flex justify-between items-center lg:px-8 px-2 py-2 bg-black w-full'>
             <div className='space-x-3'>
@@ -45,7 +53,7 @@ function Navbar() {
                             News
                         </NavLink>
                     </>
-                ) : null}
+                ) : <></>}
             </div>
             <SearchBox />
             <UserNav isDesktop={isDesktop} />
