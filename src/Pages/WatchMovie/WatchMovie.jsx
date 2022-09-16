@@ -83,14 +83,16 @@ function WatchMovie(props) {
                             </div>
                     }
                 </div>
-                <div className='lg:col-span-2 col-span-8 bg-black p-4 lg:h-full h-max-content'>
+                <div className='lg:col-span-2 col-span-8 bg-black p-4 lg:h-full h-max-content lg:ml-1 lg:border-0 lg:mt-0 mt-1'>
                     <div className='flex flex-col h-full items-center'>
                         <div className='mb-5'>
                             <h3 className='text-xl text-text-color-title font-bold'>{detailMovies?.title}</h3>
                         </div>
-                        {
-                            handleRenderListSourceBtn(source)
-                        }
+                        <div className='lg:space-x-2 space-x-1'>
+                            {
+                                handleRenderListSourceBtn(source)
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
