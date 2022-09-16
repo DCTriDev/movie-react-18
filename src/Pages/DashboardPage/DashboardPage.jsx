@@ -79,7 +79,11 @@ function DashboardPage(props) {
                                 You must be login on desktop device to continue.
                             </h1>
                         </div>
-                        <ButtonPrimary>
+                        <ButtonPrimary
+                            onClick={() => {
+                                window.location.href = '/';
+                            }}
+                        >
                             Homepage
                         </ButtonPrimary>
                     </div>
