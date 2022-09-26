@@ -1,20 +1,22 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App';
-import 'antd/dist/antd.min.css';
-import './index.css';
-import './Styles/antd.custom.css'
-import reportWebVitals from './reportWebVitals';
-import {Provider} from "react-redux";
-import store from "./Redux/store";
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import { Provider } from 'react-redux'
+import reportWebVitals from './reportWebVitals'
 
-const root=createRoot(document.getElementById('root'));
+import App from './App'
+import store from '@redux/store'
+import 'antd/dist/antd.min.css'
+import './index.css'
+import '@styles/antd.custom.css'
+
+const root = createRoot(document.getElementById('root'))
+
 root.render(
-    <Provider store={store}>
-        <App/>
-    </Provider>
-);
+  <Provider store={store}>
+    <App />
+  </Provider>,
+)
 
-export default store;
+export default store
 
-reportWebVitals();
+reportWebVitals()

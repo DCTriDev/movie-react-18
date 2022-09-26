@@ -1,20 +1,21 @@
-import React, {Suspense} from 'react';
-import {Router, Switch} from "react-router-dom";
-import LoadingAnim from "./Components/LoadingAnim/LoadingAnim";
-import {routerTemplates} from "./Routers/Router";
-import {history} from "./Utils/Libs/History";
+import React, { Suspense } from 'react'
+import { Router, Switch } from 'react-router-dom'
+
+import LoadingAnim from '@components/loadingAnim/LoadingAnim'
+import { routerTemplates } from '@routers/Router'
+import { history } from '@utils/libs/history'
 
 function App() {
-    return (<>
-        <LoadingAnim/>
-        <Router history={history}>
-            <Suspense fallback={<></>}>
-                <Switch>
-                    {routerTemplates}
-                </Switch>
-            </Suspense>
-        </Router>
-    </>);
+  return (<>
+    <LoadingAnim />
+    <Router history={history}>
+      <Suspense fallback={<></>}>
+        <Switch>
+          {routerTemplates}
+        </Switch>
+      </Suspense>
+    </Router>
+  </>)
 }
 
-export default App;
+export default App
