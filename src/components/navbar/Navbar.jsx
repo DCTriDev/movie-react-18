@@ -1,21 +1,13 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 
+import useDevice from '@hooks/useDevice'
 import logo from '@assets/images/logo.png'
-import { MAX_WIDTH_MOBILE } from '@config/device.config'
 import UserNav from './userNav/UserNav'
 import SearchBox from './searchBox/SearchBox'
 
 function Navbar() {
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= MAX_WIDTH_MOBILE)
-
-  const handleResize = () => {
-    if (window.innerWidth < 992) {
-      setIsDesktop(false)
-    } else {
-      setIsDesktop(true)
-    }
-  }
+  const isDesktop = useDevice()
 
   const handleScroll = () => {
     if (window.scrollY > 0) {
@@ -29,13 +21,6 @@ function Navbar() {
     window.addEventListener('scroll', handleScroll)
     return () => {
       window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-
-  useLayoutEffect(() => {
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
     }
   }, [])
 

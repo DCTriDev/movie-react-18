@@ -1,6 +1,7 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { UserOutlined } from '@ant-design/icons'
 
+import useDevice from '@hooks/useDevice'
 import Sidebar from '@components/sidebar/Sidebar'
 import Footer from '@components/footer/Footer'
 import GeneralProfile from './GeneralProfile/GeneralProfile'
@@ -21,15 +22,9 @@ const items = [
 ]
 
 function ProfilePage() {
-  const [isDesktop, setIsDeskTop] = useState(window.innerWidth >= 992)
   const [contentKey, setContentKey] = useState(<div>General</div>)
-  const handleResize = () => {
-    if (window.innerWidth < 992) {
-      setIsDeskTop(false)
-    } else {
-      setIsDeskTop(true)
-    }
-  }
+
+  const isDesktop = useDevice()
 
   const handleRenderContent = (key) => {
     switch (key) {
@@ -41,13 +36,6 @@ function ProfilePage() {
         return (<GeneralProfile />)
     }
   }
-
-  useLayoutEffect(() => {
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  })
 
   return (
     <div className='min-h-[100vh] flex w-full'>

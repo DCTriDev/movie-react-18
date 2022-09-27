@@ -1,6 +1,7 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { IdcardOutlined, PlaySquareOutlined, PlusSquareOutlined, UserOutlined } from '@ant-design/icons'
 
+import useDevice from '@hooks/useDevice'
 import { ButtonPrimary } from '@components/button/ButtonCustom'
 import Sidebar from '@components/sidebar/Sidebar'
 import UserNav from '@components/navbar/userNav/UserNav'
@@ -26,16 +27,9 @@ const items = [
 ]
 
 function DashboardPage() {
-  const [isDesktop, setIsDeskTop] = useState(window.innerWidth >= 992)
   const [contentKey, setContentKey] = useState('1')
 
-  const handleResize = () => {
-    if (window.innerWidth < 992) {
-      setIsDeskTop(false)
-    } else {
-      setIsDeskTop(true)
-    }
-  }
+  const isDesktop = useDevice()
 
   const handleRenderContent = (key) => {
     switch (key) {
@@ -51,13 +45,6 @@ function DashboardPage() {
         return <MovieManagement />
     }
   }
-
-  useLayoutEffect(() => {
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  })
 
   if (isDesktop) return (
     <div className='min-h-[100vh] flex w-full'>
