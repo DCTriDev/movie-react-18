@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { message, Tag } from 'antd'
 import moment from 'moment'
 
-import TableCustom from '@components/table/TableCustom'
+import useDebounce from '@hooks/useDebounce'
 import { ButtonDanger, ButtonPrimary, ButtonSubmit } from '@components/button/ButtonCustom'
+import TableCustom from '@components/table/TableCustom'
 import ModalUpdateActor from './ModalUpdateActor/ModalUpdateActor'
 import ModalCreateActor from './ModalCreateActor/ModalCreateActor'
 import { initialStateActorManagement } from '@utils/initialState'
@@ -18,6 +19,8 @@ function ActorManagement() {
   const [dataActorEdit, setDataEditActor] = useState()
 
   const [isCreatingActor, setIsCreatingActor] = useState(false)
+
+  const debounceValue = useDebounce(searchInput)
 
   const columns = [
     {
@@ -114,20 +117,17 @@ function ActorManagement() {
     setSearchInput(e.target.value)
   }
 
+  //Debounce Search
   useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (searchInput.length > 0) {
-        const result = actors.filter(item => {
-          return item.name.toLowerCase().includes(searchInput.toLowerCase())
-        })
-        setSearchResults(result)
-      } else {
-        setSearchResults(null)
-      }
-    }, 300)
-
-    return () => clearTimeout(delayDebounceFn)
-  }, [searchInput])
+    if (searchInput.length > 0) {
+      const result = actors.filter(item => {
+        return item.name.toLowerCase().includes(searchInput.toLowerCase())
+      })
+      setSearchResults(result)
+    } else {
+      setSearchResults(null)
+    }
+  }, [debounceValue])
 
   useEffect(() => {
     const error = document.querySelector('.ant-empty-description')

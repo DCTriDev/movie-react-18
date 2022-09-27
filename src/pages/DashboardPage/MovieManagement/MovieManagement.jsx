@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { message, Space, Tag } from 'antd'
 import moment from 'moment'
 
+import useDebounce from '@hooks/useDebounce'
 import { ButtonPrimary, ButtonDanger } from '@components/button/ButtonCustom'
 import TableCustom from '@components/table/TableCustom'
 import ModalUpdateMovie from './ModalUpdateMovie/ModalUpdateMovie'
@@ -29,6 +30,7 @@ function MovieManagement() {
   const [isEditingSource, setIsEditingSource] = useState(false)
   const [dataEditSource, setDataEditSource] = useState()
 
+  const debounceValue = useDebounce(searchInput)
 
   const columns = [
     {
@@ -202,19 +204,15 @@ function MovieManagement() {
 
   //Debounce search
   useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (searchInput.length > 0) {
-        const result = movies.filter(item => {
-          return item.title.toLowerCase().includes(searchInput.toLowerCase())
-        })
-        setSearchResults(result)
-      } else {
-        setSearchResults(null)
-      }
-    }, 300)
-
-    return () => clearTimeout(delayDebounceFn)
-  }, [searchInput])
+    if (searchInput.length > 0) {
+      const result = movies.filter(item => {
+        return item.title.toLowerCase().includes(searchInput.toLowerCase())
+      })
+      setSearchResults(result)
+    } else {
+      setSearchResults(null)
+    }
+  }, [debounceValue])
 
   useEffect(() => {
     const error = document.querySelector('.ant-empty-description')
@@ -222,7 +220,6 @@ function MovieManagement() {
       error.innerHTML = '<span class="text-text-color-primary">No movie found!</span>'
     }
   }, [searchResults])
-
 
   useEffect(() => {
     fetchMovieData()

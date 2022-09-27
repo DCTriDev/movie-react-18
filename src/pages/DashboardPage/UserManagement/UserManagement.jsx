@@ -7,6 +7,7 @@ import TableCustom from '@components/table/TableCustom'
 import ModalUpdateUserInfo from './ModalUpdateUserInfo/ModalUpdateUserInfo'
 import { initialStateUserManagement } from '@utils/initialState'
 import adminService from '@api/adminAPI'
+import useDebounce from '@hooks/useDebounce'
 
 function UserManagement() {
   //State for Debounce Search
@@ -16,6 +17,8 @@ function UserManagement() {
   const [users, setUsers] = useState(initialStateUserManagement)
   const [isEditingUser, setIsEditingUser] = useState(false)
   const [dataEditUser, setDataEditUser] = useState()
+
+  const debounceValue = useDebounce(searchInput)
 
   const columns = [
     {
@@ -125,19 +128,15 @@ function UserManagement() {
 
   //Debounce Search
   useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (searchInput.length > 0) {
-        const result = users.filter(item => {
-          return item.username.toLowerCase().includes(searchInput.toLowerCase())
-        })
-        setSearchResults(result)
-      } else {
-        setSearchResults(null)
-      }
-    }, 300)
-
-    return () => clearTimeout(delayDebounceFn)
-  }, [searchInput])
+    if (searchInput.length > 0) {
+      const result = users.filter(item => {
+        return item.username.toLowerCase().includes(searchInput.toLowerCase())
+      })
+      setSearchResults(result)
+    } else {
+      setSearchResults(null)
+    }
+  }, [debounceValue])
 
   useEffect(() => {
     const error = document.querySelector('.ant-empty-description')
