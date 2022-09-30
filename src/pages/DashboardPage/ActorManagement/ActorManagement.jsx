@@ -7,7 +7,7 @@ import { ButtonDanger, ButtonPrimary, ButtonSubmit } from '@components/button/Bu
 import TableCustom from '@components/table/TableCustom'
 import ModalUpdateActor from './ModalUpdateActor/ModalUpdateActor'
 import ModalCreateActor from './ModalCreateActor/ModalCreateActor'
-import { initialStateActorManagement } from '@utils/initialState'
+import { initialStateActorManagement } from 'src/utils/initialState'
 import adminService from '@api/adminAPI'
 
 function ActorManagement() {

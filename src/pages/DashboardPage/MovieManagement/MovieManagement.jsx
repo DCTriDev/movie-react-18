@@ -8,7 +8,7 @@ import TableCustom from '@components/table/TableCustom'
 import ModalUpdateMovie from './ModalUpdateMovie/ModalUpdateMovie'
 import ModalUpdateMovieActor from './ModalUpdateMovieActor/ModalUpdateMovieActor'
 import ModalUpdateCategory from './ModalUpdateCategory/ModalUpdateCategory'
-import { initialStateMovieManagement } from '@utils/initialState'
+import { initialStateMovieManagement } from 'src/utils/initialState'
 import ModalUpdateSource from './ModalUpdateSource/ModalUpdateSource'
 import adminService from '@api/adminAPI'
 

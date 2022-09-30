@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import AvatarProfile from './AvatarProfile/AvatarProfile'
 import PurchasedMovieProfile from './PurchasedMovieProfile/PurchasedMovieProfile'
 import InfoProfile from './InfoProfile/InfoProfile'
-import { initialStateGeneralProfile } from '@utils/initialState'
+import { initialStateGeneralProfile } from 'src/utils/initialState'
 import userService from '@api/userAPI'
 
 function GeneralProfile() {

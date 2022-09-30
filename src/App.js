@@ -3,7 +3,7 @@ import { Router, Switch } from 'react-router-dom'
 
 import LoadingAnim from '@components/loadingAnim/LoadingAnim'
 import { routerTemplates } from '@routers/Router'
-import { history } from '@utils/Libs/history'
+import { history } from 'src/utils/libs/history'
 
 function App() {
   return (<>

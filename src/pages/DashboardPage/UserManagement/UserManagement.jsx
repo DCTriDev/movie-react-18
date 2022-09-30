@@ -5,7 +5,7 @@ import moment from 'moment'
 import { ButtonDanger, ButtonPrimary } from '@components/button/ButtonCustom'
 import TableCustom from '@components/table/TableCustom'
 import ModalUpdateUserInfo from './ModalUpdateUserInfo/ModalUpdateUserInfo'
-import { initialStateUserManagement } from '@utils/initialState'
+import { initialStateUserManagement } from 'src/utils/initialState'
 import adminService from '@api/adminAPI'
 import useDebounce from '@hooks/useDebounce'
 
